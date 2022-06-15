@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.otus.spring</groupId>
-    <artifactId>2022-05-spring-Kozlovskii-dz1-1</artifactId>
+    <artifactId>2022-05-spring-Kozlovskii-dz1-2</artifactId>
     <version>1.0</version>
 
     <parent>
@@ -28,5 +28,7 @@
             <version>5.3.20</version>
         </dependency>
     </dependencies>
-
+    <build>
+        <finalName>dz1-2</finalName>
+    </build>
 </project>

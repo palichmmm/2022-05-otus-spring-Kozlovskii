@@ -5,8 +5,8 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="questionDaoCsv" class="ru.otus.spring.dao.QuestionDaoCsvImpl">
-        <property name="fileName" value="question.csv"/>
-        <property name="delimiter" value=","/>
+        <constructor-arg name="delimiter" value="," />
+        <constructor-arg name="fileName" value="question.csv" />
     </bean>
 
     <bean id="questionService" class="ru.otus.spring.service.QuestionServiceImpl">

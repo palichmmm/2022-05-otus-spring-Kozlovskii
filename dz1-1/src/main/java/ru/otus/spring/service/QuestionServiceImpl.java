@@ -11,7 +11,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     public void showAllQuestion() {
-        for (Question quest : dao.findByQuestions()) {
+        for (Question quest : dao.findAll()) {
             System.out.println(quest);
         }
     }

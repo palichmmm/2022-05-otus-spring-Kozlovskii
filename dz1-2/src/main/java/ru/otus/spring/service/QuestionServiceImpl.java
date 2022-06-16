@@ -42,11 +42,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public boolean setUserAnswer(int question, int[] result) {
         for (Map.Entry<Answer, UserAnswer> answer : questionList.get(question).getMapAnswer().entrySet()) {
-//            System.out.println(answer.getKey().getShowId() + ": " + answer.getKey().getCorrectAnswer() + " - " + answer.getValue().getUserAnswer());
             if (IntStream.of(result).anyMatch(x -> x == answer.getKey().getShowId())) {
                 answer.getValue().setUserAnswer(true);
             }
-//            System.out.println(answer.getKey().getShowId() + ": " + answer.getKey().getCorrectAnswer() + " - " + answer.getValue().getUserAnswer());
         }
         return true;
     }

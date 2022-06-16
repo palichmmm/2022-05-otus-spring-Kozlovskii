@@ -3,5 +3,5 @@ package ru.otus.spring.service;
 import ru.otus.spring.domain.Student;
 
 public interface TestedPerson {
-    Student getTestedPerson();
+    String getTestedPerson();
 }

@@ -15,6 +15,10 @@ public class Answer {
         this.correctAnswer = correctAnswer;
     }
 
+    public int getShowId() {
+        return showId;
+    }
+
     public Boolean getCorrectAnswer() {
         return correctAnswer;
     }

@@ -13,6 +13,10 @@ public class UserAnswer {
         this.userAnswer = false;
     }
 
+    public Boolean getUserAnswer() {
+        return userAnswer;
+    }
+
     public void setUserAnswer(Boolean userAnswer) {
         this.userAnswer = userAnswer;
     }

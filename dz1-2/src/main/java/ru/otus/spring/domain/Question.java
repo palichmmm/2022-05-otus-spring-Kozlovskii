@@ -17,7 +17,9 @@ public class Question {
         int[] position = randomPosition(mapAnswer.size());
         int index = 0;
         for (Map.Entry<String, Boolean> answer : mapAnswer.entrySet()) {
-            this.mapAnswer.put(new Answer(id, position[index], answer.getKey(), answer.getValue()), new UserAnswer(id, position[index]));
+            this.mapAnswer.put(
+                    new Answer(id, position[index], answer.getKey(), answer.getValue()),
+                    new UserAnswer(id, position[index]));
             index++;
         }
     }

@@ -7,9 +7,7 @@ import ru.otus.spring.domain.Question;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class QuestionDaoCsvImpl implements QuestionDao {
@@ -37,13 +35,19 @@ public class QuestionDaoCsvImpl implements QuestionDao {
                 while ((lineFile = br.readLine()) != null) {
                     questionArray = lineFile.split(delimiter);
                     int totalCorrectAnswers = Integer.parseInt(questionArray[1]);
+                    Map<String, Boolean> mapAnswer = new HashMap<>();
                     List<String> tempListAnswer = new ArrayList<>(Arrays.asList(questionArray).subList(indexCsv, questionArray.length));
+                    for (String s : tempListAnswer.subList(0, totalCorrectAnswers)) {
+                        mapAnswer.put(s, true);
+                    }
+                    for (String s : tempListAnswer.subList(totalCorrectAnswers, tempListAnswer.size())) {
+                        mapAnswer.put(s, false);
+                    }
                     Question question = new Question(
                             Integer.parseInt(questionArray[0]),
                             totalCorrectAnswers,
                             questionArray[2],
-                            tempListAnswer.subList(0, totalCorrectAnswers),
-                            tempListAnswer.subList(totalCorrectAnswers, tempListAnswer.size())
+                            mapAnswer
                     );
                     list.add(question);
                 }

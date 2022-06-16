@@ -5,6 +5,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import ru.otus.spring.service.*;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 @ComponentScan
 @PropertySource("classpath:application.properties")
 public class Main {
@@ -16,6 +20,8 @@ public class Main {
 
         QuestionService questionService = context.getBean(QuestionServiceImpl.class);
         questionService.showAll();
+//        questionService.showOne(2);
+
 
         context.close();
     }

@@ -1,8 +1,8 @@
 package ru.otus.spring.domain;
 
 public class Student {
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String lastName;
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
@@ -15,13 +15,5 @@ public class Student {
 
     public String getLastName() {
         return lastName;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
     }
 }

@@ -1,27 +1,35 @@
 package ru.otus.spring.domain;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Question {
+
+    private final int ID_IN_ARRAY = 0;
+    private final int TOTAL_CORRECT_ANSWERS_IN_ARRAY = 1;
+    private final int QUESTION_IN_ARRAY = 2;
+    private final int START_ANSWER_IN_ARRAY = 3;
+    private final int STARTING_POSITION_ANSWER = 1;
     private final int id;
     private final int totalCorrectAnswers;
     private final String question;
-    private Map<Answer, UserAnswer> mapAnswer = new HashMap<>();
+    private final List<Answer> listAnswer = new ArrayList<>();
 
-    public Question(int id, int totalCorrectAnswers, String question, Map<String, Boolean> mapAnswer) {
-        this.id = id;
-        this.totalCorrectAnswers = totalCorrectAnswers;
-        this.question = question;
-        int[] position = randomPosition(mapAnswer.size());
-        int index = 0;
-        for (Map.Entry<String, Boolean> answer : mapAnswer.entrySet()) {
-            this.mapAnswer.put(
-                    new Answer(id, position[index], answer.getKey(), answer.getValue()),
-                    new UserAnswer(id, position[index]));
-            index++;
+    public Question(String[] questionArray) {
+        id = Integer.parseInt(questionArray[ID_IN_ARRAY]);
+        totalCorrectAnswers = Integer.parseInt(questionArray[TOTAL_CORRECT_ANSWERS_IN_ARRAY]);
+        question = questionArray[QUESTION_IN_ARRAY];
+        int position = STARTING_POSITION_ANSWER;
+        for (int index = START_ANSWER_IN_ARRAY; index < questionArray.length; index++) {
+            if (index < (START_ANSWER_IN_ARRAY + totalCorrectAnswers)) {
+                listAnswer.add(new Answer(position++, questionArray[index], true));
+            } else {
+                listAnswer.add(new Answer(position++, questionArray[index], false));
+            }
         }
+    }
+
+    public List<Answer> getListAnswer() {
+        return listAnswer;
     }
 
     public int getId() {
@@ -32,44 +40,46 @@ public class Question {
         return question;
     }
 
-    public Map<Answer, UserAnswer> getMapAnswer() {
-        return mapAnswer;
+    public static class Answer implements Comparable<Answer> {
+    private int position;
+    private final String answer;
+    private final Boolean correctAnswer;
+    private Boolean userAnswer;
+
+    public Answer(int position, String answer, Boolean correctAnswer) {
+        this.position = position;
+        this.answer = answer;
+        this.correctAnswer = correctAnswer;
+        this.userAnswer = false;
     }
 
-    private int[] randomPosition(int size) {
-        int[] arr = new int[size];
-        for (int index = 0; index < size; index++) {
-            arr[index] = (int) (Math.random() * size) + 1;
-            for (int subIndex = 0; subIndex < index; subIndex++) {
-                if (arr[subIndex] == arr[index]) {
-                    index--;
-                    break;
-                }
-            }
+    public int getPosition() {
+        return position;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+        public Boolean getCorrectAnswer() {
+            return correctAnswer;
         }
-        return arr;
+
+        public Boolean getUserAnswer() {
+            return userAnswer;
+        }
+
+        public void setPosition(int position) {
+        this.position = position;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Question question = (Question) o;
-        return id == question.id;
+    public void setUserAnswer(Boolean userAnswer) {
+        this.userAnswer = userAnswer;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Question {\n\t" +
-                "id=" + id +
-                ",\n\ttotalCorrectAnswers=" + totalCorrectAnswers +
-                ",\n\tquestion='" + question + '\'' +
-                ",\n\tmapAnswer=" + mapAnswer +
-                "\n}";
-    }
+        @Override
+        public int compareTo(Answer answer) {
+            return  this.getPosition() - answer.getPosition();
+        }
+}
 }

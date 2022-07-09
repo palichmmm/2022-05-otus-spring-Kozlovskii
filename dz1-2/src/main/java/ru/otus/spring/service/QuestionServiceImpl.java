@@ -10,11 +10,13 @@ import java.util.stream.IntStream;
 @Service
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionDao dao;
+    private final QuestionDataTemplate questionDataTemplate;
     private final List<Question> questionList;
 
-    public QuestionServiceImpl(QuestionDao dao) {
+    public QuestionServiceImpl(QuestionDao dao, QuestionDataTemplate dataTemplate) {
         this.dao = dao;
-        questionList = dao.findAll();
+        this.questionDataTemplate = dataTemplate;
+        questionList = questionDataTemplate.dataParse(dao.findAll());
     }
 
     @Override

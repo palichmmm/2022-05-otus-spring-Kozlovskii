@@ -13,11 +13,7 @@ public class IOServiceStreamsImpl implements IOService{
     }
 
     public void outputString(String text) {
-            output.println(text);
-    }
-    public int readInt(String text) {
-        System.out.print(text);
-        return Integer.parseInt(input.nextLine());
+        output.println(text);
     }
 
     @Override

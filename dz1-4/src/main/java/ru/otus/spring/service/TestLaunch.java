@@ -1,24 +1,24 @@
 package ru.otus.spring.service;
 
-import org.springframework.stereotype.Component;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.Student;
 
-@Component
 public class TestLaunch {
     private final int BANNER_SIZE = 88;
     private final String TEST_NAME = "Color mixing test";
     private final String BANNER_BACKROUND = "@";
-    private final IOService ioService = new IOServiceStreamsImpl(System.out, System.in);;
+    private final IOService ioService;
     private final QuestionConvert questionConvert;
     private final QuestionService questionService;
     private final MixAnswersQuestionsService mixAnswersQuestionsService;
     private final LocaleService localeService;
 
-    public TestLaunch(QuestionConvert questionConvert,
+    public TestLaunch(IOService ioService,
+                      QuestionConvert questionConvert,
                       QuestionService questionService,
                       MixAnswersQuestionsService mixAnswersQuestionsService,
                       LocaleService localeService) {
+        this.ioService = ioService;
         this.questionConvert = questionConvert;
         this.questionService = questionService;
         this.mixAnswersQuestionsService = mixAnswersQuestionsService;

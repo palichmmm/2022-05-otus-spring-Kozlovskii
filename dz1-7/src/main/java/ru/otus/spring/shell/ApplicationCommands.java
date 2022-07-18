@@ -17,9 +17,9 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Definition of the tested person", key = {"p", "person"})
     public String testPerson(@ShellOption(defaultValue = "Guest") String s) {
-        String delemiter = " ";
-        if (s.contains(delemiter)) {
-            String[] firstLastName = s.split(delemiter);
+        String delimiter = " ";
+        if (s.contains(delimiter)) {
+            String[] firstLastName = s.split(delimiter);
             student = new Student(firstLastName[0], firstLastName[1]);
         } else {
             student = new Student(s, s);

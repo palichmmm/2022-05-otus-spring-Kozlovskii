@@ -1,0 +1,5 @@
+1;1;Funktioniert das Mischen der Farben Gelb(100 %) + Magenta(100 %)?;Rot;Braun;Violett;Grün;Schwarz
+2;1;Funktioniert das Mischen der Farben Cyan(100 %) + Gelb(100 %)?;Grün;Schwarz;Braun;Rot;Violett
+3;1;Funktioniert das Mischen der Farben Magenta(100 %) + Cyan(100 %)?;Violett;Grün;Schwarz;Braun;Rot
+4;1;Funktioniert das Mischen der Farben Magenta(100 %) + Cyan(100 %) + Gelb(100 %)?;Schwarz;Grün;Violett;Rot;Braun
+5;1;Funktioniert das Mischen der Farben Cyan(50 %) + Magenta(70 %) + Gelb(100 %) + Schwarz(30 %)?;Braun;Violett;Schwarz;Grün;Rot

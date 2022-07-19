@@ -1,0 +1,5 @@
+1;1;When mixing colors Yellow(100%) + Magenta(100%) will it work?;Red;Brown;Violet;Green;Black
+2;1;When mixing colors Cyan(100%) + Yellow(100%) will it work?;Green;Black;Brown;Red;Violet
+3;1;When mixing colors Magenta(100%) + Cyan(100%) will it work?;Violet;Green;Black;Brown;Red
+4;1;When mixing colors Magenta(100%) + Cyan(100%) + Yellow(100%) will it work?;Black;Green;Violet;Red;Brown
+5;1;When mixing colors Cyan(50%) + Magenta(70%) + Yellow(100%) + Black(30%) will it work?;Brown;Violet;Black;Green;Red

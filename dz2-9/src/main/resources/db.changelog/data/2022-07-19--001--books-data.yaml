@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2022-07-19--001--books-data
+      author: Evgenii Kozlovskii
+      context: dev or test
+      runOnChange: true
+      loadUpdateData:
+        tableName: books
+        primaryKey: id
+        file: data/2022-07-19--001--books.csv
+        relativeToChangeLogFile: true
+        separator: ;
+#        quoteChar: '"'
+#        seperator: ';'
+        encoding: UTF-8

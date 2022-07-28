@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2022-07-19--001--books
+      author: Evgenii Kozlovskii
+      createTable:
+        tableName: books
+        columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: id
+          - column:
+              name: author_id
+              type: bigint
+              constraints:
+                nullable: false
+          - column:
+              name: genre_id
+              type: bigint
+              constraints:
+                nullable: false
+          - column:
+              name: name_book
+              type: varchar(255)
+              constraints:
+                nullable: false

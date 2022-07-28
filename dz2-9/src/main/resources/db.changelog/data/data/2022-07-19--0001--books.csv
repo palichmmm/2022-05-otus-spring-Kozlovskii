@@ -1,0 +1,49 @@
+id;author_id;genre_id;name_book
+1;1;7;Adam Beed
+2;1;7;Mill on the Floss
+3;1;7;Siles Marner
+4;1;7;Romola
+5;1;7;Felix Holt, radical
+6;1;7;Middlemarch
+7;1;7;Daniel Deronda
+8;2;7;By sea away
+9;2;7;Day and night
+10;2;7;Jacob's room
+11;2;7;Mrs. Dalloway
+12;2;7;To the lighthouse
+13;2;7;Orlando
+14;2;7;Waves
+15;2;7;Flash
+16;2;7;Years
+17;2;7;Between acts
+18;3;7;Posthumous Papers of the Pickwick Club
+19;3;7;The Adventures of Oliver Twist
+20;3;7;Nicholas Nickleby
+21;3;7;Antiquities shop
+22;3;7;Barnaby Rudge
+23;4;7;Jane Eyre
+24;4;7;Shirley
+25;4;7;Town
+26;4;7;Teacher
+27;4;7;Emma
+28;5;7;Wuthering Heights
+29;6;7;Frankenstein
+30;6;7;Matilda
+31;6;7;Valperga
+32;6;7;Last Man
+33;6;7;The fate of Perkin Warbeck
+34;6;7;Lodor
+35;7;7;Barry Lyndon career
+36;7;7;Vanity Fair
+37;7;7;A book of snobs written by one of them
+38;7;7;Pendennis
+39;7;7;Rebecca and Rowena
+40;7;7;History of Henry Esmond
+41;7;7;Newcombs
+42;7;7;Virginians
+43;8;7;Sense and Sensibility
+44;8;7;Pride and Prejudice
+45;8;7;Mansfield Park
+46;8;7;Emma
+47;8;7;Reasoning
+48;8;7;Northanger Abbey

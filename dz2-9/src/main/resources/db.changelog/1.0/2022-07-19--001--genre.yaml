@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2022-07-19--001--genres
+      author: Evgenii Kozlovskii
+      createTable:
+        tableName: genres
+        columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: id
+          - column:
+              name: name_genre
+              type: varchar(255)
+              constraints:
+                nullable: false

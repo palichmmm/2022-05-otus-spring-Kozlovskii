@@ -8,12 +8,6 @@
         <version>2.7.0</version>
         <relativePath/>
     </parent>
-<!--    <parent>-->
-<!--        <artifactId>2022-05-spring-Kozlovskii</artifactId>-->
-<!--        <groupId>ru.otus.spring</groupId>-->
-<!--        <version>1.0</version>-->
-<!--    </parent>-->
-
     <groupId>ru.otus.spring</groupId>
     <artifactId>2022-05-spring-Kozlovskii-dz1-7</artifactId>
     <version>1.0</version>

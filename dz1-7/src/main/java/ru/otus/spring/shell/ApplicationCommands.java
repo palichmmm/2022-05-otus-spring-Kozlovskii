@@ -12,17 +12,19 @@ import ru.otus.spring.service.Launch;
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommands {
+    public static final String STRING_TESTING_END = "Тестирование завершено!";
+    public static final String STRING_TESTING_BEGIN = "Для начала тестирования введите Имя и Фамилию";
     private final Launch test;
     private Student student;
 
     @ShellMethod(value = "Definition of the tested person", key = {"p", "person"})
-    public String testPerson(@ShellOption(defaultValue = "Guest") String s) {
+    public String testPerson(@ShellOption(defaultValue = "Guest") String stringNamePerson) {
         String delimiter = " ";
-        if (s.contains(delimiter)) {
-            String[] firstLastName = s.split(delimiter);
+        if (stringNamePerson.contains(delimiter)) {
+            String[] firstLastName = stringNamePerson.split(delimiter);
             student = new Student(firstLastName[0], firstLastName[1]);
         } else {
-            student = new Student(s, s);
+            student = new Student(stringNamePerson, stringNamePerson);
         }
         return "Тестируемый: " + student.getFirstName() + " " + student.getLastName();
     }
@@ -31,10 +33,10 @@ public class ApplicationCommands {
     @ShellMethodAvailability(value = "isTestStartCommandAvailable")
     public String testLaunch() {
         test.run(student);
-        return "Тестирование завершено!";
+        return STRING_TESTING_END;
     }
 
     private Availability isTestStartCommandAvailable() {
-        return student == null ? Availability.unavailable("Для начала тестирования введите Имя и Фамилию") : Availability.available();
+        return student == null ? Availability.unavailable(STRING_TESTING_BEGIN) : Availability.available();
     }
 }

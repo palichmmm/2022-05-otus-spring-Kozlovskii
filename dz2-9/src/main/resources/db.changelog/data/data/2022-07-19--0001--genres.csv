@@ -1,19 +1,4 @@
 id;name_genre
-1;Detective criminal
-2;Detective secular
-3;Detective historical
-4;Science fiction
-5;Historical
-6;Adventures
-7;Novel
-8;Romance of love
-9;Adventure novel
-10;Scientific works
-11;Science articles
-12;Folklore
-13;Epic
-14;Legends
-15;Fairy tales
-16;Humor
-17;Jokes
-18;Reference book
+1;Detective
+2;Novel
+3;Adventures

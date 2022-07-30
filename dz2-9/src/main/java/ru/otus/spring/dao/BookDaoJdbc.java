@@ -1,7 +1,10 @@
 package ru.otus.spring.dao;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
@@ -32,8 +35,11 @@ public class BookDaoJdbc implements BookDao{
 
     @Override
     public void insert(Book book) {
-        jdbc.update("insert into books(id, author_id, genge_id, book_name) values (:id, :bookName)",
-                Map.of("id", book.getId(), "book_name", book.getBookName()));
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("book_name", book.getBookName());
+        KeyHolder kh = new GeneratedKeyHolder();
+        jdbc.update("insert into books(book_name) values (:book_name)", params, kh);
+        book.setId((int) kh.getKey().longValue());
     }
 
     @Override

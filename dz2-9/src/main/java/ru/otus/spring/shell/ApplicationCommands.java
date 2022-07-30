@@ -1,31 +1,18 @@
 package ru.otus.spring.shell;
 
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.shell.Availability;
-//import org.springframework.shell.standard.ShellComponent;
-//import org.springframework.shell.standard.ShellMethod;
-//import org.springframework.shell.standard.ShellMethodAvailability;
-//import org.springframework.shell.standard.ShellOption;
-//
-//@ShellComponent
-//@RequiredArgsConstructor
-//public class ApplicationCommands {
-//    private int temp = 0;
-//    @ShellMethod(key = {"p", "person"}, value = "Definition of the tested person")
-//    public String testPerson(@ShellOption(defaultValue = "Guest") String s) {
-//        temp = 1;
-//        return "mmm";
-////        return isTestStartCommandAvailable().getReason();
-//    }
-//
-//    @ShellMethod(key = {"r", "run"}, value = "Test launch")
-//    @ShellMethodAvailability(value = "isTestStartCommandAvailable")
-//    public String testLaunch() {
-//        return "ooo";
-////        return isTestStartCommandAvailable().getReason();
-//    }
-//
-//    private Availability isTestStartCommandAvailable() {
-//        return temp == 0 ? Availability.unavailable("Для начала тестирования введите Имя и Фамилию") : Availability.available();
-//    }
-//}
+import lombok.RequiredArgsConstructor;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import ru.otus.spring.service.ApplicationLaunch;
+
+@ShellComponent
+@RequiredArgsConstructor
+public class ApplicationCommands {
+    public static final String COMMAND_COMPLETED = "Команда завершена";
+    private final ApplicationLaunch applicationLaunch;
+    @ShellMethod(key = {"r", "run"}, value = "Application launch")
+    public String applicationLaunch() {
+        applicationLaunch.run();
+        return COMMAND_COMPLETED;
+    }
+}

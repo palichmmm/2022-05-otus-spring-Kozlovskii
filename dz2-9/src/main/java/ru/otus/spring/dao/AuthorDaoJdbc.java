@@ -1,7 +1,10 @@
 package ru.otus.spring.dao;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.models.Author;
 
@@ -14,9 +17,9 @@ import java.util.Map;
 public class AuthorDaoJdbc implements AuthorDao{
     private final NamedParameterJdbcOperations jdbc;
 
-    public AuthorDaoJdbc(NamedParameterJdbcOperations jdbcOperations)
+    public AuthorDaoJdbc(NamedParameterJdbcOperations namedParameterJdbcOperations)
     {
-        this.jdbc = jdbcOperations;
+        this.jdbc = namedParameterJdbcOperations;
     }
 
     @Override
@@ -27,8 +30,11 @@ public class AuthorDaoJdbc implements AuthorDao{
 
     @Override
     public void insert(Author author) {
-        jdbc.update("insert into authors(id, author_name) values (:id,:author_name)",
-                Map.of("id", author.getId(), "author_name",author.getAuthorName()));
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("author_name", author.getAuthorName());
+        KeyHolder kh = new GeneratedKeyHolder();
+        jdbc.update("insert into authors(author_name) values (:author_name)", params, kh);
+        author.setId((int) kh.getKey().longValue());
     }
 
     @Override

@@ -31,7 +31,7 @@ class AuthorDaoJdbcTest {
     @DisplayName("добавлять авторов в БД")
     @Test
     void shouldInsertAuthor() {
-        Author expectedAuthor = new Author(4, "Sir Arthur Ignatius Conan Doyle");
+        Author expectedAuthor = new Author(0, "Sir Arthur Ignatius Conan Doyle");
         dao.insert(expectedAuthor);
         Author actualAuthor = dao.getById(expectedAuthor.getId());
         assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
@@ -48,9 +48,11 @@ class AuthorDaoJdbcTest {
     @DisplayName("удалять заданного автора по его id")
     @Test
     void shouldCorrectDeleteAuthorById() {
-        assertThatCode(() -> dao.getById(1)).doesNotThrowAnyException();
-        dao.deleteById(1);
-        assertThatCode(() -> dao.getById(1)).isInstanceOf(EmptyResultDataAccessException.class);
+        Author author = new Author(0, "Sir Arthur Ignatius Conan Doyle");
+        dao.insert(author);
+        assertThatCode(() -> dao.getById(author.getId())).doesNotThrowAnyException();
+        dao.deleteById(author.getId());
+        assertThatCode(() -> dao.getById(author.getId())).isInstanceOf(EmptyResultDataAccessException.class);
     }
 
     @DisplayName("возвращать ожидаемый список авторов")

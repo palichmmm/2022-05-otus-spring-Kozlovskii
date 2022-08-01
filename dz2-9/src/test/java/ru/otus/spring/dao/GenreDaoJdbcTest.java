@@ -31,7 +31,7 @@ class GenreDaoJdbcTest {
     @DisplayName("добавлять жанр в БД")
     @Test
     void shouldInsertGenre() {
-        Genre expectedGenre = new Genre(4, "History");
+        Genre expectedGenre = new Genre(0, "History");
         dao.insert(expectedGenre);
         Genre actualGenre = dao.getById(expectedGenre.getId());
         assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
@@ -48,9 +48,11 @@ class GenreDaoJdbcTest {
     @DisplayName("удалять заданный жанр по его id")
     @Test
     void shouldCorrectDeleteGenreById() {
-        assertThatCode(() -> dao.getById(1)).doesNotThrowAnyException();
-        dao.deleteById(1);
-        assertThatCode(() -> dao.getById(1)).isInstanceOf(EmptyResultDataAccessException.class);
+        Genre genre = new Genre(0, "History");
+        dao.insert(genre);
+        assertThatCode(() -> dao.getById(genre.getId())).doesNotThrowAnyException();
+        dao.deleteById(genre.getId());
+        assertThatCode(() -> dao.getById(genre.getId())).isInstanceOf(EmptyResultDataAccessException.class);
     }
 
     @DisplayName("возвращать ожидаемый список жанров")

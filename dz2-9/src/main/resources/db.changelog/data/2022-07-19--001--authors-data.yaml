@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2022-07-19--0001--authors-data
+      id: 2022-07-19--001--authors-data
       author: Evgenii Kozlovskii
       context: dev or test
       runOnChange: true

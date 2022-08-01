@@ -17,7 +17,7 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"b", "book"}, value = "One book")
     public String showOneBook(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
         System.out.println("Запрос в базу книг по id=" + id);
-        System.out.println(book.read(Integer.parseInt(id)));
+        System.out.println(book.readById(Integer.parseInt(id)));
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"bb", "books"}, value = "List of books")
@@ -31,10 +31,10 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"bd", "book-delete"}, value = "Delete book")
     public String showDeleteBook(String id) {
         System.out.println("Удаляем книгу из базы с id=" + id);
-        if(book.delete(Integer.parseInt(id))) {
+        if(book.deleteById(Integer.parseInt(id))) {
             System.out.println("Книга с id=" + id + " успешно удалена!");
         } else {
-            System.out.println("Ошибка при удалении!");
+            System.out.println("Ошибка при удалении! Возможна есть ссылка на строку в другой таблице!");
         }
         return COMMAND_COMPLETED;
     }

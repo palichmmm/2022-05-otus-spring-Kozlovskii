@@ -17,7 +17,7 @@ public class ApplicationCommandsAuthor {
     @ShellMethod(key = {"a", "author"}, value = "One author")
     public String showOneAuthor(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
         System.out.println("Запрос в базу авторов по id=" + id);
-        System.out.println(author.read(Integer.parseInt(id)));
+        System.out.println(author.readById(Integer.parseInt(id)));
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"aa", "authors"}, value = "List of authors")
@@ -31,10 +31,10 @@ public class ApplicationCommandsAuthor {
     @ShellMethod(key = {"ad", "author-delete"}, value = "Delete author")
     public String showDeleteAuthor(String id) {
         System.out.println("Удаляем автора из базы с id=" + id);
-        if(author.delete(Integer.parseInt(id))) {
+        if(author.deleteById(Integer.parseInt(id))) {
             System.out.println("Автор с id=" + id + " успешно удален!");
         } else {
-            System.out.println("Ошибка при удалении!");
+            System.out.println("Ошибка при удалении! Возможна есть ссылка на строку в другой таблице!");
         }
         return COMMAND_COMPLETED;
     }
@@ -48,7 +48,7 @@ public class ApplicationCommandsAuthor {
     @ShellMethod(key = {"au", "author-update"}, value = "Update author")
     public String showUpdateAuthor(String id) {
         System.out.println("Обновляем автора в базе с ID=" + id);
-        author.update(Integer.parseInt(id));
+        author.updateById(Integer.parseInt(id));
         return COMMAND_COMPLETED;
     }
 }

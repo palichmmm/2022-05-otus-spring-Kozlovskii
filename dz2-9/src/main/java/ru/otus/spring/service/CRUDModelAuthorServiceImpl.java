@@ -8,16 +8,16 @@ import java.util.List;
 
 @Service
 public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
-    private final AuthorDao dao;
+    private final AuthorDao authorDao;
 
     public CRUDModelAuthorServiceImpl(AuthorDao dao) {
-        this.dao = dao;
+        this.authorDao = dao;
     }
 
     @Override
     public int create(Author author) {
         try {
-            dao.insert(author);
+            authorDao.insert(author);
             return author.getId();
         } catch (Exception err) {
             return CREATE_ERROR;
@@ -25,19 +25,19 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
     }
 
     @Override
-    public Author read(int id) {
-        return dao.getById(id);
+    public Author readById(int id) {
+        return authorDao.getById(id);
     }
 
     @Override
     public List<Author> readAll() {
-        return dao.getAll();
+        return authorDao.getAll();
     }
 
     @Override
-    public boolean update(int id) {
+    public boolean updateById(int id) {
         try {
-            Author author = dao.getById(id);
+            Author author = authorDao.getById(id);
             System.out.println(author);
             return true;
         } catch (Exception err) {
@@ -46,9 +46,9 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean deleteById(int id) {
         try {
-            dao.deleteById(id);
+            authorDao.deleteById(id);
             return true;
         } catch (Exception err) {
             return false;

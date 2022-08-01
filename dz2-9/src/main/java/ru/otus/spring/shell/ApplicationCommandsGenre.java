@@ -17,7 +17,7 @@ public class ApplicationCommandsGenre {
     @ShellMethod(key = {"g", "genre"}, value = "One genre")
     public String showOneGenre(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
         System.out.println("Запрос в базу жанров по id=" + id);
-        System.out.println(genre.read(Integer.parseInt(id)));
+        System.out.println(genre.readById(Integer.parseInt(id)));
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"gg", "genres"}, value = "List of genres")
@@ -31,7 +31,7 @@ public class ApplicationCommandsGenre {
     @ShellMethod(key = {"gd", "genre-delete"}, value = "Delete genre")
     public String showDeleteGenre(String id) {
         System.out.println("Удаляем жанр из базы с id=" + id);
-        if(genre.delete(Integer.parseInt(id))) {
+        if(genre.deleteById(Integer.parseInt(id))) {
             System.out.println("Жанр с id=" + id + " успешно удален!");
         } else {
             System.out.println("Ошибка при удалении!");

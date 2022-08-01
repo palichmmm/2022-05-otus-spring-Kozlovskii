@@ -7,7 +7,7 @@ databaseChangeLog:
         columns:
           - column:
               name: id
-              type: bigint
+              type: int
               autoIncrement: true
               constraints:
                 nullable: false
@@ -15,12 +15,12 @@ databaseChangeLog:
                 primaryKeyName: id
           - column:
               name: author_id
-              type: bigint
+              type: int
               constraints:
                 nullable: false
           - column:
               name: genre_id
-              type: bigint
+              type: int
               constraints:
                 nullable: false
           - column:

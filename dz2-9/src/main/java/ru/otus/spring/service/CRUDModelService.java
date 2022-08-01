@@ -5,8 +5,8 @@ import java.util.List;
 public interface CRUDModelService<T> {
     final int CREATE_ERROR = -1;
     int create(T obj);
-    T read(int id);
+    T readById(int id);
     List<T> readAll();
-    boolean update(int id);
-    boolean delete(int id);
+    boolean updateById(int id);
+    boolean deleteById(int id);
 }

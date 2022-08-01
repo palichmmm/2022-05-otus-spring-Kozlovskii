@@ -42,16 +42,45 @@ public class ApplicationLaunch implements Launch{
         }
 
         ioService.outputString("\nЗапрос в базу авторов по id=" + INT_ID_TABLE);
-        ioService.outputString(author.read(INT_ID_TABLE).toString());
+        ioService.outputString(author.readById(INT_ID_TABLE).toString());
 
         ioService.outputString("\nЗапрос в базу жанров по id=" + INT_ID_TABLE);
-        ioService.outputString(genre.read(INT_ID_TABLE).toString());
+        ioService.outputString(genre.readById(INT_ID_TABLE).toString());
 
         ioService.outputString("\nЗапрос в базу книг по id=" + INT_ID_TABLE);
-        ioService.outputString(book.read(INT_ID_TABLE).toString());
+        ioService.outputString(book.readById(INT_ID_TABLE).toString());
 
         ioService.outputString("\nСоздать запись автора(" + TEST_NAME_AUTHOR + ") в базу");
-        int result = author.create(new Author(555, TEST_NAME_AUTHOR));
-        ioService.outputString(result == -1 ? "Ошибка создания записи автора!!!" : "Создан автор с ID=" + result);
+        int resultA = author.create(new Author(555, TEST_NAME_AUTHOR));
+        ioService.outputString(resultA == -1 ? "Ошибка создания записи автора!!!" : "Создан автор с ID=" + resultA);
+
+        ioService.outputString("\nСоздать запись жанра(" + TEST_NAME_GENRE + ") в базу");
+        int resultG = genre.create(new Genre(555, TEST_NAME_GENRE));
+        ioService.outputString(resultG == -1 ? "Ошибка создания записи жанра!!!" : "Создан жанр с ID=" + resultG);
+
+        ioService.outputString("\nСоздать запись книги(" + TEST_NAME_BOOK + ") в базу");
+        int resultB = book.create(new Book(555, TEST_NAME_BOOK, null, null));
+        ioService.outputString(resultB == -1 ? "Ошибка создания записи книги!!!" : "Создана книга с ID=" + resultB);
+
+        ioService.outputString("\nУдаление автора с ID=" + resultA);
+        if (author.deleteById(resultA)) {
+            ioService.outputString("Автор с ID=" + resultA + " успешно удален!");
+        } else {
+            ioService.outputString("Ошибка удаления!!! Возможна есть ссылка на строку в другой таблице!");
+        }
+
+        ioService.outputString("\nУдаление жанра с ID=" + resultG);
+        if (genre.deleteById(resultG)) {
+            ioService.outputString("Жанр с ID=" + resultG + " успешно удален!");
+        } else {
+            ioService.outputString("Ошибка удаления!!! Возможна есть ссылка на строку в другой таблице!");
+        }
+
+        ioService.outputString("\nУдаление книги с ID=" + resultB);
+        if (book.deleteById(resultB)) {
+            ioService.outputString("Книга с ID=" + resultB + " успешно удалена!");
+        } else {
+            ioService.outputString("Ошибка удаления!!!");
+        }
     }
 }

@@ -50,7 +50,7 @@ public class AuthorDaoJdbc implements AuthorDao{
 
     @Override
     public void deleteById(int id) {
-        jdbc.update("delete from authors where id = :id", Map.of("id", id));
+            jdbc.update("delete from authors where id = :id", Map.of("id", id));
     }
 
     private static class AuthorMapper implements RowMapper<Author> {

@@ -5,6 +5,10 @@ spring:
     init:
       mode: always
       data-locations: data.sql
+      schema-locations: schema.sql
   shell:
     interactive:
       enabled: false
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:db.changelog/db.changelog-master.yaml

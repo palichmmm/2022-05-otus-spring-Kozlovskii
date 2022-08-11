@@ -1,20 +1,23 @@
 databaseChangeLog:
   - changeSet:
-      id: 2022-07-19--001--authors
+      id: 2022-07-19--001-author
       author: Evgenii Kozlovskii
+      context: dev or test
       createTable:
         tableName: authors
+        remark: Таблица авторов
         columns:
           - column:
               name: id
               type: int
               autoIncrement: true
               constraints:
-                nullable: false
                 primaryKey: true
-                primaryKeyName: id
+                primaryKeyName: pk_authors
+                nullable: false
           - column:
-              name: name_author
+              name: author_name
               type: varchar(255)
               constraints:
+                unique: true
                 nullable: false

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.service.CRUDModelGenreServiceImpl;
 

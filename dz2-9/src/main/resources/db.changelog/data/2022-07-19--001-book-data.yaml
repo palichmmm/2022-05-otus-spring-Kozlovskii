@@ -1,15 +1,13 @@
 databaseChangeLog:
   - changeSet:
-      id: 2022-07-19--001--authors-data
+      id: 2022-07-19--001--books-data
       author: Evgenii Kozlovskii
       context: dev or test
       runOnChange: true
       loadUpdateData:
-        tableName: authors
+        tableName: books
         primaryKey: id
-        file: data/2022-07-19--001--authors.csv
+        file: data/2022-07-19--001-book.csv
         relativeToChangeLogFile: true
         separator: ;
-#        quoteChar: '"'
-#        seperator: ';'
         encoding: UTF-8

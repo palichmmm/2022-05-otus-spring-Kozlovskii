@@ -1,30 +1,33 @@
 databaseChangeLog:
   - changeSet:
-      id: 2022-07-19--001--books
+      id: 2022-07-19--001-book
       author: Evgenii Kozlovskii
+      context: dev or test
       createTable:
         tableName: books
+        remarks: Таблица книг
         columns:
           - column:
               name: id
               type: int
               autoIncrement: true
               constraints:
-                nullable: false
                 primaryKey: true
-                primaryKeyName: id
+                primaryKeyName: pk_books
+                nullable: false
           - column:
               name: author_id
               type: int
               constraints:
-                nullable: false
+                foreignKeyName: key_book_authors
+                references: authors(id)
+                deleteCascade: true
           - column:
               name: genre_id
               type: int
               constraints:
-                nullable: false
+                foreignKeyName: key_book_genres
+                references: genres(id)
           - column:
-              name: name_book
+              name: book_name
               type: varchar(255)
-              constraints:
-                nullable: false

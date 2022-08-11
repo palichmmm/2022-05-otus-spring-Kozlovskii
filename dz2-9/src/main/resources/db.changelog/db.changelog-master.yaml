@@ -1,5 +1,13 @@
 databaseChangeLog:
-- includeAll:
-        path: db/changelog/1.0/
-- includeAll:
-        path: db/changelog/data/
+  - include:
+        file: db.changelog/1.0/2022-07-19--001-author.yaml
+  - include:
+        file: db.changelog/1.0/2022-07-19--001-genre.yaml
+  - include:
+        file: db.changelog/1.0/2022-07-19--001-book.yaml
+  - include:
+        file: db.changelog/data/2022-07-19--001-author-data.yaml
+  - include:
+        file: db.changelog/data/2022-07-19--001-genre-data.yaml
+  - include:
+        file: db.changelog/data/2022-07-19--001-book-data.yaml

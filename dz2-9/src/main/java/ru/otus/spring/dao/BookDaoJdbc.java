@@ -14,14 +14,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+
 @Repository
-public class BookDaoJdbc implements BookDao{
+public class BookDaoJdbc implements BookDao {
     private final NamedParameterJdbcOperations jdbc;
 
     private final AuthorDaoJdbc authorDaoJdbc;
     private final GenreDaoJdbc genreDaoJdbc;
-    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations, AuthorDaoJdbc authorDaoJdbc, GenreDaoJdbc genreDaoJdbc)
-    {
+
+    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations, AuthorDaoJdbc authorDaoJdbc, GenreDaoJdbc genreDaoJdbc) {
         this.jdbc = jdbcOperations;
         this.authorDaoJdbc = authorDaoJdbc;
         this.genreDaoJdbc = genreDaoJdbc;
@@ -44,13 +45,18 @@ public class BookDaoJdbc implements BookDao{
 
     @Override
     public Book getById(int id) {
-        return jdbc.queryForObject("select id, author_id, genre_id, book_name from books where id = :id",
+        return jdbc.queryForObject("select b.id, b.book_name, b.author_id, b.genre_id, a.author_name, g.genre_name from books b " +
+                        "left join authors a on b.author_id = a.id " +
+                        "left join genres g on b.genre_id = g.id " +
+                        "where b.id = :id",
                 Map.of("id", id), new BookDaoJdbc.BookMapper());
     }
 
     @Override
     public List<Book> getAll() {
-        return jdbc.query("select id, author_id, genre_id, book_name from books", new BookDaoJdbc.BookMapper());
+        return jdbc.query("select b.id, b.book_name, b.author_id, b.genre_id, a.author_name, g.genre_name from books b " +
+                "left join authors a on b.author_id = a.id " +
+                "left join genres g on b.genre_id = g.id", new BookDaoJdbc.BookMapper());
     }
 
     @Override
@@ -64,12 +70,9 @@ public class BookDaoJdbc implements BookDao{
             return new Book(
                     rs.getInt("id"),
                     rs.getString("book_name"),
-new Author(2, "vvv"),
-new Genre(1, "mmm")
-//                    authorDaoJdbc.getById(rs.getInt("author_id")),
-//                    new GenreDaoJdbc().getById(rs.getInt("genre_id")),
-
-                    );
+                    new Author(rs.getInt("author_id"), rs.getString("author_name")),
+                    new Genre(rs.getInt("genre_id"), rs.getString("genre_name"))
+            );
         }
     }
 }

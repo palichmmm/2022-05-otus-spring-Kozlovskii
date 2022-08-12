@@ -6,13 +6,14 @@ import ru.otus.spring.domain.Question;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
-public class QuestionDataTemplateCsvImpl implements QuestionDataTemplate{
-    private final int ID_IN_ARRAY = 0;
-    private final int TOTAL_CORRECT_ANSWERS_IN_ARRAY = 1;
-    private final int QUESTION_IN_ARRAY = 2;
-    private final int START_ANSWER_IN_ARRAY = 3;
-    private final int STARTING_POSITION_ANSWER = 1;
+public class QuestionDataTemplateCsvImpl implements QuestionDataTemplate {
+    private static final int ID_IN_ARRAY = 0;
+    private static final int TOTAL_CORRECT_ANSWERS_IN_ARRAY = 1;
+    private static final int QUESTION_IN_ARRAY = 2;
+    private static final int START_ANSWER_IN_ARRAY = 3;
+    private static final int STARTING_POSITION_ANSWER = 1;
     private final String delimiter;
 
     public QuestionDataTemplateCsvImpl(@Value("${csv.delimiter}") String delimiter) {

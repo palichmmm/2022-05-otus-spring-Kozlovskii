@@ -3,9 +3,9 @@ package ru.otus.spring.domain;
 import java.util.*;
 
 public class Question {
-    private final int id;
-    private final String question;
-    private final List<Answer> listAnswer;
+    private int id;
+    private String question;
+    private List<Answer> listAnswer;
 
     public Question(int id, String question, List<Answer> listAnswer) {
         this.id = id;
@@ -27,8 +27,8 @@ public class Question {
 
     public static class Answer implements Comparable<Answer> {
         private int position;
-        private final String answer;
-        private final Boolean correctAnswer;
+        private String answer;
+        private Boolean correctAnswer;
         private Boolean userAnswer;
 
         public Answer(int position, String answer, Boolean correctAnswer) {

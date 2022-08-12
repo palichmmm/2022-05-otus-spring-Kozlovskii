@@ -6,7 +6,7 @@ databaseChangeLog:
       runOnChange: true
       loadUpdateData:
         tableName: books
-        primaryKey: id
+        primaryKey: book_name
         file: data/2022-07-19--001-book.csv
         relativeToChangeLogFile: true
         separator: ;

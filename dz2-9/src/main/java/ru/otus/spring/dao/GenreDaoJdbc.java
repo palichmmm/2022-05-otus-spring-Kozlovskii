@@ -23,8 +23,8 @@ public class GenreDaoJdbc implements GenreDao{
     }
 
     @Override
-    public int count() {
-        Integer count = jdbc.getJdbcOperations().queryForObject("select count(*) from genres", Integer.class);
+    public long count() {
+        Long count = jdbc.getJdbcOperations().queryForObject("select count(*) from genres", Long.class);
         return count == null ? 0 : count;
     }
 
@@ -34,11 +34,11 @@ public class GenreDaoJdbc implements GenreDao{
         params.addValue("genre_name", genre.getGenreName());
         KeyHolder kh = new GeneratedKeyHolder();
         jdbc.update("insert into genres(genre_name) values (:genre_name)", params, kh);
-        genre.setId((int) kh.getKey().longValue());
+        genre.setId(kh.getKey().longValue());
     }
 
     @Override
-    public Genre getById(int id) {
+    public Genre getById(long id) {
         return jdbc.queryForObject("select id, genre_name from genres where id = :id",
                 Map.of("id", id), new GenreDaoJdbc.GenreMapper());
     }
@@ -49,14 +49,14 @@ public class GenreDaoJdbc implements GenreDao{
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         jdbc.update("delete from genres where id = :id", Map.of("id", id));
     }
 
     private static class GenreMapper implements RowMapper<Genre> {
         @Override
         public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Genre(rs.getInt("id"), rs.getString("genre_name"));
+            return new Genre(rs.getLong("id"), rs.getString("genre_name"));
         }
     }
 }

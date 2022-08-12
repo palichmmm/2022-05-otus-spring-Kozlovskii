@@ -15,7 +15,7 @@ public class CRUDModelGenreServiceImpl implements CRUDModelService<Genre> {
     }
 
     @Override
-    public int create(Genre genre) {
+    public long create(Genre genre) {
         try {
             dao.insert(genre);
             return genre.getId();
@@ -25,7 +25,7 @@ public class CRUDModelGenreServiceImpl implements CRUDModelService<Genre> {
     }
 
     @Override
-    public Genre readById(int id) {
+    public Genre readById(long id) {
         return dao.getById(id);
     }
 
@@ -35,7 +35,7 @@ public class CRUDModelGenreServiceImpl implements CRUDModelService<Genre> {
     }
 
     @Override
-    public boolean updateById(int id) {
+    public boolean updateById(long id) {
         try {
             return true;
         } catch (Exception err) {
@@ -44,7 +44,7 @@ public class CRUDModelGenreServiceImpl implements CRUDModelService<Genre> {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
         try {
             dao.deleteById(id);
             return true;

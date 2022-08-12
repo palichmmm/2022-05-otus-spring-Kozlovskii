@@ -23,27 +23,22 @@ public class AuthorDaoJdbc implements AuthorDao{
     }
 
     @Override
-    public int count() {
-        Integer count = jdbc.getJdbcOperations().queryForObject("select count(*) from authors", Integer.class);
+    public long count() {
+        Long count = jdbc.getJdbcOperations().queryForObject("select count(*) from authors", Long.class);
         return count == null ? 0 : count;
     }
 
     @Override
     public void insert(Author author) {
-        try {
-
             MapSqlParameterSource params = new MapSqlParameterSource();
             params.addValue("author_name", author.getAuthorName());
             KeyHolder kh = new GeneratedKeyHolder();
             jdbc.update("insert into authors(author_name) values (:author_name)", params, kh);
-            author.setId((int) kh.getKey().longValue());
-        } catch (Exception err) {
-            System.out.println(err);
-        }
+            author.setId(kh.getKey().longValue());
     }
 
     @Override
-    public Author getById(int id) {
+    public Author getById(long id) {
         return jdbc.queryForObject("select id, author_name from authors where id = :id",
                 Map.of("id", id), new AuthorMapper());
     }
@@ -54,14 +49,14 @@ public class AuthorDaoJdbc implements AuthorDao{
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
             jdbc.update("delete from authors where id = :id", Map.of("id", id));
     }
 
     private static class AuthorMapper implements RowMapper<Author> {
         @Override
         public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Author(rs.getInt("id"), rs.getString("author_name"));
+            return new Author(rs.getLong("id"), rs.getString("author_name"));
         }
     }
 }

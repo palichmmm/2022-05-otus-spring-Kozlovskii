@@ -15,7 +15,7 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
     }
 
     @Override
-    public int create(Author author) {
+    public long create(Author author) {
         try {
             authorDao.insert(author);
             return author.getId();
@@ -25,7 +25,7 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
     }
 
     @Override
-    public Author readById(int id) {
+    public Author readById(long id) {
         return authorDao.getById(id);
     }
 
@@ -35,7 +35,7 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
     }
 
     @Override
-    public boolean updateById(int id) {
+    public boolean updateById(long id) {
         try {
             Author author = authorDao.getById(id);
             System.out.println(author);
@@ -46,7 +46,7 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
         try {
             authorDao.deleteById(id);
             return true;

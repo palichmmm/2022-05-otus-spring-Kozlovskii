@@ -15,7 +15,7 @@ public class CRUDModelBookServiceImpl implements CRUDModelService<Book>{
     }
 
     @Override
-    public int create(Book book) {
+    public long create(Book book) {
         try {
             dao.insert(book);
             return book.getId();
@@ -25,7 +25,7 @@ public class CRUDModelBookServiceImpl implements CRUDModelService<Book>{
     }
 
     @Override
-    public Book readById(int id) {
+    public Book readById(long id) {
         return dao.getById(id);
     }
 
@@ -35,7 +35,7 @@ public class CRUDModelBookServiceImpl implements CRUDModelService<Book>{
     }
 
     @Override
-    public boolean updateById(int id) {
+    public boolean updateById(long id) {
         try {
             return true;
         } catch (Exception err) {
@@ -44,7 +44,7 @@ public class CRUDModelBookServiceImpl implements CRUDModelService<Book>{
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(long id) {
         try {
             dao.deleteById(id);
             return true;

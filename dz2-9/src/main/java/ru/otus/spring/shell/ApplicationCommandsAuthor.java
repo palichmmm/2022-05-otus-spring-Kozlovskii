@@ -31,7 +31,7 @@ public class ApplicationCommandsAuthor {
     @ShellMethod(key = {"ad", "author-delete"}, value = "Delete author")
     public String showDeleteAuthor(String id) {
         System.out.println("Удаляем автора из базы с id=" + id);
-        if(author.deleteById(Integer.parseInt(id))) {
+        if(author.deleteById(Long.parseLong(id))) {
             System.out.println("Автор с id=" + id + " успешно удален!");
         } else {
             System.out.println("Ошибка при удалении! Возможна есть ссылка на строку в другой таблице!");
@@ -41,14 +41,14 @@ public class ApplicationCommandsAuthor {
     @ShellMethod(key = {"ai", "author-insert"}, value = "Insert author")
     public String showInsertAuthor(@ShellOption(defaultValue = "DEFAULT-AUTHOR-NAME") String authorName) {
         System.out.println("Вставляем автора в базу:");
-        int resultId = author.create(new Author(0,authorName));
+        long resultId = author.create(new Author(0,authorName));
         System.out.println("Вставлена новая запись автора с ID=" + resultId);
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"au", "author-update"}, value = "Update author")
     public String showUpdateAuthor(String id) {
         System.out.println("Обновляем автора в базе с ID=" + id);
-        author.updateById(Integer.parseInt(id));
+        author.updateById(Long.parseLong(id));
         return COMMAND_COMPLETED;
     }
 }

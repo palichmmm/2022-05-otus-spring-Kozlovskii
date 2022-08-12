@@ -16,7 +16,7 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"b", "book"}, value = "One book")
     public String showOneBook(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
         System.out.println("Запрос в базу книг по id=" + id);
-        System.out.println(book.readById(Integer.parseInt(id)));
+        System.out.println(book.readById(Long.parseLong(id)));
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"bb", "books"}, value = "List of books")
@@ -30,7 +30,7 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"bd", "book-delete"}, value = "Delete book")
     public String showDeleteBook(String id) {
         System.out.println("Удаляем книгу из базы с id=" + id);
-        if(book.deleteById(Integer.parseInt(id))) {
+        if(book.deleteById(Long.parseLong(id))) {
             System.out.println("Книга с id=" + id + " успешно удалена!");
         } else {
             System.out.println("Ошибка при удалении! Возможна есть ссылка на строку в другой таблице!");
@@ -40,7 +40,7 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"bi", "book-insert"}, value = "Insert book")
     public String showInsertBook(@ShellOption(defaultValue = "DEFAULT-BOOK-NAME") String bookName) {
         System.out.println("Вставляем книгу в базу:");
-        int resultId = book.create(new Book(0, bookName, null, null));
+        long resultId = book.create(new Book(0, bookName, null, null));
         System.out.println("Вставлена новая запись книги с ID=" + resultId);
         return COMMAND_COMPLETED;
     }

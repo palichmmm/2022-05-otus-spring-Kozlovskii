@@ -40,7 +40,7 @@ public class ApplicationCommandsGenre {
     @ShellMethod(key = {"gi", "genre-insert"}, value = "Insert genre")
     public String showInsertGenre(@ShellOption(defaultValue = "DEFAULT-GENRE-NAME") String genreName) {
         System.out.println("Вставляем жанр(" + genreName + ") в базу:");
-        int resultId = genre.create(new Genre(0,genreName));
+        long resultId = genre.create(new Genre(0,genreName));
         System.out.println("Вставлена новая запись жанра с ID=" + resultId);
         return COMMAND_COMPLETED;
     }

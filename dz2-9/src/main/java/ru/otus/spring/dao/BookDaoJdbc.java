@@ -29,8 +29,8 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public int count() {
-        Integer count = jdbc.getJdbcOperations().queryForObject("select count(*) from books", Integer.class);
+    public long count() {
+        Long count = jdbc.getJdbcOperations().queryForObject("select count(*) from books", Long.class);
         return count == null ? 0 : count;
     }
 
@@ -40,11 +40,11 @@ public class BookDaoJdbc implements BookDao {
         params.addValue("book_name", book.getBookName());
         KeyHolder kh = new GeneratedKeyHolder();
         jdbc.update("insert into books(book_name) values (:book_name)", params, kh);
-        book.setId((int) kh.getKey().longValue());
+        book.setId(kh.getKey().longValue());
     }
 
     @Override
-    public Book getById(int id) {
+    public Book getById(long id) {
         return jdbc.queryForObject("select b.id, b.book_name, b.author_id, b.genre_id, a.author_name, g.genre_name from books b " +
                         "left join authors a on b.author_id = a.id " +
                         "left join genres g on b.genre_id = g.id " +
@@ -60,7 +60,7 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         jdbc.update("delete from books where id = :id", Map.of("id", id));
     }
 
@@ -68,10 +68,10 @@ public class BookDaoJdbc implements BookDao {
         @Override
         public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new Book(
-                    rs.getInt("id"),
+                    rs.getLong("id"),
                     rs.getString("book_name"),
-                    new Author(rs.getInt("author_id"), rs.getString("author_name")),
-                    new Genre(rs.getInt("genre_id"), rs.getString("genre_name"))
+                    new Author(rs.getLong("author_id"), rs.getString("author_name")),
+                    new Genre(rs.getLong("genre_id"), rs.getString("genre_name"))
             );
         }
     }

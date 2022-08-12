@@ -6,7 +6,7 @@ databaseChangeLog:
       runOnChange: true
       loadUpdateData:
         tableName: authors
-        primaryKey: id
+        primaryKey: author_name
         file: data/2022-07-19--001-author.csv
         relativeToChangeLogFile: true
         separator: ;

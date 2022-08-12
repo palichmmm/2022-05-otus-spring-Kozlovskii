@@ -11,7 +11,7 @@ public class ApplicationLaunch implements Launch{
     public String TEST_NAME_AUTHOR = "TEST-NAME-AUTHOR";
     public String TEST_NAME_GENRE = "TEST-NAME-GENRE";
     public String TEST_NAME_BOOK = "TEST-NAME-AUTHOR";
-    public static final int INT_ID_TABLE = 1;
+    public static final int LONG_ID_TABLE = 1;
     private final IOService ioService = new IOServiceStreamsImpl(System.out, System.in);
     private final CRUDModelBookServiceImpl book;
     private final CRUDModelAuthorServiceImpl author;
@@ -41,25 +41,25 @@ public class ApplicationLaunch implements Launch{
             ioService.outputString(book.toString());
         }
 
-        ioService.outputString("\nЗапрос в базу авторов по id=" + INT_ID_TABLE);
-        ioService.outputString(author.readById(INT_ID_TABLE).toString());
+        ioService.outputString("\nЗапрос в базу авторов по id=" + LONG_ID_TABLE);
+        ioService.outputString(author.readById(LONG_ID_TABLE).toString());
 
-        ioService.outputString("\nЗапрос в базу жанров по id=" + INT_ID_TABLE);
-        ioService.outputString(genre.readById(INT_ID_TABLE).toString());
+        ioService.outputString("\nЗапрос в базу жанров по id=" + LONG_ID_TABLE);
+        ioService.outputString(genre.readById(LONG_ID_TABLE).toString());
 
-        ioService.outputString("\nЗапрос в базу книг по id=" + INT_ID_TABLE);
-        ioService.outputString(book.readById(INT_ID_TABLE).toString());
+        ioService.outputString("\nЗапрос в базу книг по id=" + LONG_ID_TABLE);
+        ioService.outputString(book.readById(LONG_ID_TABLE).toString());
 
         ioService.outputString("\nСоздать запись автора(" + TEST_NAME_AUTHOR + ") в базу");
-        int resultA = author.create(new Author(555, TEST_NAME_AUTHOR));
+        long resultA = author.create(new Author(0, TEST_NAME_AUTHOR));
         ioService.outputString(resultA == -1 ? "Ошибка создания записи автора!!!" : "Создан автор с ID=" + resultA);
 
         ioService.outputString("\nСоздать запись жанра(" + TEST_NAME_GENRE + ") в базу");
-        int resultG = genre.create(new Genre(555, TEST_NAME_GENRE));
+        long resultG = genre.create(new Genre(0, TEST_NAME_GENRE));
         ioService.outputString(resultG == -1 ? "Ошибка создания записи жанра!!!" : "Создан жанр с ID=" + resultG);
 
         ioService.outputString("\nСоздать запись книги(" + TEST_NAME_BOOK + ") в базу");
-        int resultB = book.create(new Book(555, TEST_NAME_BOOK, null, null));
+        long resultB = book.create(new Book(0, TEST_NAME_BOOK, null, null));
         ioService.outputString(resultB == -1 ? "Ошибка создания записи книги!!!" : "Создана книга с ID=" + resultB);
 
         ioService.outputString("\nУдаление автора с ID=" + resultA);

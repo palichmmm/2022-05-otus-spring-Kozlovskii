@@ -5,9 +5,9 @@ import ru.otus.spring.models.Author;
 import java.util.List;
 
 public interface AuthorDao {
-    int count();
+    long count();
     void insert(Author person);
-    Author getById(int id);
+    Author getById(long id);
     List<Author> getAll();
-    void deleteById(int id);
+    void deleteById(long id);
 }

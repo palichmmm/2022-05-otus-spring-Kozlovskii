@@ -38,9 +38,21 @@ public class GenreDaoJdbc implements GenreDao{
     }
 
     @Override
+    public void update(Genre genre) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", genre.getId());
+        params.addValue("genre_name", genre.getGenreName());
+        jdbc.update("update genres set genre_name = :genre_name where id = :id", params);
+    }
+
+    @Override
     public Genre getById(long id) {
-        return jdbc.queryForObject("select id, genre_name from genres where id = :id",
-                Map.of("id", id), new GenreDaoJdbc.GenreMapper());
+        try {
+            return jdbc.queryForObject("select id, genre_name from genres where id = :id",
+                    Map.of("id", id), new GenreDaoJdbc.GenreMapper());
+        } catch (Exception err) {
+            return null;
+        }
     }
 
     @Override

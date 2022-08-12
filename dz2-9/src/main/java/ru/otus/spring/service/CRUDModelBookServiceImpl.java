@@ -35,11 +35,12 @@ public class CRUDModelBookServiceImpl implements CRUDModelService<Book>{
     }
 
     @Override
-    public boolean updateById(long id) {
-        try {
-            return true;
-        } catch (Exception err) {
+    public boolean update(Book book) {
+        if (dao.getById(book.getId()) == null) {
             return false;
+        } else {
+            dao.update(book);
+            return true;
         }
     }
 

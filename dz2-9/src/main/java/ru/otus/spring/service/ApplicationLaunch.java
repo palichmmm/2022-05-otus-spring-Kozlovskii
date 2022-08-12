@@ -10,7 +10,7 @@ public class ApplicationLaunch implements Launch{
 
     public String TEST_NAME_AUTHOR = "TEST-NAME-AUTHOR";
     public String TEST_NAME_GENRE = "TEST-NAME-GENRE";
-    public String TEST_NAME_BOOK = "TEST-NAME-AUTHOR";
+    public String TEST_NAME_BOOK = "TEST-NAME-BOOK";
     public static final int LONG_ID_TABLE = 1;
     private final IOService ioService = new IOServiceStreamsImpl(System.out, System.in);
     private final CRUDModelBookServiceImpl book;

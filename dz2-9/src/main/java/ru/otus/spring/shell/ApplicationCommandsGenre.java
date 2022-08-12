@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.service.CRUDModelGenreServiceImpl;
 
@@ -41,12 +42,21 @@ public class ApplicationCommandsGenre {
     public String showInsertGenre(@ShellOption(defaultValue = "DEFAULT-GENRE-NAME") String genreName) {
         System.out.println("Вставляем жанр(" + genreName + ") в базу:");
         long resultId = genre.create(new Genre(0,genreName));
-        System.out.println("Вставлена новая запись жанра с ID=" + resultId);
+        if (resultId == -1) {
+            System.out.println("Неудалось вставить жанр с именем " + genreName + " Возможно такой жанр уже есть!");
+        } else {
+            System.out.println("Вставлена новая запись жанра с ID=" + resultId);
+        }
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"gu", "genre-update"}, value = "Update genre")
-    public String showUpdateGenre(String id) {
-        System.out.println("Обновляем жанр в базе:");
-        return "Обновлена запись жанра - ";
+    public String showUpdateGenre(String id, String newNameGenre) {
+        System.out.println("Обновляем имя жанра в базе с ID=" + id);
+        if (genre.update(new Genre(Long.parseLong(id), newNameGenre))) {
+            System.out.println("Жанр с ID=" + id + " успешно обновлен!");
+        } else {
+            System.out.println("Не удалось обновить Жанр с ID=" + id);
+        }
+        return COMMAND_COMPLETED;
     }
 }

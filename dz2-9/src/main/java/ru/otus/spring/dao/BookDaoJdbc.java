@@ -44,6 +44,18 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
+    public void update(Book book) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", book.getId());
+        params.addValue("book_name", book.getBookName());
+        params.addValue("author_id", book.getAuthor().getId());
+        params.addValue("genre_id", book.getGenre().getId());
+        jdbc.update("update books " +
+                "set book_name = :book_name, author_id = :author_id, genre_id = :genre_id " +
+                "where id = :id", params);
+    }
+
+    @Override
     public Book getById(long id) {
         return jdbc.queryForObject("select b.id, b.book_name, b.author_id, b.genre_id, a.author_name, g.genre_name from books b " +
                         "left join authors a on b.author_id = a.id " +

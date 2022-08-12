@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
+import ru.otus.spring.models.Genre;
 import ru.otus.spring.service.CRUDModelBookServiceImpl;
 
 @ShellComponent
@@ -39,14 +41,23 @@ public class ApplicationCommandsBook {
     }
     @ShellMethod(key = {"bi", "book-insert"}, value = "Insert book")
     public String showInsertBook(@ShellOption(defaultValue = "DEFAULT-BOOK-NAME") String bookName) {
-        System.out.println("Вставляем книгу в базу:");
+        System.out.println("Вставляем книгу(" + bookName + ") в базу:");
         long resultId = book.create(new Book(0, bookName, null, null));
-        System.out.println("Вставлена новая запись книги с ID=" + resultId);
+        if (resultId == -1) {
+            System.out.println("Неудалось вставить книгу с именем " + bookName + " Возможно такая книга уже есть!");
+        } else {
+            System.out.println("Вставлена новая запись книги с ID=" + resultId);
+        }
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"bu", "book-update"}, value = "Update book")
-    public String showUpdateBook(String id) {
-        System.out.println("Обновляем книгу в базе:");
-        return "Обновлена запись книга - ";
+    public String showUpdateBook(String id, String authorId, String genreId, String newNameBook) {
+        System.out.println("Обновляем название книги в базе с ID=" + id);
+        if (book.update(new Book(Long.parseLong(id), newNameBook, new Author(Long.parseLong(authorId), ""), new Genre(Long.parseLong(genreId), "")))) {
+            System.out.println("Книга с ID=" + id + " успешно обновлена!");
+        } else {
+            System.out.println("Не удалось обновить Книгу с ID=" + id);
+        }
+        return COMMAND_COMPLETED;
     }
 }

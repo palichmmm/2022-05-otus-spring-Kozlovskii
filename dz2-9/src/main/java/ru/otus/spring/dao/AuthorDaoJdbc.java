@@ -38,9 +38,21 @@ public class AuthorDaoJdbc implements AuthorDao{
     }
 
     @Override
+    public void update(Author author) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", author.getId());
+        params.addValue("author_name", author.getAuthorName());
+        jdbc.update("update authors set author_name = :author_name where id = :id", params);
+    }
+
+    @Override
     public Author getById(long id) {
-        return jdbc.queryForObject("select id, author_name from authors where id = :id",
-                Map.of("id", id), new AuthorMapper());
+        try {
+            return jdbc.queryForObject("select id, author_name from authors where id = :id",
+                    Map.of("id", id), new AuthorMapper());
+        } catch (Exception err) {
+            return null;
+        }
     }
 
     @Override

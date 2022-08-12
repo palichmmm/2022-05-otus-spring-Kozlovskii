@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface AuthorDao {
     long count();
-    void insert(Author person);
+    void insert(Author author);
+    void update(Author author);
     Author getById(long id);
     List<Author> getAll();
     void deleteById(long id);

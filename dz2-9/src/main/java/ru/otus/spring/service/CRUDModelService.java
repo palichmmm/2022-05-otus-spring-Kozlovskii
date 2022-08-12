@@ -7,6 +7,6 @@ public interface CRUDModelService<T> {
     long create(T obj);
     T readById(long id);
     List<T> readAll();
-    boolean updateById(long id);
+    boolean update(T obj);
     boolean deleteById(long id);
 }

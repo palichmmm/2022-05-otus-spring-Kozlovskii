@@ -35,11 +35,12 @@ public class CRUDModelGenreServiceImpl implements CRUDModelService<Genre> {
     }
 
     @Override
-    public boolean updateById(long id) {
-        try {
-            return true;
-        } catch (Exception err) {
+    public boolean update(Genre genre) {
+        if (dao.getById(genre.getId()) == null) {
             return false;
+        } else {
+            dao.update(genre);
+            return true;
         }
     }
 

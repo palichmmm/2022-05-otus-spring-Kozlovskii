@@ -35,13 +35,12 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
     }
 
     @Override
-    public boolean updateById(long id) {
-        try {
-            Author author = authorDao.getById(id);
-            System.out.println(author);
-            return true;
-        } catch (Exception err) {
+    public boolean update(Author author) {
+        if (authorDao.getById(author.getId()) == null) {
             return false;
+        } else {
+            authorDao.update(author);
+            return true;
         }
     }
 

@@ -40,15 +40,23 @@ public class ApplicationCommandsAuthor {
     }
     @ShellMethod(key = {"ai", "author-insert"}, value = "Insert author")
     public String showInsertAuthor(@ShellOption(defaultValue = "DEFAULT-AUTHOR-NAME") String authorName) {
-        System.out.println("Вставляем автора в базу:");
+        System.out.println("Вставляем автора(" + authorName + ") в базу:");
         long resultId = author.create(new Author(0,authorName));
-        System.out.println("Вставлена новая запись автора с ID=" + resultId);
+        if (resultId == -1) {
+            System.out.println("Неудалось вставить автора с именем " + authorName + " Возможно такой автор уже есть!");
+        } else {
+            System.out.println("Вставлена новая запись автора с ID=" + resultId);
+        }
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"au", "author-update"}, value = "Update author")
-    public String showUpdateAuthor(String id) {
-        System.out.println("Обновляем автора в базе с ID=" + id);
-        author.updateById(Long.parseLong(id));
+    public String showUpdateAuthor(String id, String newNameAuthor) {
+        System.out.println("Обновляем имя автора в базе с ID=" + id);
+        if (author.update(new Author(Long.parseLong(id), newNameAuthor))) {
+            System.out.println("Автор с ID=" + id + " успешно обновлен!");
+        } else {
+            System.out.println("Не удалось обновить Автора с ID=" + id);
+        }
         return COMMAND_COMPLETED;
     }
 }

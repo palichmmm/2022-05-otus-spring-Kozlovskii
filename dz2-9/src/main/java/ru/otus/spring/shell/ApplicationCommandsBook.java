@@ -40,9 +40,9 @@ public class ApplicationCommandsBook {
         return COMMAND_COMPLETED;
     }
     @ShellMethod(key = {"bi", "book-insert"}, value = "Insert book")
-    public String showInsertBook(@ShellOption(defaultValue = "DEFAULT-BOOK-NAME") String bookName) {
+    public String showInsertBook(@ShellOption(defaultValue = "DEFAULT-BOOK-NAME") String bookName, String authorId, String genreId) {
         System.out.println("Вставляем книгу(" + bookName + ") в базу:");
-        long resultId = book.create(new Book(0, bookName, null, null));
+        long resultId = book.create(new Book(0, bookName, new Author(Long.parseLong(authorId), ""), new Genre(Long.parseLong(genreId), "")));
         if (resultId == -1) {
             System.out.println("Неудалось вставить книгу с именем " + bookName + " Возможно такая книга уже есть!");
         } else {

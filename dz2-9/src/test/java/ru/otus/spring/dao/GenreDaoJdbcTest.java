@@ -52,7 +52,7 @@ class GenreDaoJdbcTest {
         dao.insert(genre);
         assertThatCode(() -> dao.getById(genre.getId())).doesNotThrowAnyException();
         dao.deleteById(genre.getId());
-        assertThatCode(() -> dao.getById(genre.getId())).isInstanceOf(EmptyResultDataAccessException.class);
+        assertThatCode(() -> dao.getById(genre.getId())).isNull();
     }
 
     @DisplayName("возвращать ожидаемый список жанров")

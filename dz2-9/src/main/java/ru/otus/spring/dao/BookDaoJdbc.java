@@ -38,8 +38,11 @@ public class BookDaoJdbc implements BookDao {
     public void insert(Book book) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("book_name", book.getBookName());
+        params.addValue("author_id", book.getAuthor().getId());
+        params.addValue("genre_id", book.getGenre().getId());
         KeyHolder kh = new GeneratedKeyHolder();
-        jdbc.update("insert into books(book_name) values (:book_name)", params, kh);
+        jdbc.update("insert into books(author_id, genre_id, book_name) " +
+                                 "values (:author_id, :genre_id, :book_name)", params, kh);
         book.setId(kh.getKey().longValue());
     }
 

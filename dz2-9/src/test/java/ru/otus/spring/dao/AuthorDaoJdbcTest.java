@@ -52,7 +52,7 @@ class AuthorDaoJdbcTest {
         dao.insert(author);
         assertThatCode(() -> dao.getById(author.getId())).doesNotThrowAnyException();
         dao.deleteById(author.getId());
-        assertThatCode(() -> dao.getById(author.getId())).isInstanceOf(EmptyResultDataAccessException.class);
+        assertThatCode(() -> dao.getById(author.getId())).isNull();
     }
 
     @DisplayName("возвращать ожидаемый список авторов")

@@ -1,6 +1,6 @@
 package ru.otus.spring.dao;
 
-import ru.otus.spring.domain.Question;
+import ru.otus.spring.models.Question;
 
 import java.util.List;
 

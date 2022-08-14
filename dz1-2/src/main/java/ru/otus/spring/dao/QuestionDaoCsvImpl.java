@@ -16,8 +16,12 @@ import java.util.List;
 @PropertySource("classpath:application.properties")
 public class QuestionDaoCsvImpl implements QuestionDao {
 
-    @Autowired
     public Environment environment;
+
+    public QuestionDaoCsvImpl(Environment environment) {
+        this.environment = environment;
+    }
+
     @Override
     public List<String> findAll() {
         List<String> list = new ArrayList<>();

@@ -1,0 +1,17 @@
+marker:
+  text: "##########"
+csv:
+  file-name: "question.csv"
+  delimiter: ";"
+spring:
+  messages:
+    fallback-to-system-locale: true
+  main:
+    allow-circular-references: true
+  shell:
+    interactive:
+      enabled: false
+
+logging:
+  level:
+    root: ERROR

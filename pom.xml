@@ -18,8 +18,9 @@
 
     <modules>
         <module>dz1-1</module>
+        <module>dz1-2</module>
         <module>dz1-7</module>
         <module>dz1-4</module>
     </modules>
-    
+
 </project>

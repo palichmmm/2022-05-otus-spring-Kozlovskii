@@ -1,5 +1,5 @@
 package ru.otus.spring.service;
 
-public interface Launch {
+public interface Launcher {
     void run();
 }

@@ -14,13 +14,13 @@ public class ApplicationCommandsAuthor {
     public static final String COMMAND_COMPLETED = "Команда завершена";
     public static final String STRING_DEFAULT_ID = "1";
     private final CRUDModelAuthorServiceImpl author;
-    @ShellMethod(key = {"a", "author"}, value = "One author")
+    @ShellMethod(key = {"a", "author"}, value = "One author: <command> [id]")
     public String showOneAuthor(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
         System.out.println("Запрос в базу авторов по id=" + id);
         System.out.println(author.readById(Integer.parseInt(id)));
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"aa", "authors"}, value = "List of authors")
+    @ShellMethod(key = {"aa", "authors"}, value = "List of authors: <command>")
     public String showAllAuthor() {
         System.out.println("Список авторов в базе: ");
         for (Author tempAuthor : author.readAll()) {
@@ -28,7 +28,7 @@ public class ApplicationCommandsAuthor {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"ad", "author-delete"}, value = "Delete author")
+    @ShellMethod(key = {"ad", "author-delete"}, value = "Delete author: <command> [id]")
     public String showDeleteAuthor(String id) {
         System.out.println("Удаляем автора из базы с id=" + id);
         if(author.deleteById(Long.parseLong(id))) {
@@ -38,7 +38,7 @@ public class ApplicationCommandsAuthor {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"ai", "author-insert"}, value = "Insert author")
+    @ShellMethod(key = {"ai", "author-insert"}, value = "Insert author: <command> [name]")
     public String showInsertAuthor(@ShellOption(defaultValue = "DEFAULT-AUTHOR-NAME") String authorName) {
         System.out.println("Вставляем автора(" + authorName + ") в базу:");
         long resultId = author.create(new Author(0,authorName));
@@ -49,7 +49,7 @@ public class ApplicationCommandsAuthor {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"au", "author-update"}, value = "Update author")
+    @ShellMethod(key = {"au", "author-update"}, value = "Update author: <command> [id] [new name]")
     public String showUpdateAuthor(String id, String newNameAuthor) {
         System.out.println("Обновляем имя автора в базе с ID=" + id);
         if (author.update(new Author(Long.parseLong(id), newNameAuthor))) {

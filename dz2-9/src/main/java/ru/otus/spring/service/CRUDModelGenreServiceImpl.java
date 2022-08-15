@@ -7,7 +7,7 @@ import ru.otus.spring.models.Genre;
 import java.util.List;
 
 @Service
-public class CRUDModelGenreServiceImpl implements CRUDModelService<Genre> {
+public class CRUDModelGenreServiceImpl implements CRUDModelGenre {
     private final GenreDao dao;
 
     public CRUDModelGenreServiceImpl(GenreDao dao) {
@@ -20,7 +20,7 @@ public class CRUDModelGenreServiceImpl implements CRUDModelService<Genre> {
             dao.insert(genre);
             return genre.getId();
         } catch (Exception err) {
-            return CREATE_ERROR;
+            throw new RuntimeException("Ошибка записи Жанра в базу!!!");
         }
     }
 

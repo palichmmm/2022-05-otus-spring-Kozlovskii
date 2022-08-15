@@ -7,7 +7,7 @@ import ru.otus.spring.models.Author;
 import java.util.List;
 
 @Service
-public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
+public class CRUDModelAuthorServiceImpl implements CRUDModelAuthor {
     private final AuthorDao authorDao;
 
     public CRUDModelAuthorServiceImpl(AuthorDao dao) {
@@ -20,7 +20,7 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelService<Author> {
             authorDao.insert(author);
             return author.getId();
         } catch (Exception err) {
-            return CREATE_ERROR;
+            throw new RuntimeException("Ошибка записи Автора в базу!!!");
         }
     }
 

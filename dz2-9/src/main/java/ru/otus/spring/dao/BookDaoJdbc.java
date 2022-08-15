@@ -19,13 +19,8 @@ import java.util.Map;
 public class BookDaoJdbc implements BookDao {
     private final NamedParameterJdbcOperations jdbc;
 
-    private final AuthorDaoJdbc authorDaoJdbc;
-    private final GenreDaoJdbc genreDaoJdbc;
-
-    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations, AuthorDaoJdbc authorDaoJdbc, GenreDaoJdbc genreDaoJdbc) {
+    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations) {
         this.jdbc = jdbcOperations;
-        this.authorDaoJdbc = authorDaoJdbc;
-        this.genreDaoJdbc = genreDaoJdbc;
     }
 
     @Override

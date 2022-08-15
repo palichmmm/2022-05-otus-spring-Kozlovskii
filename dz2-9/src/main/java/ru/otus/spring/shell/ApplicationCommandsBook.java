@@ -15,13 +15,13 @@ public class ApplicationCommandsBook {
     public static final String COMMAND_COMPLETED = "Команда завершена";
     public static final String STRING_DEFAULT_ID = "1";
     private final CRUDModelBookServiceImpl book;
-    @ShellMethod(key = {"b", "book"}, value = "One book")
+    @ShellMethod(key = {"b", "book"}, value = "One book: <command> [id]")
     public String showOneBook(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
         System.out.println("Запрос в базу книг по id=" + id);
         System.out.println(book.readById(Long.parseLong(id)));
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"bb", "books"}, value = "List of books")
+    @ShellMethod(key = {"bb", "books"}, value = "List of books: <command>")
     public String showAllBook() {
         System.out.println("Список книг в базе: ");
         for (Book tempBook : book.readAll()) {
@@ -29,7 +29,7 @@ public class ApplicationCommandsBook {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"bd", "book-delete"}, value = "Delete book")
+    @ShellMethod(key = {"bd", "book-delete"}, value = "Delete book: <command> [id]")
     public String showDeleteBook(String id) {
         System.out.println("Удаляем книгу из базы с id=" + id);
         if(book.deleteById(Long.parseLong(id))) {
@@ -39,7 +39,7 @@ public class ApplicationCommandsBook {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"bi", "book-insert"}, value = "Insert book")
+    @ShellMethod(key = {"bi", "book-insert"}, value = "Insert book: <command> [name] [author id] [genre id]")
     public String showInsertBook(@ShellOption(defaultValue = "DEFAULT-BOOK-NAME") String bookName, String authorId, String genreId) {
         System.out.println("Вставляем книгу(" + bookName + ") в базу:");
         long resultId = book.create(new Book(0, bookName, new Author(Long.parseLong(authorId), ""), new Genre(Long.parseLong(genreId), "")));
@@ -50,7 +50,7 @@ public class ApplicationCommandsBook {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"bu", "book-update"}, value = "Update book")
+    @ShellMethod(key = {"bu", "book-update"}, value = "Update book: <command> [id] [author id] [genre id] [new name]")
     public String showUpdateBook(String id, String authorId, String genreId, String newNameBook) {
         System.out.println("Обновляем название книги в базе с ID=" + id);
         if (book.update(new Book(Long.parseLong(id), newNameBook, new Author(Long.parseLong(authorId), ""), new Genre(Long.parseLong(genreId), "")))) {

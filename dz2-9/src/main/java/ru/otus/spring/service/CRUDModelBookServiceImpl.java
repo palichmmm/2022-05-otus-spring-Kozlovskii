@@ -7,7 +7,7 @@ import ru.otus.spring.models.Book;
 import java.util.List;
 
 @Service
-public class CRUDModelBookServiceImpl implements CRUDModelService<Book>{
+public class CRUDModelBookServiceImpl implements CRUDModelBook {
     private final BookDao dao;
 
     public CRUDModelBookServiceImpl(BookDao dao) {
@@ -20,7 +20,7 @@ public class CRUDModelBookServiceImpl implements CRUDModelService<Book>{
             dao.insert(book);
             return book.getId();
         } catch (Exception err) {
-            return CREATE_ERROR;
+            throw new RuntimeException("Ошибка записи Книги в базу!!!");
         }
     }
 

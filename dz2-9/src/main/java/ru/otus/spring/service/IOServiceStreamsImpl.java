@@ -1,16 +1,18 @@
 package ru.otus.spring.service;
 
-import java.io.InputStream;
+import org.springframework.stereotype.Component;
+
 import java.io.PrintStream;
 import java.util.Scanner;
 
+@Component
 public class IOServiceStreamsImpl implements IOService{
     private final PrintStream output;
     private final Scanner input;
 
-    public IOServiceStreamsImpl(PrintStream outputStream, InputStream inputStream) {
-        output = outputStream;
-        input = new Scanner(inputStream);
+        public IOServiceStreamsImpl() {
+        output = System.out;
+        input = new Scanner(System.in);
     }
 
     @Override

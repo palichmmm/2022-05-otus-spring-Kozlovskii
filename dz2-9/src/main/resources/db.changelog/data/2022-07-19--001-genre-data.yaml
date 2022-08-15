@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 2022-07-19--001--genres-data
       author: Evgenii Kozlovskii
-      context: dev or test
+      context: dev
       runOnChange: true
       loadUpdateData:
         tableName: genres

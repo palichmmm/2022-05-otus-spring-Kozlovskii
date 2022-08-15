@@ -14,13 +14,13 @@ public class ApplicationCommandsGenre {
     public static final String COMMAND_COMPLETED = "Команда завершена";
     public static final String STRING_DEFAULT_ID = "1";
     private final CRUDModelGenreServiceImpl genre;
-    @ShellMethod(key = {"g", "genre"}, value = "One genre")
+    @ShellMethod(key = {"g", "genre"}, value = "One genre: <command> [id]")
     public String showOneGenre(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
         System.out.println("Запрос в базу жанров по id=" + id);
         System.out.println(genre.readById(Integer.parseInt(id)));
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"gg", "genres"}, value = "List of genres")
+    @ShellMethod(key = {"gg", "genres"}, value = "List of genres: <command>")
     public String showAllGenre() {
         System.out.println("Список жанров в базе: ");
         for (Genre tempGenre : genre.readAll()) {
@@ -28,7 +28,7 @@ public class ApplicationCommandsGenre {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"gd", "genre-delete"}, value = "Delete genre")
+    @ShellMethod(key = {"gd", "genre-delete"}, value = "Delete genre: <command> [id]")
     public String showDeleteGenre(String id) {
         System.out.println("Удаляем жанр из базы с id=" + id);
         if(genre.deleteById(Integer.parseInt(id))) {
@@ -38,7 +38,7 @@ public class ApplicationCommandsGenre {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"gi", "genre-insert"}, value = "Insert genre")
+    @ShellMethod(key = {"gi", "genre-insert"}, value = "Insert genre: <command> [name]")
     public String showInsertGenre(@ShellOption(defaultValue = "DEFAULT-GENRE-NAME") String genreName) {
         System.out.println("Вставляем жанр(" + genreName + ") в базу:");
         long resultId = genre.create(new Genre(0,genreName));
@@ -49,7 +49,7 @@ public class ApplicationCommandsGenre {
         }
         return COMMAND_COMPLETED;
     }
-    @ShellMethod(key = {"gu", "genre-update"}, value = "Update genre")
+    @ShellMethod(key = {"gu", "genre-update"}, value = "Update genre: <command> [id] [new name]")
     public String showUpdateGenre(String id, String newNameGenre) {
         System.out.println("Обновляем имя жанра в базе с ID=" + id);
         if (genre.update(new Genre(Long.parseLong(id), newNameGenre))) {

@@ -1,23 +1,35 @@
 package ru.otus.spring.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
 
 @Service
-public class ApplicationLaunch implements Launch{
+public class ApplicationLauncher implements Launcher {
 
-    public String TEST_NAME_AUTHOR = "TEST-NAME-AUTHOR";
-    public String TEST_NAME_GENRE = "TEST-NAME-GENRE";
-    public String TEST_NAME_BOOK = "TEST-NAME-BOOK";
-    public static final int LONG_ID_TABLE = 1;
-    private final IOService ioService = new IOServiceStreamsImpl(System.out, System.in);
-    private final CRUDModelBookServiceImpl book;
-    private final CRUDModelAuthorServiceImpl author;
-    private final CRUDModelGenreServiceImpl genre;
+    public final String TEST_NAME_AUTHOR;
+    public final String TEST_NAME_GENRE;
+    public final String TEST_NAME_BOOK;
+    public final long LONG_ID_TABLE;
+    private final IOService ioService;
+    private final CRUDModelBook book;
+    private final CRUDModelAuthor author;
+    private final CRUDModelGenre genre;
 
-    public ApplicationLaunch(CRUDModelBookServiceImpl book, CRUDModelAuthorServiceImpl author, CRUDModelGenreServiceImpl genre) {
+    public ApplicationLauncher(@Value("${test.name.author}") String test_name_author,
+                               @Value("${test.name.genre}") String test_name_genre,
+                               @Value("${test.name.book}") String test_name_book,
+                               @Value("${test.table.id}") long long_id_table, IOService ioService,
+                               CRUDModelBook book,
+                               CRUDModelAuthor author,
+                               CRUDModelGenre genre) {
+        TEST_NAME_AUTHOR = test_name_author;
+        TEST_NAME_GENRE = test_name_genre;
+        TEST_NAME_BOOK = test_name_book;
+        LONG_ID_TABLE = long_id_table;
+        this.ioService = ioService;
         this.book = book;
         this.author = author;
         this.genre = genre;
@@ -59,7 +71,7 @@ public class ApplicationLaunch implements Launch{
         ioService.outputString(resultG == -1 ? "Ошибка создания записи жанра!!!" : "Создан жанр с ID=" + resultG);
 
         ioService.outputString("\nСоздать запись книги(" + TEST_NAME_BOOK + ") в базу");
-        long resultB = book.create(new Book(0, TEST_NAME_BOOK, null, null));
+        long resultB = book.create(new Book(0, TEST_NAME_BOOK, new Author(1, ""), new Genre(2, "")));
         ioService.outputString(resultB == -1 ? "Ошибка создания записи книги!!!" : "Создана книга с ID=" + resultB);
 
         ioService.outputString("\nУдаление автора с ID=" + resultA);

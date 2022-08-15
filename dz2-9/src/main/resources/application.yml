@@ -1,3 +1,10 @@
+test:
+  name:
+    author: TEST-NAME-AUTHOR
+    genre: TEST-NAME-GENRE
+    book: TEST-NAME-BOOK
+  table:
+    id: 1
 spring:
   datasource:
     url: jdbc:h2:mem:testdb

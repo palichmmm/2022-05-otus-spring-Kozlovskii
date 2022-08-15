@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2022-07-19--001-book
+      id: 2022-07-19--003-book
       author: Evgenii Kozlovskii
       context: dev
       createTable:

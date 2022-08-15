@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2022-07-19--001-genre
+      id: 2022-07-19--002-genre
       author: Evgenii Kozlovskii
       context: dev
       createTable:

@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 2022-07-19--001-author
       author: Evgenii Kozlovskii
-      context: dev
+      context: dev or test
       createTable:
         tableName: authors
         remark: Таблица авторов

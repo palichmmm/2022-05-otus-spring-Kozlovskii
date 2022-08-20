@@ -7,56 +7,64 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.CRUDModelBookServiceImpl;
+import ru.otus.spring.service.CRUDModelBook;
+import ru.otus.spring.service.IOService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommandsBook {
     public static final String COMMAND_COMPLETED = "Команда завершена";
     public static final String STRING_DEFAULT_ID = "1";
-    private final CRUDModelBookServiceImpl book;
+    private final CRUDModelBook book;
+
+    private final IOService ioService;
+
     @ShellMethod(key = {"b", "book"}, value = "One book: <command> [id]")
-    public String showOneBook(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
-        System.out.println("Запрос в базу книг по id=" + id);
-        System.out.println(book.readById(Long.parseLong(id)));
+    public String showOneBook(@ShellOption(defaultValue = STRING_DEFAULT_ID) long id) {
+        ioService.outputString("Запрос в базу книг по id=" + id);
+        ioService.outputString(String.valueOf(book.readById(id)));
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"bb", "books"}, value = "List of books: <command>")
     public String showAllBook() {
-        System.out.println("Список книг в базе: ");
+        ioService.outputString("Список книг в базе: ");
         for (Book tempBook : book.readAll()) {
-            System.out.println(tempBook);
+            ioService.outputString(String.valueOf(tempBook));
         }
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"bd", "book-delete"}, value = "Delete book: <command> [id]")
-    public String showDeleteBook(String id) {
-        System.out.println("Удаляем книгу из базы с id=" + id);
-        if(book.deleteById(Long.parseLong(id))) {
-            System.out.println("Книга с id=" + id + " успешно удалена!");
+    public String showDeleteBook(long id) {
+        ioService.outputString("Удаляем книгу из базы с id=" + id);
+        if (book.deleteById(id)) {
+            ioService.outputString("Книга с id=" + id + " успешно удалена!");
         } else {
-            System.out.println("Ошибка при удалении! Возможна есть ссылка на строку в другой таблице!");
+            ioService.outputString("Ошибка при удалении! Возможна есть ссылка на строку в другой таблице!");
         }
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"bi", "book-insert"}, value = "Insert book: <command> [name] [author id] [genre id]")
     public String showInsertBook(@ShellOption(defaultValue = "DEFAULT-BOOK-NAME") String bookName, String authorId, String genreId) {
-        System.out.println("Вставляем книгу(" + bookName + ") в базу:");
+        ioService.outputString("Вставляем книгу(" + bookName + ") в базу:");
         long resultId = book.create(new Book(0, bookName, new Author(Long.parseLong(authorId), ""), new Genre(Long.parseLong(genreId), "")));
         if (resultId == -1) {
-            System.out.println("Неудалось вставить книгу с именем " + bookName + " Возможно такая книга уже есть!");
+            ioService.outputString("Неудалось вставить книгу с именем " + bookName + " Возможно такая книга уже есть!");
         } else {
-            System.out.println("Вставлена новая запись книги с ID=" + resultId);
+            ioService.outputString("Вставлена новая запись книги с ID=" + resultId);
         }
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"bu", "book-update"}, value = "Update book: <command> [id] [author id] [genre id] [new name]")
-    public String showUpdateBook(String id, String authorId, String genreId, String newNameBook) {
-        System.out.println("Обновляем название книги в базе с ID=" + id);
-        if (book.update(new Book(Long.parseLong(id), newNameBook, new Author(Long.parseLong(authorId), ""), new Genre(Long.parseLong(genreId), "")))) {
-            System.out.println("Книга с ID=" + id + " успешно обновлена!");
+    public String showUpdateBook(long id, String authorId, String genreId, String newNameBook) {
+        ioService.outputString("Обновляем название книги в базе с ID=" + id);
+        if (book.update(new Book(id, newNameBook, new Author(Long.parseLong(authorId), ""), new Genre(Long.parseLong(genreId), "")))) {
+            ioService.outputString("Книга с ID=" + id + " успешно обновлена!");
         } else {
-            System.out.println("Не удалось обновить Книгу с ID=" + id);
+            ioService.outputString("Не удалось обновить Книгу с ID=" + id);
         }
         return COMMAND_COMPLETED;
     }

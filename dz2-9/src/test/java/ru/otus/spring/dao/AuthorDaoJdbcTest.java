@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 class AuthorDaoJdbcTest {
     private static final int EXPECTED_AUTHORS_COUNT = 3;
     @Autowired
-    private AuthorDaoJdbc dao;
+    private AuthorDao dao;
 
     @DisplayName("возвращать ожидаемое количество авторов в БД")
     @Test

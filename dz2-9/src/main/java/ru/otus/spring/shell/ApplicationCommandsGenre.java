@@ -4,58 +4,65 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.CRUDModelGenreServiceImpl;
+import ru.otus.spring.service.CRUDModelGenre;
+import ru.otus.spring.service.IOService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommandsGenre {
     public static final String COMMAND_COMPLETED = "Команда завершена";
     public static final String STRING_DEFAULT_ID = "1";
-    private final CRUDModelGenreServiceImpl genre;
+    private final CRUDModelGenre genre;
+
+    private final IOService ioService;
+
     @ShellMethod(key = {"g", "genre"}, value = "One genre: <command> [id]")
-    public String showOneGenre(@ShellOption(defaultValue = STRING_DEFAULT_ID) String id) {
-        System.out.println("Запрос в базу жанров по id=" + id);
-        System.out.println(genre.readById(Integer.parseInt(id)));
+    public String showOneGenre(@ShellOption(defaultValue = STRING_DEFAULT_ID) long id) {
+        ioService.outputString("Запрос в базу жанров по id=" + id);
+        ioService.outputString(String.valueOf(genre.readById(id)));
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"gg", "genres"}, value = "List of genres: <command>")
     public String showAllGenre() {
-        System.out.println("Список жанров в базе: ");
+        ioService.outputString("Список жанров в базе: ");
         for (Genre tempGenre : genre.readAll()) {
-            System.out.println(tempGenre);
+            ioService.outputString(String.valueOf(tempGenre));
         }
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"gd", "genre-delete"}, value = "Delete genre: <command> [id]")
-    public String showDeleteGenre(String id) {
-        System.out.println("Удаляем жанр из базы с id=" + id);
-        if(genre.deleteById(Integer.parseInt(id))) {
-            System.out.println("Жанр с id=" + id + " успешно удален!");
+    public String showDeleteGenre(long id) {
+        ioService.outputString("Удаляем жанр из базы с id=" + id);
+        if (genre.deleteById(id)) {
+            ioService.outputString("Жанр с id=" + id + " успешно удален!");
         } else {
-            System.out.println("Ошибка при удалении!");
+            ioService.outputString("Ошибка при удалении!");
         }
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"gi", "genre-insert"}, value = "Insert genre: <command> [name]")
     public String showInsertGenre(@ShellOption(defaultValue = "DEFAULT-GENRE-NAME") String genreName) {
-        System.out.println("Вставляем жанр(" + genreName + ") в базу:");
-        long resultId = genre.create(new Genre(0,genreName));
+        ioService.outputString("Вставляем жанр(" + genreName + ") в базу:");
+        long resultId = genre.create(new Genre(0, genreName));
         if (resultId == -1) {
-            System.out.println("Неудалось вставить жанр с именем " + genreName + " Возможно такой жанр уже есть!");
+            ioService.outputString("Неудалось вставить жанр с именем " + genreName + " Возможно такой жанр уже есть!");
         } else {
-            System.out.println("Вставлена новая запись жанра с ID=" + resultId);
+            ioService.outputString("Вставлена новая запись жанра с ID=" + resultId);
         }
         return COMMAND_COMPLETED;
     }
+
     @ShellMethod(key = {"gu", "genre-update"}, value = "Update genre: <command> [id] [new name]")
-    public String showUpdateGenre(String id, String newNameGenre) {
-        System.out.println("Обновляем имя жанра в базе с ID=" + id);
-        if (genre.update(new Genre(Long.parseLong(id), newNameGenre))) {
-            System.out.println("Жанр с ID=" + id + " успешно обновлен!");
+    public String showUpdateGenre(long id, String newNameGenre) {
+        ioService.outputString("Обновляем имя жанра в базе с ID=" + id);
+        if (genre.update(new Genre(id, newNameGenre))) {
+            ioService.outputString("Жанр с ID=" + id + " успешно обновлен!");
         } else {
-            System.out.println("Не удалось обновить Жанр с ID=" + id);
+            ioService.outputString("Не удалось обновить Жанр с ID=" + id);
         }
         return COMMAND_COMPLETED;
     }

@@ -9,26 +9,27 @@ import ru.otus.spring.models.Genre;
 @Service
 public class ApplicationLauncher implements Launcher {
 
-    public final String TEST_NAME_AUTHOR;
-    public final String TEST_NAME_GENRE;
-    public final String TEST_NAME_BOOK;
-    public final long LONG_ID_TABLE;
+    private final String testNameAuthor;
+    private final String testNameGenre;
+    private final String testNameBook;
+    private final long longIdTable;
     private final IOService ioService;
     private final CRUDModelBook book;
     private final CRUDModelAuthor author;
     private final CRUDModelGenre genre;
 
-    public ApplicationLauncher(@Value("${test.name.author}") String test_name_author,
-                               @Value("${test.name.genre}") String test_name_genre,
-                               @Value("${test.name.book}") String test_name_book,
-                               @Value("${test.table.id}") long long_id_table, IOService ioService,
+    public ApplicationLauncher(@Value("${test.name.author}") String testNameAuthor,
+                               @Value("${test.name.genre}") String testNameGenre,
+                               @Value("${test.name.book}") String testNameBook,
+                               @Value("${test.table.id}") long longIdTable,
+                               IOService ioService,
                                CRUDModelBook book,
                                CRUDModelAuthor author,
                                CRUDModelGenre genre) {
-        TEST_NAME_AUTHOR = test_name_author;
-        TEST_NAME_GENRE = test_name_genre;
-        TEST_NAME_BOOK = test_name_book;
-        LONG_ID_TABLE = long_id_table;
+        this.testNameAuthor = testNameAuthor;
+        this.testNameGenre = testNameGenre;
+        this.testNameBook = testNameBook;
+        this.longIdTable = longIdTable;
         this.ioService = ioService;
         this.book = book;
         this.author = author;
@@ -53,25 +54,25 @@ public class ApplicationLauncher implements Launcher {
             ioService.outputString(book.toString());
         }
 
-        ioService.outputString("\nЗапрос в базу авторов по id=" + LONG_ID_TABLE);
-        ioService.outputString(author.readById(LONG_ID_TABLE).toString());
+        ioService.outputString("\nЗапрос в базу авторов по id=" + longIdTable);
+        ioService.outputString(author.readById(longIdTable).toString());
 
-        ioService.outputString("\nЗапрос в базу жанров по id=" + LONG_ID_TABLE);
-        ioService.outputString(genre.readById(LONG_ID_TABLE).toString());
+        ioService.outputString("\nЗапрос в базу жанров по id=" + longIdTable);
+        ioService.outputString(genre.readById(longIdTable).toString());
 
-        ioService.outputString("\nЗапрос в базу книг по id=" + LONG_ID_TABLE);
-        ioService.outputString(book.readById(LONG_ID_TABLE).toString());
+        ioService.outputString("\nЗапрос в базу книг по id=" + longIdTable);
+        ioService.outputString(book.readById(longIdTable).toString());
 
-        ioService.outputString("\nСоздать запись автора(" + TEST_NAME_AUTHOR + ") в базу");
-        long resultA = author.create(new Author(0, TEST_NAME_AUTHOR));
+        ioService.outputString("\nСоздать запись автора(" + testNameAuthor + ") в базу");
+        long resultA = author.create(new Author(0, testNameAuthor));
         ioService.outputString(resultA == -1 ? "Ошибка создания записи автора!!!" : "Создан автор с ID=" + resultA);
 
-        ioService.outputString("\nСоздать запись жанра(" + TEST_NAME_GENRE + ") в базу");
-        long resultG = genre.create(new Genre(0, TEST_NAME_GENRE));
+        ioService.outputString("\nСоздать запись жанра(" + testNameGenre + ") в базу");
+        long resultG = genre.create(new Genre(0, testNameGenre));
         ioService.outputString(resultG == -1 ? "Ошибка создания записи жанра!!!" : "Создан жанр с ID=" + resultG);
 
-        ioService.outputString("\nСоздать запись книги(" + TEST_NAME_BOOK + ") в базу");
-        long resultB = book.create(new Book(0, TEST_NAME_BOOK, new Author(1, ""), new Genre(2, "")));
+        ioService.outputString("\nСоздать запись книги(" + testNameBook + ") в базу");
+        long resultB = book.create(new Book(0, testNameBook, new Author(1, ""), new Genre(2, "")));
         ioService.outputString(resultB == -1 ? "Ошибка создания записи книги!!!" : "Создана книга с ID=" + resultB);
 
         ioService.outputString("\nУдаление автора с ID=" + resultA);

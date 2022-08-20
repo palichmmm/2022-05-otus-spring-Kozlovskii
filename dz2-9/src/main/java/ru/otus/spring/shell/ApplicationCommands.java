@@ -10,6 +10,7 @@ import ru.otus.spring.service.ApplicationLauncher;
 public class ApplicationCommands {
     public static final String COMMAND_COMPLETED = "Команда завершена";
     private final ApplicationLauncher applicationLauncher;
+
     @ShellMethod(key = {"r", "run"}, value = "Application launch")
     public String applicationLaunch() {
         applicationLauncher.run();

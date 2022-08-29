@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2022-07-19--002--genres-data
+      author: Evgenii Kozlovskii
+      context: test
+      runOnChange: true
+      loadUpdateData:
+        tableName: genres
+        primaryKey: genre_name
+        file: data/2022-07-19--002-genre-test.csv
+        relativeToChangeLogFile: true
+        separator: ;
+        encoding: UTF-8

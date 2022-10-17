@@ -31,7 +31,6 @@ public class ApplicationLauncher implements Launcher {
                                @Value("${test.real.author}") String testRealAuthor,
                                @Value("${test.real.genre}") String testRealGenre,
                                @Value("${test.real.book}") String testRealBook,
-                               @Value("${test.real.comment}") String testRealComment,
                                @Value("${test.table.id}") long longIdTable,
                                IOService ioService,
                                CRUDModelBook book,

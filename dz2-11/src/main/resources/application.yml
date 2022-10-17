@@ -3,7 +3,6 @@ test:
     author: George Eliot
     genre: Detective
     book: Adam Beed
-    comment: Хорошая
   name:
     author: TEST-NAME-AUTHOR
     genre: TEST-NAME-GENRE
@@ -31,9 +30,6 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
-#    properties:
-#      hibernate:
-#        format_sql: true
   sql:
     init:
       mode: always

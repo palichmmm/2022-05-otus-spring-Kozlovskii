@@ -1,0 +1,39 @@
+test:
+  real:
+    author: George Eliot
+    genre: Detective
+    book: Adam Beed
+    comment: Хорошая
+  name:
+    author: TEST-NAME-AUTHOR
+    genre: TEST-NAME-GENRE
+    book: TEST-NAME-BOOK
+    comment: TEST-COMMENT
+  table:
+    id: 1
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  main:
+    allow-circular-references: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    contexts: dev
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+#    properties:
+#      hibernate:
+#        format_sql: true
+  sql:
+    init:
+      mode: always

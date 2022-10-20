@@ -30,7 +30,7 @@ public class GenreServiceImpl implements GenreService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showById(long id) {
         repository.findById(id)
@@ -38,7 +38,7 @@ public class GenreServiceImpl implements GenreService {
                         () -> ioService.outputString("Жанр с ID=" + id + " не существует!"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showByName(String name) {
         repository.findByName(name)
@@ -46,7 +46,7 @@ public class GenreServiceImpl implements GenreService {
                         () -> ioService.outputString("Жанра с NAME=" + name + " не существует!"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showAll() {
         for (Genre genre : repository.findAll()) {

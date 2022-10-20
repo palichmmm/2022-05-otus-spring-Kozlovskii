@@ -30,7 +30,7 @@ public class AuthorServiceImpl implements AuthorService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showById(long id) {
         repository.findById(id)
@@ -38,7 +38,7 @@ public class AuthorServiceImpl implements AuthorService {
                         () -> ioService.outputString("Автора с ID=" + id + " не существует!"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showByName(String name) {
         repository.findByName(name)
@@ -46,7 +46,7 @@ public class AuthorServiceImpl implements AuthorService {
                         () -> ioService.outputString("Автора с NAME=" + name + " не существует!"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showAll() {
         for (Author author : repository.findAll()) {

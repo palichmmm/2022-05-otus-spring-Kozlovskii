@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
         return resultComment;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showById(long id) {
         repository.findById(id)
@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
                         () -> ioService.outputString("Комментария с ID=" + id + " не существует!"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showAll() {
         for (Comment comment : repository.findAll()) {

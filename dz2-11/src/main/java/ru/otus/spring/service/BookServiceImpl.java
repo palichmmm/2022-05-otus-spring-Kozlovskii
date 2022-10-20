@@ -54,7 +54,7 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showById(long id) {
         repository.findById(id)
@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
                         () -> ioService.outputString("Книги с ID=" + id + " не существует!"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showByName(String name) {
         List<Book> books = repository.findByName(name);
@@ -75,7 +75,7 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showAllCommentsBookById(long id) {
         Optional<Book> book = repository.findById(id);
@@ -87,7 +87,7 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void showAll() {
         for (Book book : repository.findAll()) {

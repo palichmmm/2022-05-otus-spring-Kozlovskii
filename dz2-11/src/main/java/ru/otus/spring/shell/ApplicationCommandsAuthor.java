@@ -5,7 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.models.Author;
-import ru.otus.spring.service.CRUDModelAuthor;
+import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.IOService;
 
 @ShellComponent
@@ -18,7 +18,7 @@ public class ApplicationCommandsAuthor {
     public static final String INPUT_TEMPLATE_COMMAND_ID = "<command> [id]";
     public static final String INPUT_TEMPLATE_COMMAND_NAME = "<command> [name]";
     public static final String INPUT_TEMPLATE_COMMAND_ID_NAME = "<command> [id] [name]";
-    private final CRUDModelAuthor author;
+    private final AuthorService author;
     private final IOService ioService;
 
     @ShellMethod(key = {"a", "author"}, value = "One author: " + INPUT_TEMPLATE_COMMAND_ID)
@@ -59,7 +59,7 @@ public class ApplicationCommandsAuthor {
     @ShellMethod(key = {"au", "author-update"}, value = "Update author: " + INPUT_TEMPLATE_COMMAND_ID_NAME)
     public String showUpdateAuthor(long id, String newNameAuthor) {
         ioService.outputString("Обновляем имя автора в базе с ID=" + id);
-        author.update(new Author(id, newNameAuthor));
+        author.update(id, newNameAuthor);
         return COMMAND_COMPLETED;
     }
 }

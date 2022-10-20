@@ -15,7 +15,5 @@ public interface BookRepository {
 
     Book save(Book book);
 
-    void updateBookById(long id, String name);
-
-    boolean deleteById(long id);
+    void deleteById(long id);
 }

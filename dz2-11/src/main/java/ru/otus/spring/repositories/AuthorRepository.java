@@ -15,7 +15,5 @@ public interface AuthorRepository {
 
     Author save(Author author);
 
-    void updateAuthorById(long id, String name);
-
-    boolean deleteById(long id);
+    void deleteById(long id);
 }

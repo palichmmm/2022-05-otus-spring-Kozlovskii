@@ -83,7 +83,8 @@ public class BookRepositoryJpaTest {
         String oldName = firstBook.getBookName();
         em.detach(firstBook);
 
-        repositoryJpa.updateBookById(BOOK_ID, BOOK_NAME);
+        firstBook.setBookName(BOOK_NAME);
+        repositoryJpa.save(firstBook);
         Book updatedBook = em.find(Book.class, BOOK_ID);
 
         assertThat(updatedBook.getBookName()).isNotEqualTo(oldName).isEqualTo(BOOK_NAME);
@@ -94,11 +95,9 @@ public class BookRepositoryJpaTest {
     void deleteBookById() {
         Book firstBook = em.find(Book.class, BOOK_ID);
         assertThat(firstBook).isNotNull();
+        repositoryJpa.deleteById(firstBook.getId());
 
-        repositoryJpa.deleteById(BOOK_ID);
-        em.detach(firstBook);
         Book deletedBook = em.find(Book.class, BOOK_ID);
-
         assertThat(deletedBook).isNull();
     }
 }

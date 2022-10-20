@@ -15,16 +15,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CRUDModelBookServiceImpl implements CRUDModelBook {
+public class BookServiceImpl implements BookService {
     private final BookRepository repository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
     private final IOService ioService;
 
-    public CRUDModelBookServiceImpl(BookRepository repository,
-                                    AuthorRepository authorRepository,
-                                    GenreRepository genreRepository,
-                                    IOService ioService) {
+    public BookServiceImpl(BookRepository repository,
+                           AuthorRepository authorRepository,
+                           GenreRepository genreRepository,
+                           IOService ioService) {
         this.repository = repository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
@@ -97,12 +97,14 @@ public class CRUDModelBookServiceImpl implements CRUDModelBook {
 
     @Transactional
     @Override
-    public boolean update(Book book) {
-        if (repository.findById(book.getId()).isEmpty()) {
-            throw new NoResultException("Книги с ID=" + book.getId() + " нет в базе!");
+    public boolean update(long id, String name) {
+        Optional<Book> book = repository.findById(id);
+        if (book.isEmpty()) {
+            throw new NoResultException("Книги с ID=" + id + " нет в базе!");
         } else {
-            repository.updateBookById(book.getId(), book.getBookName());
-            ioService.outputString("Книга с ID=" + book.getId() + " успешно обновлена!");
+            book.get().setBookName(name);
+            repository.save(book.get());
+            ioService.outputString("Книга с ID=" + id + " успешно обновлена!");
             return true;
         }
     }

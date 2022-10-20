@@ -6,13 +6,14 @@ import ru.otus.spring.models.Author;
 import ru.otus.spring.repositories.AuthorRepository;
 
 import javax.persistence.NoResultException;
+import java.util.Optional;
 
 @Service
-public class CRUDModelAuthorServiceImpl implements CRUDModelAuthor {
+public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository repository;
     private final IOService ioService;
 
-    public CRUDModelAuthorServiceImpl(AuthorRepository repository, IOService ioService) {
+    public AuthorServiceImpl(AuthorRepository repository, IOService ioService) {
         this.repository = repository;
         this.ioService = ioService;
     }
@@ -55,12 +56,14 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelAuthor {
 
     @Transactional
     @Override
-    public boolean update(Author author) {
-        if (repository.findById(author.getId()).isEmpty()) {
-            throw new NoResultException("Автора с ID=" + author.getId() + " нет в базе!");
+    public boolean update(long id, String name) {
+        Optional<Author> author = repository.findById(id);
+        if (author.isEmpty()) {
+            throw new NoResultException("Автора с ID=" + id + " нет в базе!");
         } else {
-            repository.updateAuthorById(author.getId(), author.getAuthorName());
-            ioService.outputString("Автор с ID=" + author.getId() + " успешно обновлен!");
+            author.get().setAuthorName(name);
+            repository.save(author.get());
+            ioService.outputString("Автор с ID=" + id + " успешно обновлен!");
             return true;
         }
     }
@@ -68,8 +71,7 @@ public class CRUDModelAuthorServiceImpl implements CRUDModelAuthor {
     @Transactional
     @Override
     public void deleteById(long id) {
-        if (repository.deleteById(id)) {
-            ioService.outputString("Автор с ID=" + id + " успешно удален!");
-        }
+        repository.deleteById(id);
+
     }
 }

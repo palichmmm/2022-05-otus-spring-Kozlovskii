@@ -6,7 +6,6 @@ import ru.otus.spring.models.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +39,9 @@ public class CommentRepositoryJpa implements CommentRepository {
     public List<Comment> findAll() {
         TypedQuery<Comment> query = em.createQuery("select c " +
                 "from Comment c " +
-                "join fetch c.book", Comment.class);
+                "join fetch c.book b " +
+                "join fetch b.genre " +
+                "join fetch b.author", Comment.class);
         return query.getResultList();
     }
 
@@ -48,26 +49,14 @@ public class CommentRepositoryJpa implements CommentRepository {
     public List<Comment> findAllByBookId(long id) {
         TypedQuery<Comment> query = em.createQuery("select c " +
                 "from Comment c " +
-                "join fetch c.book " +
                 "where c.book.id = :id", Comment.class);
         query.setParameter("id", id);
         return query.getResultList();
     }
 
     @Override
-    public void updateById(long id, String name) {
-        Query query = em.createQuery("update Comment c " +
-                "set c.comment = :name " +
-                "where c.id = :id");
-        query.setParameter("name", name);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    @Override
     public void deleteById(long id) {
-        Query query = em.createQuery("delete from Comment c where c.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Comment comment = em.find(Comment.class, id);
+        em.remove(comment);
     }
 }

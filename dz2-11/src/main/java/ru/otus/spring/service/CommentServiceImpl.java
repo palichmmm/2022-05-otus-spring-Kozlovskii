@@ -11,12 +11,12 @@ import javax.persistence.NoResultException;
 import java.util.Optional;
 
 @Service
-public class CRUDModelCommentImpl implements CRUDModelComment {
+public class CommentServiceImpl implements CommentService {
     private final CommentRepository repository;
     private final BookRepository bookRepository;
     private final IOService ioService;
 
-    public CRUDModelCommentImpl(CommentRepository repository, BookRepository bookRepository, IOService ioService) {
+    public CommentServiceImpl(CommentRepository repository, BookRepository bookRepository, IOService ioService) {
         this.repository = repository;
         this.bookRepository = bookRepository;
         this.ioService = ioService;
@@ -53,12 +53,14 @@ public class CRUDModelCommentImpl implements CRUDModelComment {
 
     @Transactional
     @Override
-    public boolean update(Comment comment) {
-        if (repository.findById(comment.getId()).isEmpty()) {
-            throw new NoResultException("Комментария с ID=" + comment.getId() + " нет в базе!");
+    public boolean update(long id, String name) {
+        Optional<Comment> comment = repository.findById(id);
+        if (comment.isEmpty()) {
+            throw new NoResultException("Комментария с ID=" + id + " нет в базе!");
         } else {
-            repository.updateById(comment.getId(), comment.getComment());
-            ioService.outputString("Комментарий с ID=" + comment.getId() + " успешно обновлен!");
+            comment.get().setComment(name);
+            repository.save(comment.get());
+            ioService.outputString("Комментарий с ID=" + id + " успешно обновлен!");
             return true;
         }
     }

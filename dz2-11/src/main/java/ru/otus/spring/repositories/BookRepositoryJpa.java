@@ -1,11 +1,12 @@
 package ru.otus.spring.repositories;
 
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
-import ru.otus.spring.models.Genre;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,6 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     public Book save(Book book) {
         if (book.getId() == 0) {
-            book.setAuthor(em.find(Author.class, book.getAuthor().getId()));
-            book.setGenre(em.find(Genre.class, book.getGenre().getId()));
             em.persist(book);
             return book;
         }
@@ -38,7 +37,9 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     public List<Book> findAll() {
         TypedQuery<Book> query = em.createQuery("select b " +
-                "from Book b", Book.class);
+                "from Book b " +
+                "join fetch b.author " +
+                "join fetch b.genre", Book.class);
         return query.getResultList();
     }
 
@@ -47,6 +48,8 @@ public class BookRepositoryJpa implements BookRepository {
         try {
             TypedQuery<Book> query = em.createQuery("select b " +
                     "from Book b " +
+                    "join fetch b.author " +
+                    "join fetch b.genre " +
                     "where b.bookName = :name", Book.class);
             query.setParameter("name", name);
             return query.getResultList();
@@ -56,24 +59,8 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public void updateBookById(long id, String name) {
-        Query query = em.createQuery("update Book b " +
-                "set b.bookName = :name " +
-                "where b.id = :id");
-        query.setParameter("name", name);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    @Override
-    public boolean deleteById(long id) {
+    public void deleteById(long id) {
         Book bookDelete = em.find(Book.class, id);
-        if (bookDelete == null) {
-            throw new NullPointerException("Объект не существует!");
-        }
-        Query query = em.createQuery("delete from Book b where b.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
-        return true;
+        em.remove(bookDelete);
     }
 }

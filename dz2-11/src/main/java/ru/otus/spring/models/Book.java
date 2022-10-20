@@ -1,6 +1,8 @@
 package ru.otus.spring.models;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class Book {
     private Genre genre;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "book")
+    @Fetch(FetchMode.SUBSELECT)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Comment> comments = new ArrayList<>();

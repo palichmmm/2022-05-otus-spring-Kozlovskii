@@ -1,10 +1,12 @@
 package ru.otus.spring.repositories;
 
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,31 +55,8 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
-    public void updateGenreById(long id, String name) {
-        Query query = em.createQuery("update Genre g " +
-                "set g.genreName = :name " +
-                "where g.id = :id");
-        query.setParameter("name", name);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    @Override
-    public boolean deleteById(long id) {
+    public void deleteById(long id) {
         Genre genreDelete = em.find(Genre.class, id);
-        if (genreDelete == null) {
-            throw new NullPointerException("Объект не существует!");
-        }
-        TypedQuery<Book> queryBook = em.createQuery("select b " +
-                "from Book b " +
-                "where b.genre = :genre", Book.class).setMaxResults(1);
-        queryBook.setParameter("genre", genreDelete);
-        if (!queryBook.getResultList().isEmpty()) {
-            throw new RuntimeException("Запрещено удалять связанный объект!");
-        }
-        Query query = em.createQuery("delete from Genre g where g.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
-        return true;
+        em.remove(genreDelete);
     }
 }

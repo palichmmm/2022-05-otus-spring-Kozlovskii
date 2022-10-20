@@ -7,7 +7,7 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.CRUDModelBook;
+import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.IOService;
 
 @ShellComponent
@@ -20,7 +20,7 @@ public class ApplicationCommandsBook {
     public static final String INPUT_TEMPLATE_COMMAND_NAME = "<command> [name]";
     public static final String INPUT_TEMPLATE_COMMAND_ID_NAME = "<command> [id] [name]";
     public static final String STRING_DEFAULT_NAME = "By sea away";
-    private final CRUDModelBook book;
+    private final BookService book;
     private final IOService ioService;
 
     @ShellMethod(key = {"b", "book"}, value = "One book: " + INPUT_TEMPLATE_COMMAND_ID)
@@ -68,7 +68,7 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"bu", "book-update"}, value = "Update book: " + INPUT_TEMPLATE_COMMAND_ID_NAME)
     public String showUpdateBook(long id, String newNameBook) {
         ioService.outputString("Обновляем название книги в базе с ID=" + id);
-        book.update(new Book(id, newNameBook));
+        book.update(id, newNameBook);
         return COMMAND_COMPLETED;
     }
 }

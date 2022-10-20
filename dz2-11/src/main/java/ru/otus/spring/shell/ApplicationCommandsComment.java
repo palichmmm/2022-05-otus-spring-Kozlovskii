@@ -6,7 +6,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
-import ru.otus.spring.service.CRUDModelComment;
+import ru.otus.spring.service.CommentService;
 import ru.otus.spring.service.IOService;
 
 @ShellComponent
@@ -17,7 +17,7 @@ public class ApplicationCommandsComment {
     public static final String INPUT_TEMPLATE_COMMAND = "<command>";
     public static final String INPUT_TEMPLATE_COMMAND_ID = "<command> [id]";
     public static final String INPUT_TEMPLATE_COMMAND_ID_NAME = "<command> [id] [name]";
-    private final CRUDModelComment comment;
+    private final CommentService comment;
     private final IOService ioService;
 
     @ShellMethod(key = {"c", "comment"}, value = "One comment: " + INPUT_TEMPLATE_COMMAND_ID)
@@ -51,7 +51,7 @@ public class ApplicationCommandsComment {
     @ShellMethod(key = {"cu", "comment-update"}, value = "Update comment: " + INPUT_TEMPLATE_COMMAND_ID_NAME)
     public String showUpdateComment(long id, String newComment) {
         ioService.outputString("Обновляем комментарий в базе с ID=" + id);
-        comment.update(new Comment(id, newComment));
+        comment.update(id, newComment);
         return COMMAND_COMPLETED;
     }
 }

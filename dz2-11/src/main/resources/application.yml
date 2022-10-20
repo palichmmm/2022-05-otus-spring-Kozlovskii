@@ -1,15 +1,3 @@
-test:
-  real:
-    author: George Eliot
-    genre: Detective
-    book: Adam Beed
-  name:
-    author: TEST-NAME-AUTHOR
-    genre: TEST-NAME-GENRE
-    book: TEST-NAME-BOOK
-    comment: TEST-COMMENT
-  table:
-    id: 1
 spring:
   datasource:
     url: jdbc:h2:mem:testdb

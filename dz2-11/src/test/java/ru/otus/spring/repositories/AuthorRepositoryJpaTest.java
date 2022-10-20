@@ -78,7 +78,8 @@ public class AuthorRepositoryJpaTest {
         String oldName = firstAuthor.getAuthorName();
         em.detach(firstAuthor);
 
-        repositoryJpa.updateAuthorById(AUTHOR_ID, AUTHOR_NAME);
+        firstAuthor.setAuthorName(AUTHOR_NAME);
+        repositoryJpa.save(firstAuthor);
         Author updatedAuthor = em.find(Author.class, AUTHOR_ID);
 
         assertThat(updatedAuthor.getAuthorName()).isNotEqualTo(oldName).isEqualTo(AUTHOR_NAME);
@@ -91,26 +92,9 @@ public class AuthorRepositoryJpaTest {
         Author author = new Author(AUTHOR_NAME);
         repositoryJpa.save(author);
         assertThat(author.getId()).isGreaterThan(0);
-
-        boolean result = repositoryJpa.deleteById(author.getId());
-        assertTrue(result);
-        em.detach(author);
+        repositoryJpa.deleteById(author.getId());
 
         Author deletedAuthor = em.find(Author.class, author.getId());
         assertThat(deletedAuthor).isNull();
-    }
-
-    @Transactional
-    @DisplayName("должен выдавать ошибку при удалении связанного автора по его id")
-    @Test
-    void errorWhenDeletingAssociatedAuthorById() {
-        assertThrows(RuntimeException.class, () -> repositoryJpa.deleteById(AUTHOR_ID));
-    }
-
-    @Transactional
-    @DisplayName("должен выдавать ошибку при удалении несуществующего автора по его id")
-    @Test
-    void errorWhenDeletingNonExistentAuthorById() {
-        assertThrows(NullPointerException.class, () -> repositoryJpa.deleteById(NON_EXISTENT_ID));
     }
 }

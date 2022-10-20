@@ -5,7 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.CRUDModelGenre;
+import ru.otus.spring.service.GenreService;
 import ru.otus.spring.service.IOService;
 
 @ShellComponent
@@ -18,7 +18,7 @@ public class ApplicationCommandsGenre {
     public static final String INPUT_TEMPLATE_COMMAND_ID = "<command> [id]";
     public static final String INPUT_TEMPLATE_COMMAND_NAME = "<command> [name]";
     public static final String INPUT_TEMPLATE_COMMAND_ID_NAME = "<command> [id] [name]";
-    private final CRUDModelGenre genre;
+    private final GenreService genre;
     private final IOService ioService;
 
     @ShellMethod(key = {"g", "genre"}, value = "One genre: " + INPUT_TEMPLATE_COMMAND_ID)
@@ -59,7 +59,7 @@ public class ApplicationCommandsGenre {
     @ShellMethod(key = {"gu", "genre-update"}, value = "Update genre: " + INPUT_TEMPLATE_COMMAND_ID_NAME)
     public String showUpdateGenre(long id, String newNameGenre) {
         ioService.outputString("Обновляем имя жанра в базе с ID=" + id);
-        genre.update(new Genre(id, newNameGenre));
+        genre.update(id, newNameGenre);
         return COMMAND_COMPLETED;
     }
 }

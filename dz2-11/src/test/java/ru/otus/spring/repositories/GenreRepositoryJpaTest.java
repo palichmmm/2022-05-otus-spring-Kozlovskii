@@ -76,7 +76,8 @@ public class GenreRepositoryJpaTest {
         String oldName = firstGenre.getGenreName();
         em.detach(firstGenre);
 
-        repositoryJpa.updateGenreById(GENRE_ID, GENRE_NAME);
+        firstGenre.setGenreName(GENRE_NAME);
+        repositoryJpa.save(firstGenre);
         Genre updatedGenre = em.find(Genre.class, GENRE_ID);
 
         assertThat(updatedGenre.getGenreName()).isNotEqualTo(oldName).isEqualTo(GENRE_NAME);
@@ -89,26 +90,9 @@ public class GenreRepositoryJpaTest {
         Genre genre = new Genre(GENRE_NAME);
         repositoryJpa.save(genre);
         assertThat(genre.getId()).isGreaterThan(0);
-
-        boolean result = repositoryJpa.deleteById(genre.getId());
-        assertTrue(result);
-        em.detach(genre);
+        repositoryJpa.deleteById(genre.getId());
 
         Genre deletedGenre = em.find(Genre.class, genre.getId());
         assertThat(deletedGenre).isNull();
-    }
-
-    @Transactional
-    @DisplayName("должен выдавать ошибку при удалении связанного жанра по его id")
-    @Test
-    void errorWhenDeletingAssociatedGenreById() {
-        assertThrows(RuntimeException.class, () -> repositoryJpa.deleteById(RELATED_GENRE_ID));
-    }
-
-    @Transactional
-    @DisplayName("должен выдавать ошибку при удалении несуществующего жанра по его id")
-    @Test
-    void errorWhenDeletingNonExistentGenreById() {
-        assertThrows(NullPointerException.class, () -> repositoryJpa.deleteById(NON_EXISTENT_ID));
     }
 }

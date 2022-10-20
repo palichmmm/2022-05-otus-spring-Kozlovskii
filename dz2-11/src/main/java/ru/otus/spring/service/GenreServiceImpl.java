@@ -6,13 +6,14 @@ import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.GenreRepository;
 
 import javax.persistence.NoResultException;
+import java.util.Optional;
 
 @Service
-public class CRUDModelGenreServiceImpl implements CRUDModelGenre {
+public class GenreServiceImpl implements GenreService {
     private final GenreRepository repository;
     private final IOService ioService;
 
-    public CRUDModelGenreServiceImpl(GenreRepository repository, IOService ioService) {
+    public GenreServiceImpl(GenreRepository repository, IOService ioService) {
         this.repository = repository;
         this.ioService = ioService;
     }
@@ -55,12 +56,14 @@ public class CRUDModelGenreServiceImpl implements CRUDModelGenre {
 
     @Transactional
     @Override
-    public boolean update(Genre genre) {
-        if (repository.findById(genre.getId()).isEmpty()) {
-            throw new NoResultException("Жанр с ID=" + genre.getId() + " нет в базе!");
+    public boolean update(long id, String name) {
+        Optional<Genre> genre = repository.findById(id);
+        if (genre.isEmpty()) {
+            throw new NoResultException("Жанр с ID=" + id + " нет в базе!");
         } else {
-            repository.updateGenreById(genre.getId(), genre.getGenreName());
-            ioService.outputString("Жанр с ID=" + genre.getId() + " успешно обновлен!");
+            genre.get().setGenreName(name);
+            repository.save(genre.get());
+            ioService.outputString("Жанр с ID=" + id + " успешно обновлен!");
             return true;
         }
     }

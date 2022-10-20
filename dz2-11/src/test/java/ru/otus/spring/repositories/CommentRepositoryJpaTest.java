@@ -64,7 +64,8 @@ public class CommentRepositoryJpaTest {
         String oldComment = firstComment.getComment();
         em.detach(firstComment);
 
-        repositoryJpa.updateById(COMMENT_ID, COMMENT);
+        firstComment.setComment(COMMENT);
+        repositoryJpa.save(firstComment);
         Comment updatedComment = em.find(Comment.class, COMMENT_ID);
 
         assertThat(updatedComment.getComment()).isNotEqualTo(oldComment).isEqualTo(COMMENT);

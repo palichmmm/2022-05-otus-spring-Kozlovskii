@@ -15,7 +15,5 @@ public interface GenreRepository {
 
     Genre save(Genre genre);
 
-    void updateGenreById(long id, String name);
-
-    boolean deleteById(long id);
+    void deleteById(long id);
 }

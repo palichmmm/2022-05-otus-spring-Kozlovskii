@@ -1,9 +1,9 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.models.Genre;
+import ru.otus.spring.models.Author;
 
-public interface CRUDModelGenre {
-    Genre create(Genre Genre);
+public interface AuthorService {
+    Author create(Author author);
 
     void showById(long id);
 
@@ -11,7 +11,7 @@ public interface CRUDModelGenre {
 
     void showAll();
 
-    boolean update(Genre obj);
+    boolean update(long id, String name);
 
     void deleteById(long id);
 }

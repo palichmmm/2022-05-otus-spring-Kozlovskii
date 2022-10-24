@@ -14,7 +14,6 @@ import ru.otus.spring.service.IOService;
 public class ApplicationCommandsComment {
     public static final String COMMAND_COMPLETED = "Команда завершена";
     public static final String STRING_DEFAULT_ID = "1";
-    public static final String INPUT_TEMPLATE_COMMAND = "<command>";
     public static final String INPUT_TEMPLATE_COMMAND_ID = "<command> [id]";
     public static final String INPUT_TEMPLATE_COMMAND_ID_NAME = "<command> [id] [name]";
     private final CommentService comment;
@@ -24,13 +23,6 @@ public class ApplicationCommandsComment {
     public String showOneComment(@ShellOption(defaultValue = STRING_DEFAULT_ID) long id) {
         ioService.outputString("Запрос в базу комментариев по ID=" + id);
         comment.showById(id);
-        return COMMAND_COMPLETED;
-    }
-
-    @ShellMethod(key = {"cc", "comments"}, value = "List of comments: " + INPUT_TEMPLATE_COMMAND)
-    public String showAllComment() {
-        ioService.outputString("Список комментариев в базе: ");
-        comment.showAll();
         return COMMAND_COMPLETED;
     }
 

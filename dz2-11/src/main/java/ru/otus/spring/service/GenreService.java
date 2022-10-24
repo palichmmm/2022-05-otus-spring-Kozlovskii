@@ -11,7 +11,7 @@ public interface GenreService {
 
     void showAll();
 
-    boolean update(long id, String name);
+    void update(long id, String name);
 
     void deleteById(long id);
 }

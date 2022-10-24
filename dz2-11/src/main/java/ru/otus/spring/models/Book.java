@@ -26,11 +26,13 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "author_id")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Author author;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "genre_id")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Genre genre;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "book")

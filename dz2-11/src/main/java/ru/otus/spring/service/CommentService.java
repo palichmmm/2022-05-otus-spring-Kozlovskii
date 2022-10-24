@@ -7,9 +7,7 @@ public interface CommentService {
 
     void showById(long id);
 
-    void showAll();
-
-    boolean update(long id, String name);
+    void update(long id, String name);
 
     void deleteById(long id);
 }

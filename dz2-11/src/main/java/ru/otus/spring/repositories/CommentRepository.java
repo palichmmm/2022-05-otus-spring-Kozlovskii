@@ -11,8 +11,6 @@ public interface CommentRepository {
 
     Comment save(Comment comment);
 
-    List<Comment> findAll();
-
     List<Comment> findAllByBookId(long id);
 
     void deleteById(long id);

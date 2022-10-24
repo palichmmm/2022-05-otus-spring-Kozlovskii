@@ -49,14 +49,6 @@ public class CommentRepositoryJpaTest {
         assertThat(actualComment).isNotNull().matches(c -> !c.getComment().equals(""));
     }
 
-    @DisplayName("должен загружать список всех комментариев с полной информацией о них")
-    @Test
-    void returnCorrectCommentsListWithAllInfo() {
-        List<Comment> Comment = repositoryJpa.findAll();
-        assertThat(Comment).isNotNull().hasSize(EXPECTED_NUMBER_OF_COMMENTS)
-                .allMatch(c -> !c.getComment().equals(""));
-    }
-
     @DisplayName("должен изменять комментарий по его id")
     @Test
     void updateCommentById() {

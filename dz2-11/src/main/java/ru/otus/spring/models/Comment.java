@@ -1,9 +1,6 @@
 package ru.otus.spring.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -24,15 +21,11 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Book book;
 
     public Comment(Book book, String comment) {
         this.book = book;
-        this.comment = comment;
-    }
-
-    public Comment(long id, String comment) {
-        this.id = id;
         this.comment = comment;
     }
 }

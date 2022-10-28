@@ -46,10 +46,10 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public void update(long id, String name) {
-        Optional<Comment> comment = repository.findById(id);
-        comment.get().setComment(name);
-        repository.save(comment.get());
-        ioService.outputString("Комментарий с ID=" + id + " успешно обновлен!");
+        repository.findById(id).ifPresent(comment -> {
+            comment.setComment(name);
+            repository.save(comment);
+        });
     }
 
     @Transactional

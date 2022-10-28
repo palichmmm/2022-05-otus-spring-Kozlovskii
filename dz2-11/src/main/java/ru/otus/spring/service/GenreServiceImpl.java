@@ -5,8 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.GenreRepository;
 
-import java.util.Optional;
-
 @Service
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository repository;
@@ -52,10 +50,10 @@ public class GenreServiceImpl implements GenreService {
     @Transactional
     @Override
     public void update(long id, String name) {
-        Optional<Genre> genre = repository.findById(id);
-        genre.get().setGenreName(name);
-        repository.save(genre.get());
-        ioService.outputString("Жанр с ID=" + id + " успешно обновлен!");
+        repository.findById(id).ifPresent(genre -> {
+            genre.setGenreName(name);
+            repository.save(genre);
+        });
     }
 
     @Transactional

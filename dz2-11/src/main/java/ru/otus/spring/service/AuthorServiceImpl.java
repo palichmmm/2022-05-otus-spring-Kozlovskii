@@ -5,8 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.repositories.AuthorRepository;
 
-import java.util.Optional;
-
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository repository;
@@ -52,10 +50,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     @Override
     public void update(long id, String name) {
-        Optional<Author> author = repository.findById(id);
-        author.get().setAuthorName(name);
-        repository.save(author.get());
-        ioService.outputString("Автор с ID=" + id + " успешно обновлен!");
+        repository.findById(id).ifPresent(author -> {
+            author.setAuthorName(name);
+            repository.save(author);
+        });
     }
 
     @Transactional

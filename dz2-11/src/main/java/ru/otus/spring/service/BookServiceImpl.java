@@ -99,10 +99,10 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void update(long id, String name) {
-        Optional<Book> book = repository.findById(id);
-        book.get().setBookName(name);
-        repository.save(book.get());
-        ioService.outputString("Книга с ID=" + id + " успешно обновлена!");
+        repository.findById(id).ifPresent(book -> {
+            book.setBookName(name);
+            repository.save(book);
+        });
     }
 
     @Transactional

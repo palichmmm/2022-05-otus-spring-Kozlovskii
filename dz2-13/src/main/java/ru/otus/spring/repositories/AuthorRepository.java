@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface AuthorRepository extends JpaRepository<Author, Long> {
     Optional<Author> findByAuthorName(String name);
+
     @Override
     List<Author> findAll();
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     @EntityGraph(value = "author-genre-graph")
     List<Book> findBookByBookName(String name);
+
     @Override
     @EntityGraph(value = "author-genre-graph")
     List<Book> findAll();

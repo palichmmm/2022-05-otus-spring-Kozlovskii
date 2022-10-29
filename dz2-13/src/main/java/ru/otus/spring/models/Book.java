@@ -14,6 +14,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "books")
+@NamedEntityGraph(name = "author-genre-graph",
+        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
 public class Book {
     @Id
     @Column(name = "id", nullable = false)
@@ -26,11 +28,13 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "author_id")
     @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private Author author;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "genre_id")
     @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private Genre genre;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "book")
@@ -42,25 +46,25 @@ public class Book {
     public Book(long id) {
         this.id = id;
     }
-
-    public Book(long id, String bookName) {
-        this.id = id;
-        this.bookName = bookName;
-    }
-
-    public Book(long id, String bookName, Author author, Genre genre) {
-        this.id = id;
-        this.bookName = bookName;
-        this.author = author;
-        this.genre = genre;
-    }
-
-    public Book(String bookName, Author author, Genre genre, List<Comment> comments) {
-        this.bookName = bookName;
-        this.author = author;
-        this.genre = genre;
-        this.comments = comments;
-    }
+//
+//    public Book(long id, String bookName) {
+//        this.id = id;
+//        this.bookName = bookName;
+//    }
+//
+//    public Book(long id, String bookName, Author author, Genre genre) {
+//        this.id = id;
+//        this.bookName = bookName;
+//        this.author = author;
+//        this.genre = genre;
+//    }
+//
+//    public Book(String bookName, Author author, Genre genre, List<Comment> comments) {
+//        this.bookName = bookName;
+//        this.author = author;
+//        this.genre = genre;
+//        this.comments = comments;
+//    }
 
     public Book(String bookName, Author author, Genre genre) {
         this.bookName = bookName;

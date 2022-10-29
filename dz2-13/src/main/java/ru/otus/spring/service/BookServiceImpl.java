@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
     private final BookRepository repository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
@@ -45,6 +45,7 @@ public class BookServiceImpl implements BookService{
         book.setAuthor(author.get());
         book.setGenre(genre.get());
         if (!repository.findBookByBookName(book.getBookName()).contains(book)) {
+
             Book resultBook = repository.save(book);
             ioService.outputString("Вставлена новая книга с ID=" + resultBook.getId());
             return resultBook;
@@ -97,16 +98,11 @@ public class BookServiceImpl implements BookService{
 
     @Transactional
     @Override
-    public boolean update(long id, String name) {
-        Optional<Book> book = repository.findById(id);
-        if (book.isEmpty()) {
-            throw new NoResultException("Книги с ID=" + id + " нет в базе!");
-        } else {
-            book.get().setBookName(name);
-            repository.save(book.get());
-            ioService.outputString("Книга с ID=" + id + " успешно обновлена!");
-            return true;
-        }
+    public void update(long id, String name) {
+        repository.findById(id).ifPresent(book -> {
+            book.setBookName(name);
+            repository.save(book);
+        });
     }
 
     @Transactional

@@ -5,9 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.repositories.AuthorRepository;
 
-import javax.persistence.NoResultException;
-import java.util.Optional;
-
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository repository;
@@ -21,13 +18,9 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     @Override
     public Author create(Author author) {
-        if (repository.findByAuthorName(author.getAuthorName()).isEmpty()) {
-            Author resultAuthor = repository.save(author);
-            ioService.outputString("Вставлена новая запись автора с ID=" + resultAuthor.getId());
-            return resultAuthor;
-        } else {
-            throw new RuntimeException("Автора с NAME=" + author.getAuthorName() + " уже есть в базе!");
-        }
+        Author resultAuthor = repository.save(author);
+        ioService.outputString("Вставлена новая запись автора с ID=" + resultAuthor.getId());
+        return resultAuthor;
     }
 
     @Transactional(readOnly = true)
@@ -56,16 +49,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Transactional
     @Override
-    public boolean update(long id, String name) {
-        Optional<Author> author = repository.findById(id);
-        if (author.isEmpty()) {
-            throw new NoResultException("Автора с ID=" + id + " нет в базе!");
-        } else {
-            author.get().setAuthorName(name);
-            repository.save(author.get());
-            ioService.outputString("Автор с ID=" + id + " успешно обновлен!");
-            return true;
-        }
+    public void update(long id, String name) {
+        repository.findById(id).ifPresent(author -> {
+            author.setAuthorName(name);
+            repository.save(author);
+        });
     }
 
     @Transactional

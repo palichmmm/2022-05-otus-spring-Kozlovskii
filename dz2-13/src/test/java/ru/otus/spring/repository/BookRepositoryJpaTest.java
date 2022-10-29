@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jpa для работы с книгами ")
+@DisplayName("Репозиторий на основе Data Jpa для работы с книгами ")
 @DataJpaTest
 public class BookRepositoryJpaTest {
     public static final long BOOK_ID = 1L;

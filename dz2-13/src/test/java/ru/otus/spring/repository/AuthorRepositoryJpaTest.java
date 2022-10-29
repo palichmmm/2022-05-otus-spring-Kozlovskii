@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jpa для работы с авторами ")
+@DisplayName("Репозиторий на основе Data Jpa для работы с авторами ")
 @DataJpaTest
 public class AuthorRepositoryJpaTest {
     public static final long AUTHOR_ID = 1L;

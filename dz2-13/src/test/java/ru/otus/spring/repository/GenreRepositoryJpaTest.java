@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jpa для работы с жанрами ")
+@DisplayName("Репозиторий на основе Data Jpa для работы с жанрами ")
 @DataJpaTest
 public class GenreRepositoryJpaTest {
     public static final long GENRE_ID = 1L;

@@ -43,26 +43,13 @@ public class CommentServiceImpl implements CommentService {
                         () -> ioService.outputString("Комментария с ID=" + id + " не существует!"));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public void showAll() {
-        for (Comment comment : repository.findAll()) {
-            ioService.outputString(String.valueOf(comment));
-        }
-    }
-
     @Transactional
     @Override
-    public boolean update(long id, String name) {
-        Optional<Comment> comment = repository.findById(id);
-        if (comment.isEmpty()) {
-            throw new NoResultException("Комментария с ID=" + id + " нет в базе!");
-        } else {
-            comment.get().setComment(name);
-            repository.save(comment.get());
-            ioService.outputString("Комментарий с ID=" + id + " успешно обновлен!");
-            return true;
-        }
+    public void update(long id, String name) {
+        repository.findById(id).ifPresent(comment -> {
+            comment.setComment(name);
+            repository.save(comment);
+        });
     }
 
     @Transactional

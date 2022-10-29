@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+        file: db/changelog/1.0/2022-07-19--001-author.yaml
+  - include:
+        file: db/changelog/1.0/2022-07-19--002-genre.yaml
+  - include:
+        file: db/changelog/1.0/2022-07-19--003-book.yaml
+  - include:
+      file: db/changelog/1.1/2022-08-30--004-comment.yaml
+  - include:
+        file: db/changelog/data/2022-07-19--001-author-data.yaml
+  - include:
+        file: db/changelog/data/2022-07-19--002-genre-data.yaml
+  - include:
+        file: db/changelog/data/2022-07-19--003-book-data.yaml
+  - include:
+        file: db/changelog/data/1.1/2022-08-30--004-comment-data.yaml

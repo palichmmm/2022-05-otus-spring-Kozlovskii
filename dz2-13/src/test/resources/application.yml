@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+  shell:
+    interactive:
+      enabled: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master-test.yaml
+    contexts: test
+  main:
+    allow-circular-references: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+  sql:
+    init:
+      mode: always

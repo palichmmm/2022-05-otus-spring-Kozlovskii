@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +19,8 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Название жанра не должно быть пустым!")
+    @Size(min = 0, max = 255, message = "Название жанра превышает допустимый размер!")
     @Column(name = "genre_name", nullable = false, unique = true)
     private String genreName;
 

@@ -14,7 +14,7 @@
     </ul>
     <h1>Создать автора:</h1>
     <table>
-        <form action="/author/create" th:action="@{'/author/create'}" method="post">
+        <form action="/author/create" th:action="@{'/author/create'}" method="post" th:object="${author}">
             <tr>
                 <th rowspan="2">
                     <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
@@ -23,7 +23,10 @@
                 <th>Действия</th>
             </tr>
             <tr>
-                <td><input type="text" name="name" placeholder="введите автора"></td>
+                <td>
+                    <input type="text" name="authorName" placeholder="введите автора">
+                    <div class="errors" th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}">Error</div>
+                </td>
                 <td><input class="edit" type="submit" value="Создать"></td>
             </tr>
         </form>

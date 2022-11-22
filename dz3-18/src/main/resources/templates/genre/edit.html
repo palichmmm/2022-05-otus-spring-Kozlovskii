@@ -15,18 +15,22 @@
     <h1>Редактирование жанра:</h1>
     <div>
         <table>
-            <form action="/genre/edit/1" th:action="@{'/genre/edit/' + ${genre.getId()}}" method="post">
+            <form action="/genre/edit/1" th:object="${genre}" th:action="@{'/genre/edit/' + *{getId()}}" method="post">
                 <tr>
                     <th rowspan="2">
-                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200" alt="SOVA">
                     </th>
                     <th>Id</th>
                     <th>Жанр</th>
                     <th>Действия</th>
                 </tr>
                 <tr>
-                    <td th:text="${genre.getId()}">0</td>
-                    <td><input type="text" name="name" value="Название жанра" th:value="*{genre.getGenreName()}"></td>
+                    <td th:text="*{getId()}">0</td>
+                    <td>
+                        <input type="text" name="genreName" value="Название жанра" th:value="*{getGenreName()}">
+                        <div class="errors" th:if="${#fields.hasErrors('genreName')}" th:errors="*{genreName}">Error
+                        </div>
+                    </td>
                     <td>
                         <input class="edit" type="submit" value="Изменить">
                     </td>

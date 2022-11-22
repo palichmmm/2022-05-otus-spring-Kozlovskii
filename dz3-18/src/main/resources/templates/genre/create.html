@@ -14,7 +14,7 @@
     </ul>
     <h1>Создать жанр:</h1>
     <table>
-        <form action="/genre/create" th:action="@{'/genre/create'}" method="post">
+        <form action="/genre/create" th:action="@{'/genre/create'}" method="post" th:object="${genre}">
             <tr>
                 <th rowspan="2">
                     <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
@@ -23,7 +23,10 @@
                 <th>Действия</th>
             </tr>
             <tr>
-                <td><input type="text" name="name" placeholder="введите жанр"></td>
+                <td>
+                    <input type="text" name="genreName" placeholder="введите жанр">
+                    <div class="errors" th:if="${#fields.hasErrors('genreName')}" th:errors="*{genreName}">Error</div>
+                </td>
                 <td><input class="edit" type="submit" value="Создать"></td>
             </tr>
         </form>

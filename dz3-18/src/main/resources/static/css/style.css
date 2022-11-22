@@ -81,4 +81,7 @@ td, th{
 .center {
     text-align: center;
 }
+.errors {
+    color: red;
+}
 

@@ -15,7 +15,7 @@
     <h1>Редактирование автора:</h1>
     <div>
         <table>
-            <form action="/author/edit/1" th:action="@{'/author/edit/' + ${author.getId()}}" method="post">
+            <form action="/author/edit/1" th:object="${author}" th:action="@{'/author/edit/' + *{getId()}}" method="post">
                 <tr>
                     <th rowspan="2">
                         <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
@@ -25,8 +25,11 @@
                     <th>Действия</th>
                 </tr>
                 <tr>
-                    <td th:text="${author.getId()}">0</td>
-                    <td><input type="text" name="name" value="Имя автора" th:value="*{author.getAuthorName()}"></td>
+                    <td th:text="*{getId()}">0</td>
+                    <td>
+                        <input type="text" name="authorName" value="Имя автора" th:value="*{getAuthorName()}">
+                        <div class="errors" th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}">Error</div>
+                    </td>
                     <td>
                         <input class="edit" type="submit" value="Изменить">
                     </td>

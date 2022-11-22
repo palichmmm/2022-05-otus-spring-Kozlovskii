@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать отзыв</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/book/comments/1" th:href="@{'/book/comments/' + ${comment.getId()}}">&larr;</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
+    </ul>
+    <h1>Редактирование отзыва:</h1>
+    <div>
+        <table>
+            <form action="/comment/edit/1" th:action="@{'/comment/edit/' + ${comment.getId()}}" method="post">
+                <caption style="padding-bottom: 0.2em;font-size: 1.2em;"
+                         th:text="${'Книга ' + comment.getBook().getBookName()}">
+                    Книга
+                </caption>
+                <tr>
+                    <th rowspan="2">
+                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+                    </th>
+                    <th>Id</th>
+                    <th>Отзыв</th>
+                    <th>Действия</th>
+                </tr>
+                <tr>
+                    <td th:text="${comment.getId()}">0</td>
+                    <td>
+                        <textarea name="comment" placeholder="Введите текст" th:text="${comment.getComment()}">Хороший отзыв
+                        </textarea>
+                    </td>
+                    <td>
+                        <input class="edit" type="submit" value="Изменить">
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+</div>
+</body>
+</html>

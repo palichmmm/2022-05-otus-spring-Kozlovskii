@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка!!!</title>
+    <link rel="stylesheet" href="/static/css/error.css" th:href="@{/css/error.css}">
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
+        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}">Книги</a></li>
+    </ul>
+    <div class="parent">
+        <div class="block">
+            <p style="text-align: center;">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="100" alt="SOVA">
+            </p>
+            <h1 th:text="${'ОШИБКА - ' + #response.getStatus()}">ОШИБКА 404</h1>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать книгу</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/book/all" th:href="@{'/book/all'}">&larr;</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
+    </ul>
+    <h1>Редактирование книги:</h1>
+    <div>
+        <table>
+            <form action="/book/edit/1" th:action="@{'/book/edit/' + ${book.getId()}}" method="post">
+                <tr>
+                    <th rowspan="2">
+                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+                    </th>
+                    <th>Id</th>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Жанр</th>
+                    <th>Действия</th>
+                </tr>
+                <tr>
+                    <td th:text="${book.getId()}">0</td>
+                    <td><input type="text" name="name" value="Название" th:value="*{book.getBookName()}"></td>
+                    <td>
+                        <select name="author">
+                            <option th:each="author : ${authors}"
+                                    th:selected="${author.getAuthorName() == book.getAuthor().getAuthorName()}"
+                                    th:value="${author.getAuthorName()}"
+                                    th:text="${author.getAuthorName()}">Автор
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="genre">
+                            <option th:each="genre : ${genres}"
+                                    th:selected="${genre.getGenreName() == book.getGenre().getGenreName()}"
+                                    th:value="${genre.getGenreName()}"
+                                    th:text="${genre.getGenreName()}">Жанр
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="edit" type="submit" value="Изменить">
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+</div>
+</body>
+</html>

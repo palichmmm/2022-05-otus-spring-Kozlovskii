@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать жанр</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/genre/all" th:href="@{'/genre/all'}">&larr;</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
+        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}">Книги</a></li>
+    </ul>
+    <h1>Редактирование жанра:</h1>
+    <div>
+        <table>
+            <form action="/genre/edit/1" th:action="@{'/genre/edit/' + ${genre.getId()}}" method="post">
+                <tr>
+                    <th rowspan="2">
+                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+                    </th>
+                    <th>Id</th>
+                    <th>Жанр</th>
+                    <th>Действия</th>
+                </tr>
+                <tr>
+                    <td th:text="${genre.getId()}">0</td>
+                    <td><input type="text" name="name" value="Название жанра" th:value="*{genre.getGenreName()}"></td>
+                    <td>
+                        <input class="edit" type="submit" value="Изменить">
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+#menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border: none;
+    width: 100%;
+    text-align: center;
+    background-color: #33ADFF;
+}
+#menu a {
+    color: #fff;
+    padding: 15px 10px;
+    text-decoration: none;
+    display: inline-block;
+    width: 100px;
+}
+#menu a:hover {
+    background-color: #0066FF;
+}
+#menu li {
+    display: inline;
+}
+body {
+    background: antiquewhite;
+}
+h1 {
+    text-align: center;
+}
+table {
+    border: 1px solid #ccc;
+    border-spacing: 3px;
+    border-collapse: collapse;
+    margin: auto;
+}
+td, th{
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    padding: 0.5em;
+}
+#actions {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#actions a, .edit {
+    margin: 1em 0;
+    padding: 0.2em 2em;
+    text-decoration: none;
+    border: 1px solid green;
+    background: green;
+    color: white;
+}
+#actions a:hover, .edit:hover {
+    background: #0eb20e;
+    border-color: #0eb20e;
+    cursor: pointer;
+}
+#actions .delete {
+    margin: 1em 0;
+    padding: 0.4em 3em;
+    background: red;
+    border: red;
+    color: white;
+}
+#actions .delete:hover {
+    background: #f83838;
+    cursor: pointer;
+}
+#create {
+    width: 10em;
+    margin: 1em 0;
+    padding: 0.4em 2em;
+    text-decoration: none;
+    border: 1px solid blue;
+    background: blue;
+    color: white;
+}
+#create:hover {
+    background: #2222ff;
+}
+.center {
+    text-align: center;
+}
+

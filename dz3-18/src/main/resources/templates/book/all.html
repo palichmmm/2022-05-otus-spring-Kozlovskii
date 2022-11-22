@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Книги</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+    <script src="/static/js/delete.js" th:src="@{/js/delete.js}"></script>
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
+    </ul>
+    <h1>Книги</h1>
+    <p class="center">
+        <a id="create" href="/templates/book/creat" th:href="@{'/book/create'}">Создать новую книгу</a>
+    </p>
+    <table>
+        <caption style="padding-bottom: 0.2em;font-size: 1.2em;">Список книг</caption>
+        <tr>
+            <th rowspan="2" th:rowspan="${books.size() + 1}">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+            </th>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Жанр</th>
+            <th>Отзывы</th>
+            <th>Действия</th>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.getId()}">0</td>
+            <td th:text="${book.getBookName()}">Название</td>
+            <td th:text="${book.getAuthor().getAuthorName()}">Автор</td>
+            <td th:text="${book.getGenre().getGenreName()}">Жанр</td>
+            <td>
+                <a href="comments.html" th:href="@{'/book/comments/' + ${book.getId()}}"
+                   th:text="${'Отзывы (' + book.getComments().size() + ')'}">
+                    Отзывы (0)
+                </a>
+            </td>
+            <td>
+                <ul id="actions">
+                    <li><a href="edit.html" th:href="@{'/book/edit/' + ${book.getId()}}">Изменить</a></li>
+                    <li>
+                        <input id="del0" class="delete" type="button" value="Удалить"
+                               th:id="${'del' + book.getId()}"
+                               th:onclick="|Delete(@{${book.getId()}})|"
+                               th:attr="data-delete-url=@{'/book/delete/'}">
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+.parent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+#menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border: none;
+    width: 100%;
+    text-align: center;
+    background-color: #33ADFF;
+}
+#menu a {
+    color: #fff;
+    padding: 15px 10px;
+    text-decoration: none;
+    display: inline-block;
+    width: 100px;
+}
+#menu a:hover {
+    background-color: #0066FF;
+}
+#menu li {
+    display: inline;
+}
+body {
+    background: antiquewhite;
+}
+

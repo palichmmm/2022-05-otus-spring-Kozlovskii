@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Жанры</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+    <script src="/static/js/delete.js" th:src="@{/js/delete.js}"></script>
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
+        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}">Книги</a></li>
+    </ul>
+    <h1>Жанры</h1>
+    <p class="center">
+        <a id="create" href="/templates/genre/creat" th:href="@{'/genre/create'}">Создать новый жанр</a>
+    </p>
+    <table>
+        <caption style="padding-bottom: 0.2em;font-size: 1.2em;">Список жанров</caption>
+        <tr>
+            <th rowspan="2" th:rowspan="${genres.size() + 1}">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+            </th>
+            <th>Id</th>
+            <th>Жанр</th>
+            <th>Действия</th>
+        </tr>
+        <tr th:each="genre : ${genres}">
+            <td th:text="${genre.getId()}">0</td>
+            <td th:text="${genre.getGenreName()}">Жанр</td>
+            <td>
+                <ul id="actions">
+                    <li><a href="edit.html" th:href="@{'/genre/edit/' + ${genre.getId()}}">Изменить</a></li>
+                    <li>
+                        <input id="del0" class="delete" type="button" value="Удалить"
+                               th:id="${'del' + genre.getId()}"
+                               th:onclick="|Delete(@{${genre.getId()}})|"
+                               th:attr="data-delete-url=@{'/genre/delete/'}">
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

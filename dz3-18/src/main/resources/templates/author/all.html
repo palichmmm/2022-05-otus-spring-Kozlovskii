@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторы</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+    <script src="/static/js/delete.js" th:src="@{/js/delete.js}"></script>
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
+        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}">Книги</a></li>
+    </ul>
+    <h1>Авторы</h1>
+    <p class="center">
+        <a id="create" href="/templates/author/creat" th:href="@{'/author/create'}">Создать нового автора</a>
+    </p>
+    <table>
+        <caption style="padding-bottom: 0.2em;font-size: 1.2em;">Список авторов</caption>
+        <tr>
+            <th rowspan="2" th:rowspan="${authors.size() + 1}">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+            </th>
+            <th>Id</th>
+            <th>Автор</th>
+            <th>Действия</th>
+        </tr>
+        <tr th:each="author : ${authors}">
+            <td th:text="${author.getId()}">0</td>
+            <td th:text="${author.getAuthorName()}">Автор</td>
+            <td>
+                <ul id="actions">
+                    <li>
+                        <a href="edit.html" th:href="@{'/author/edit/' + ${author.getId()}}">Изменить</a>
+                    </li>
+                    <li>
+                        <input id="del0" class="delete" type="button" value="Удалить"
+                               th:id="${'del' + author.getId()}"
+                               th:onclick="|Delete(@{${author.getId()}})|"
+                               th:attr="data-delete-url=@{'/author/delete/'}"
+                        >
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

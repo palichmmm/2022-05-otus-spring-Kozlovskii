@@ -3,6 +3,8 @@ package ru.otus.spring.models;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +17,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Имя автора не должно быть пустым!")
+    @Size(min = 0, max = 255, message = "Имя автора превышает допустимый размер!")
     @Column(name = "comment")
     private String comment;
 

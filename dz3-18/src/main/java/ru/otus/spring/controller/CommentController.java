@@ -2,6 +2,7 @@ package ru.otus.spring.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
@@ -34,8 +35,9 @@ public class CommentController {
         return "redirect:/book/comments/" + newComment.getBook().getId();
     }
 
+    @Validated
     @GetMapping("/comment/create/{id}")
-    public String create(@PathVariable("id") long id, Model model) {
+    public String create(@ModelAttribute("comment") Comment comment, @PathVariable("id") long id, Model model) {
         Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
         model.addAttribute("book", book);
         return "/comment/create";

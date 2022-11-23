@@ -16,9 +16,8 @@
     <div>
         <table>
             <form action="/comment/edit/1" th:action="@{'/comment/create/' + ${book.getId()}}" method="post">
-                <input type="hidden" name="id" value="1" th:value="${book.getId()}">
                 <caption style="padding-bottom: 0.2em;font-size: 1.2em;"
-                         th:text="${'Книга ' + book.getBookName()}">
+                         th:text="${'Книга - ' + book.getBookName()}">
                     Книга
                 </caption>
                 <tr>
@@ -30,7 +29,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <textarea name="comment" placeholder="Введите текст"></textarea>
+                        <textarea name="comment" placeholder="Введите текст" th:text="${comment.getComment()}"></textarea>
+                        <div class="errors" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Error</div>
                     </td>
                     <td>
                         <input class="edit" type="submit" value="Создать">

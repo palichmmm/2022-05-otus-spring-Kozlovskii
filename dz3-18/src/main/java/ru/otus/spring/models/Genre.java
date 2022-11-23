@@ -19,8 +19,8 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Название жанра не должно быть пустым!")
-    @Size(min = 0, max = 255, message = "Название жанра превышает допустимый размер!")
+    @NotBlank(message = "Придумай хоть что нибудь!")
+    @Size(max = 11, message = "Хватит строчить! Максимум 11 букв!")
     @Column(name = "genre_name", nullable = false, unique = true)
     private String genreName;
 

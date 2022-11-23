@@ -19,8 +19,8 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Имя автора не должно быть пустым!")
-    @Size(min = 0, max = 255, message = "Имя автора превышает допустимый размер!")
+    @NotBlank(message = "Почему автор безымянный?")
+    @Size(max = 20, message = "Больше 20 букв - это не автор!")
     @Column(name = "author_name", nullable = false, unique = true)
     private String authorName;
 

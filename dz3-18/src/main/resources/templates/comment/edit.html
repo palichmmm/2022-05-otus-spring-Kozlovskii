@@ -6,18 +6,18 @@
     <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-<div>
+<div th:object="${comment}">
     <ul id="menu">
-        <li><a href="/templates/book/comments/1" th:href="@{'/book/comments/' + ${comment.getId()}}">&larr;</a></li>
+        <li><a href="/templates/book/comments/1" th:href="@{'/book/comments/' + *{getBookId()}}">&larr;</a></li>
         <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
         <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
     </ul>
     <h1>Редактирование отзыва:</h1>
     <div>
         <table>
-            <form action="/comment/edit/1" th:action="@{'/comment/edit/' + ${comment.getId()}}" method="post">
+            <form action="/comment/edit/1" th:action="@{'/comment/edit/' + *{getId()}}" method="post">
                 <caption style="padding-bottom: 0.2em;font-size: 1.2em;"
-                         th:text="${'Книга ' + comment.getBook().getBookName()}">
+                         th:text="*{'Книга ' + getBookName()}">
                     Книга
                 </caption>
                 <tr>
@@ -29,10 +29,11 @@
                     <th>Действия</th>
                 </tr>
                 <tr>
-                    <td th:text="${comment.getId()}">0</td>
+                    <td th:text="*{getId()}">0</td>
                     <td>
-                        <textarea name="comment" placeholder="Введите текст" th:text="${comment.getComment()}">Хороший отзыв
-                        </textarea>
+                        <textarea name="comment" placeholder="Введите текст"
+                                  th:text="*{getComment()}">Хороший отзыв</textarea>
+                        <div class="errors" th:if="*{#fields.hasErrors('comment')}" th:errors="*{comment}">Error</div>
                     </td>
                     <td>
                         <input class="edit" type="submit" value="Изменить">

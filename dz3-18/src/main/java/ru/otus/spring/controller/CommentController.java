@@ -1,13 +1,16 @@
 package ru.otus.spring.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.otus.spring.dto.CommentDTO;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.repositories.CommentRepository;
+
+import javax.validation.Valid;
 
 @Controller
 public class CommentController {
@@ -21,33 +24,50 @@ public class CommentController {
     }
 
     @GetMapping("/comment/edit/{id}")
-    public String edit(@PathVariable long id, Model model) {
-        Comment comment = repository.findById(id).orElseThrow(RuntimeException::new);
-        model.addAttribute("comment", comment);
+    public String edit(@ModelAttribute("comment") CommentDTO comment) {
+        Comment editComment = repository.findById(comment.getId()).orElseThrow(RuntimeException::new);
+        comment.setComment(editComment.getComment());
+        comment.setBookId(editComment.getBook().getId());
+        comment.setBookName(editComment.getBook().getBookName());
         return "/comment/edit";
     }
 
+    @Validated
     @PostMapping("/comment/edit/{id}")
-    public String edit(@PathVariable long id, @RequestParam("comment") String comment) {
-        Comment newComment = repository.findById(id).orElseThrow(RuntimeException::new);
-        newComment.setComment(comment);
-        repository.save(newComment);
-        return "redirect:/book/comments/" + newComment.getBook().getId();
+    public String edit(@Valid @ModelAttribute("comment") CommentDTO comment,
+                       BindingResult bindingResult) {
+        Comment editComment = repository.findById(comment.getId()).orElseThrow(RuntimeException::new);
+        if (bindingResult.hasErrors()) {
+            comment.setBookId(editComment.getBook().getId());
+            comment.setBookName(editComment.getBook().getBookName());
+            return "/comment/edit";
+        }
+        editComment.setComment(comment.getComment());
+        repository.save(editComment);
+        return "redirect:/book/comments/" + editComment.getBook().getId();
     }
 
-    @Validated
     @GetMapping("/comment/create/{id}")
-    public String create(@ModelAttribute("comment") Comment comment, @PathVariable("id") long id, Model model) {
-        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
-        model.addAttribute("book", book);
+    public String create(@ModelAttribute("comment") CommentDTO comment) {
+        Book book = bookRepository.findById(comment.getId()).orElseThrow(RuntimeException::new);
+        comment.setBookId(book.getId());
+        comment.setBookName(book.getBookName());
         return "/comment/create";
     }
 
+    @Validated
     @PostMapping("/comment/create/{id}")
-    public String create(@PathVariable("id") long id, @RequestParam("comment") String comment) {
-        Comment newComment = new Comment(new Book(id), comment);
+    public String create(@Valid @ModelAttribute("comment") CommentDTO comment,
+                         BindingResult bindingResult) {
+        Book book = bookRepository.findById(comment.getId()).orElseThrow(RuntimeException::new);
+        if (bindingResult.hasErrors()) {
+            comment.setBookId(book.getId());
+            comment.setBookName(book.getBookName());
+            return "/comment/create";
+        }
+        Comment newComment = new Comment(book, comment.getComment());
         repository.save(newComment);
-        return "redirect:/book/comments/" + id;
+        return "redirect:/book/comments/" + book.getId();
     }
 
     @DeleteMapping("/comment/delete/{id}")

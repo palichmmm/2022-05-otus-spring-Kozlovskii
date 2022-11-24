@@ -18,7 +18,7 @@
             <form action="/book/create" th:action="@{'/book/create'}" method="post">
                 <tr>
                     <th rowspan="2">
-                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200" alt="SOVA">
                     </th>
                     <th>Название</th>
                     <th>Автор</th>
@@ -26,24 +26,31 @@
                     <th>Действия</th>
                 </tr>
                 <tr>
-                    <td><input type="text" name="name" placeholder="введите название книги"></td>
+                    <td>
+                        <input type="text" name="bookName" th:value="${book.getBookName()}" placeholder="введите название книги">
+                        <div class="errors" th:if="${#fields.hasErrors('book.bookName')}" th:errors="*{book.bookName}">Error</div>
+                    </td>
                     <td>
                         <select name="author">
                             <option th:each="author : ${authors}"
+                                    th:selected="${author.getAuthorName() == book.getAuthor()}"
                                     th:value="${author.getAuthorName()}"
                                     th:text="${author.getAuthorName()}">
                                 Автор
                             </option>
                         </select>
+                        <div class="errors" th:if="${#fields.hasErrors('book.author')}" th:errors="*{book.author}">Error</div>
                     </td>
                     <td>
                         <select name="genre">
                             <option th:each="genre : ${genres}"
+                                    th:selected="${genre.getGenreName() == book.getGenre()}"
                                     th:value="${genre.getGenreName()}"
                                     th:text="${genre.getGenreName()}">
                                 Жанр
                             </option>
                         </select>
+                        <div class="errors" th:if="${#fields.hasErrors('book.genre')}" th:errors="*{book.genre}">Error</div>
                     </td>
                     <td>
                         <input class="edit" type="submit" value="Создать">

@@ -18,7 +18,7 @@
             <form action="/book/edit/1" th:action="@{'/book/edit/' + ${book.getId()}}" method="post">
                 <tr>
                     <th rowspan="2">
-                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+                        <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200" alt="SOVA">
                     </th>
                     <th>Id</th>
                     <th>Название</th>
@@ -28,24 +28,29 @@
                 </tr>
                 <tr>
                     <td th:text="${book.getId()}">0</td>
-                    <td><input type="text" name="name" value="Название" th:value="*{book.getBookName()}"></td>
+                    <td>
+                        <input type="text" name="bookName" value="Название" th:value="${book.getBookName()}">
+                        <div class="errors" th:if="${#fields.hasErrors('book.bookName')}" th:errors="*{book.bookName}">Error</div>
+                    </td>
                     <td>
                         <select name="author">
                             <option th:each="author : ${authors}"
-                                    th:selected="${author.getAuthorName() == book.getAuthor().getAuthorName()}"
+                                    th:selected="${author.getAuthorName() == book.getAuthor()}"
                                     th:value="${author.getAuthorName()}"
                                     th:text="${author.getAuthorName()}">Автор
                             </option>
                         </select>
+                        <div class="errors" th:if="${#fields.hasErrors('book.author')}" th:errors="*{book.author}">Error</div>
                     </td>
                     <td>
                         <select name="genre">
                             <option th:each="genre : ${genres}"
-                                    th:selected="${genre.getGenreName() == book.getGenre().getGenreName()}"
+                                    th:selected="${genre.getGenreName() == book.getGenre()}"
                                     th:value="${genre.getGenreName()}"
                                     th:text="${genre.getGenreName()}">Жанр
                             </option>
                         </select>
+                        <div class="errors" th:if="${#fields.hasErrors('book.genre')}" th:errors="*{book.genre}">Error</div>
                     </td>
                     <td>
                         <input class="edit" type="submit" value="Изменить">

@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>
-                    <input type="text" name="genreName" placeholder="введите жанр">
+                    <input type="text" name="genreName" th:value="${genre.getGenreName()}" placeholder="введите жанр">
                     <div class="errors" th:if="${#fields.hasErrors('genreName')}" th:errors="*{genreName}">Error</div>
                 </td>
                 <td><input class="edit" type="submit" value="Создать"></td>

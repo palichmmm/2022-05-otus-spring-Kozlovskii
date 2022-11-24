@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>
-                    <input type="text" name="authorName" placeholder="введите автора">
+                    <input type="text" name="authorName" th:value="${author.authorName}" placeholder="введите автора">
                     <div class="errors" th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}">Error</div>
                 </td>
                 <td><input class="edit" type="submit" value="Создать"></td>

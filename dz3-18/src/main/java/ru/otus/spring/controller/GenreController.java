@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.repositories.GenreRepository;
+import ru.otus.spring.service.GenreService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,22 +14,22 @@ import java.util.List;
 @Controller
 public class GenreController {
 
-    private final GenreRepository repository;
+    private final GenreService service;
 
-    public GenreController(GenreRepository repository) {
-        this.repository = repository;
+    public GenreController(GenreService service) {
+        this.service = service;
     }
 
     @GetMapping("/genre/all")
     public String all(Model model) {
-        List<Genre> genres = repository.findAll();
+        List<Genre> genres = service.findAll();
         model.addAttribute("genres", genres);
         return "/genre/all";
     }
 
     @GetMapping("/genre/edit/{id}")
     public String edit(@PathVariable("id") long id, Model model) {
-        Genre genre = repository.findById(id).orElseThrow(RuntimeException::new);
+        Genre genre = service.findById(id);
         model.addAttribute("genre", genre);
         return "/genre/edit";
     }
@@ -43,7 +43,7 @@ public class GenreController {
             return "/genre/edit";
         }
         genre.setId(id);
-        repository.save(genre);
+        service.save(genre);
         return "redirect:/genre/all";
     }
 
@@ -60,13 +60,13 @@ public class GenreController {
             return "/genre/create";
         }
         Genre newGenre = new Genre(genre.getGenreName());
-        repository.save(newGenre);
+        service.save(newGenre);
         return "redirect:/genre/all";
     }
 
     @DeleteMapping("/genre/delete/{id}")
     public @ResponseBody String edit(@PathVariable("id") long id) {
-        repository.deleteById(id);
+        service.deleteById(id);
         return "/genre/all";
     }
 }

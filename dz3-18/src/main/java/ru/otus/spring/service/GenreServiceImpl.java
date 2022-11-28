@@ -5,55 +5,32 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.GenreRepository;
 
+import java.util.List;
+
 @Service
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository repository;
-    private final IOService ioService;
 
-    public GenreServiceImpl(GenreRepository repository, IOService ioService) {
+    public GenreServiceImpl(GenreRepository repository) {
         this.repository = repository;
-        this.ioService = ioService;
     }
 
     @Transactional
     @Override
-    public Genre create(Genre genre) {
-        Genre resultGenre = repository.save(genre);
-        ioService.outputString("Вставлена новая запись жанра с ID=" + genre.getId());
-        return resultGenre;
+    public Genre save(Genre genre) {
+        return repository.save(genre);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public void showById(long id) {
-        repository.findById(id)
-                .ifPresentOrElse(genre -> ioService.outputString(String.valueOf(genre)),
-                        () -> ioService.outputString("Жанр с ID=" + id + " не существует!"));
+    public Genre findById(long id) {
+        return repository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public void showByName(String name) {
-        repository.findByGenreName(name)
-                .ifPresentOrElse(genre -> ioService.outputString(String.valueOf(genre)),
-                        () -> ioService.outputString("Жанра с NAME=" + name + " не существует!"));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void showAll() {
-        for (Genre genre : repository.findAll()) {
-            ioService.outputString(String.valueOf(genre));
-        }
-    }
-
-    @Transactional
-    @Override
-    public void update(long id, String name) {
-        repository.findById(id).ifPresent(genre -> {
-            genre.setGenreName(name);
-            repository.save(genre);
-        });
+    public List<Genre> findAll() {
+        return repository.findAll();
     }
 
     @Transactional

@@ -2,16 +2,14 @@ package ru.otus.spring.service;
 
 import ru.otus.spring.models.Genre;
 
+import java.util.List;
+
 public interface GenreService {
-    Genre create(Genre Genre);
+    Genre save(Genre Genre);
 
-    void showById(long id);
+    Genre findById(long id);
 
-    void showByName(String name);
-
-    void showAll();
-
-    void update(long id, String name);
+    List<Genre> findAll();
 
     void deleteById(long id);
 }

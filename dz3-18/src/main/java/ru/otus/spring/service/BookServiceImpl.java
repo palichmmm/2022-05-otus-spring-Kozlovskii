@@ -16,62 +16,44 @@ import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
-    private final BookRepository repository;
+    private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
 
-    public BookServiceImpl(BookRepository repository,
+    public BookServiceImpl(BookRepository bookRepository,
                            AuthorRepository authorRepository,
                            GenreRepository genreRepository) {
-        this.repository = repository;
+        this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
     }
 
     @Transactional
     @Override
-    public Book create(Book book) {
-        Optional<Author> author = authorRepository.findById(book.getAuthor().getId());
-        if (author.isEmpty()) {
-            throw new NoResultException("Автора с ID=" + book.getAuthor().getId() + " не существует!");
+    public Book save(Book book) {
+        Author author = authorRepository.findById(book.getAuthor().getId()).orElseThrow(RuntimeException::new);
+        if (author == null) {
+            throw new RuntimeException("Автора с ID=" + book.getAuthor().getId() + " не существует!");
         }
-        Optional<Genre> genre = genreRepository.findById(book.getGenre().getId());
-        if (genre.isEmpty()) {
-            throw new NoResultException("Жанра с ID=" + book.getGenre().getId() + " не существует!");
+        Genre genre = genreRepository.findById(book.getGenre().getId()).orElseThrow(RuntimeException::new);
+        if (genre == null) {
+            throw new RuntimeException("Жанра с ID=" + book.getGenre().getId() + " не существует!");
         }
-        book.setAuthor(author.get());
-        book.setGenre(genre.get());
-        if (!repository.findBookByBookName(book.getBookName()).contains(book)) {
-
-            Book resultBook = repository.save(book);
-            return resultBook;
-        } else {
-            throw new RuntimeException("Книга с NAME=" + book.getBookName() +
-                    " AUTHOR=" + author.get() + " GENRE=" + genre.get() + " уже есть в базе!");
-        }
+        book.setAuthor(author);
+        book.setGenre(genre);
+        return bookRepository.save(book);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public void showById(long id) {
-        repository.findById(id).orElseThrow(RuntimeException::new);
+    public Book findById(long id) {
+        return bookRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public void showByName(String name) {
-        List<Book> books = repository.findBookByBookName(name);
-        if (books.isEmpty()) {
-        } else {
-            for (Book book : books) {
-            }
-        }
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void showAllCommentsBookById(long id) {
-        Optional<Book> book = repository.findById(id);
+    public void findAllCommentsBookById(long id) {
+        Optional<Book> book = bookRepository.findById(id);
         if (book.isEmpty()) {
             throw new NoResultException("Книги с ID=" + id + " нет в базе!");
         }
@@ -81,23 +63,19 @@ public class BookServiceImpl implements BookService {
 
     @Transactional(readOnly = true)
     @Override
-    public void showAll() {
-        for (Book book : repository.findAll()) {
-        }
-    }
-
-    @Transactional
-    @Override
-    public void update(long id, String name) {
-        repository.findById(id).ifPresent(book -> {
-            book.setBookName(name);
-            repository.save(book);
-        });
+    public List<Book> findAll() {
+        return bookRepository.findAll();
     }
 
     @Transactional
     @Override
     public void deleteById(long id) {
-        repository.deleteById(id);
+        bookRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public long count() {
+        return bookRepository.count();
     }
 }

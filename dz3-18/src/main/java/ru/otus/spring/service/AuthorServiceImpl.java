@@ -27,6 +27,12 @@ public class AuthorServiceImpl implements AuthorService {
         return repository.findById(id).orElseThrow(RuntimeException::new);
     }
 
+    @Transactional
+    @Override
+    public Author findByName(String name) {
+        return repository.findByAuthorName(name).orElseThrow(RuntimeException::new);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<Author> findAll() {

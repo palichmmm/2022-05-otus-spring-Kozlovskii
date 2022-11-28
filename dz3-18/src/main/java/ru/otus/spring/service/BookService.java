@@ -2,18 +2,18 @@ package ru.otus.spring.service;
 
 import ru.otus.spring.models.Book;
 
+import java.util.List;
+
 public interface BookService {
-    Book create(Book Book);
+    Book save(Book Book);
 
-    void showById(long id);
+    Book findById(long id);
 
-    void showByName(String name);
+    void findAllCommentsBookById(long id);
 
-    void showAllCommentsBookById(long id);
-
-    void showAll();
-
-    void update(long id, String name);
+    List<Book> findAll();
 
     void deleteById(long id);
+
+    long count();
 }

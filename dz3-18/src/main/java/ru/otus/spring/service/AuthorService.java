@@ -9,6 +9,8 @@ public interface AuthorService {
 
     Author findById(long id);
 
+    Author findByName(String name);
+
     List<Author> findAll();
 
     void deleteById(long id);

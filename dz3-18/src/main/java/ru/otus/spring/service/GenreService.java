@@ -9,6 +9,8 @@ public interface GenreService {
 
     Genre findById(long id);
 
+    Genre findByName(String name);
+
     List<Genre> findAll();
 
     void deleteById(long id);

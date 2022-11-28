@@ -27,6 +27,12 @@ public class GenreServiceImpl implements GenreService {
         return repository.findById(id).orElseThrow(RuntimeException::new);
     }
 
+    @Transactional
+    @Override
+    public Genre findByName(String name) {
+        return repository.findByGenreName(name).orElseThrow(RuntimeException::new);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<Genre> findAll() {

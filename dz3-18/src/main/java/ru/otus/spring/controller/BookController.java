@@ -9,40 +9,36 @@ import ru.otus.spring.dto.BookDTO;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.repositories.AuthorRepository;
-import ru.otus.spring.repositories.BookRepository;
-import ru.otus.spring.repositories.GenreRepository;
+import ru.otus.spring.service.AuthorService;
+import ru.otus.spring.service.BookService;
+import ru.otus.spring.service.GenreService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class BookController {
 
-    private final BookRepository repository;
-    private final GenreRepository genreRepository;
-    private final AuthorRepository authorRepository;
+    private final BookService bookService;
+    private final GenreService genreService;
+    private final AuthorService authorService;
 
-    public BookController(BookRepository repository, GenreRepository genreRepository, AuthorRepository authorRepository) {
-        this.repository = repository;
-        this.genreRepository = genreRepository;
-        this.authorRepository = authorRepository;
+    public BookController(BookService bookService, GenreService genreService, AuthorService authorService) {
+        this.bookService = bookService;
+        this.genreService = genreService;
+        this.authorService = authorService;
     }
 
     @GetMapping("/book/all")
     public String all(Model model) {
-        List<Book> books = repository.findAll();
-        model.addAttribute("books", books);
+        model.addAttribute("books", bookService.findAll());
         return "/book/all";
     }
 
     @GetMapping("/book/edit/{id}")
     public String edit(@ModelAttribute("book") BookDTO book, Model model) {
-        Book editBook = repository.findById(book.getId()).orElseThrow(RuntimeException::new);
-        List<Author> authors = authorRepository.findAll();
-        List<Genre> genres = genreRepository.findAll();
-        model.addAttribute("authors", authors);
-        model.addAttribute("genres", genres);
+        Book editBook = bookService.findById(book.getId());
+        model.addAttribute("authors", authorService.findAll());
+        model.addAttribute("genres", genreService.findAll());
         book.setBookName(editBook.getBookName());
         book.setAuthor(editBook.getAuthor().getAuthorName());
         book.setGenre(editBook.getGenre().getGenreName());
@@ -54,28 +50,24 @@ public class BookController {
     public String edit(@Valid @ModelAttribute("book") BookDTO book,
                        BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            List<Author> authors = authorRepository.findAll();
-            List<Genre> genres = genreRepository.findAll();
-            model.addAttribute("authors", authors);
-            model.addAttribute("genres", genres);
+            model.addAttribute("authors", authorService.findAll());
+            model.addAttribute("genres", genreService.findAll());
             return "/book/edit";
         }
-        Book editBook = repository.findById(book.getId()).orElseThrow(RuntimeException::new);
-        Author newAuthor = authorRepository.findByAuthorName(book.getAuthor()).orElseThrow(RuntimeException::new);
-        Genre newGenre = genreRepository.findByGenreName(book.getGenre()).orElseThrow(RuntimeException::new);
+        Book editBook = bookService.findById(book.getId());
+        Author newAuthor = authorService.findByName(book.getAuthor());
+        Genre newGenre = genreService.findByName(book.getGenre());
         editBook.setBookName(book.getBookName());
         editBook.setAuthor(newAuthor);
         editBook.setGenre(newGenre);
-        repository.save(editBook);
+        bookService.save(editBook);
         return "redirect:/book/all";
     }
 
     @GetMapping("/book/create")
     public String create(@ModelAttribute("book") BookDTO book, Model model) {
-        List<Author> authors = authorRepository.findAll();
-        List<Genre> genres = genreRepository.findAll();
-        model.addAttribute("authors", authors);
-        model.addAttribute("genres", genres);
+        model.addAttribute("authors", authorService.findAll());
+        model.addAttribute("genres", genreService.findAll());
         return "/book/create";
     }
 
@@ -84,29 +76,26 @@ public class BookController {
     public String create(@Valid @ModelAttribute("book") BookDTO book,
                          BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            List<Author> authors = authorRepository.findAll();
-            List<Genre> genres = genreRepository.findAll();
-            model.addAttribute("authors", authors);
-            model.addAttribute("genres", genres);
+            model.addAttribute("authors", authorService.findAll());
+            model.addAttribute("genres", genreService.findAll());
             return "/book/create";
         }
-        Author newAuthor = authorRepository.findByAuthorName(book.getAuthor()).orElseThrow(RuntimeException::new);
-        Genre newGenre = genreRepository.findByGenreName(book.getGenre()).orElseThrow(RuntimeException::new);
+        Author newAuthor = authorService.findByName(book.getAuthor());
+        Genre newGenre = genreService.findByName(book.getGenre());
         Book newBook = new Book(book.getBookName(), newAuthor, newGenre);
-        repository.save(newBook);
+        bookService.save(newBook);
         return "redirect:/book/all";
     }
 
     @GetMapping("/book/comments/{id}")
     public String comments(@PathVariable("id") long id, Model model) {
-        Book book = repository.findById(id).orElseThrow(RuntimeException::new);
-        model.addAttribute("book", book);
+        model.addAttribute("book", bookService.findById(id));
         return "/book/comments";
     }
 
     @DeleteMapping("/book/delete/{id}")
     public @ResponseBody String delete(@PathVariable("id") long id) {
-        repository.deleteById(id);
+        bookService.deleteById(id);
         return "/book/all";
     }
 }

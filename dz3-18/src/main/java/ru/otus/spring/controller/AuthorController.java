@@ -9,7 +9,6 @@ import ru.otus.spring.models.Author;
 import ru.otus.spring.service.AuthorService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class AuthorController {
@@ -22,15 +21,13 @@ public class AuthorController {
 
     @GetMapping("/author/all")
     public String all(Model model) {
-        List<Author> authors = service.findAll();
-        model.addAttribute("authors", authors);
+        model.addAttribute("authors", service.findAll());
         return "/author/all";
     }
 
     @GetMapping("/author/edit/{id}")
     public String edit(@PathVariable("id") long id, Model model) {
-        Author author = service.findById(id);
-        model.addAttribute("author", author);
+        model.addAttribute("author", service.findById(id));
         return "/author/edit";
     }
 
@@ -54,8 +51,8 @@ public class AuthorController {
 
     @Validated
     @PostMapping("/author/create")
-    public String edit(@Valid @ModelAttribute("author") Author author,
-                       BindingResult bindingResult) {
+    public String create(@Valid @ModelAttribute("author") Author author,
+                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/author/create";
         }

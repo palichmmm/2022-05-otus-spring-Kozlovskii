@@ -3,31 +3,28 @@ package ru.otus.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.otus.spring.repositories.AuthorRepository;
-import ru.otus.spring.repositories.BookRepository;
-import ru.otus.spring.repositories.GenreRepository;
+import ru.otus.spring.service.AuthorService;
+import ru.otus.spring.service.BookService;
+import ru.otus.spring.service.GenreService;
 
 @Controller
 public class HomeController {
 
-    private final AuthorRepository author;
-    private final GenreRepository genre;
-    private final BookRepository book;
+    private final AuthorService authorService;
+    private final GenreService genreService;
+    private final BookService bookService;
 
-    public HomeController(AuthorRepository author, GenreRepository genre, BookRepository book) {
-        this.author = author;
-        this.genre = genre;
-        this.book = book;
+    public HomeController(AuthorService authorService, GenreService genreService, BookService bookService) {
+        this.authorService = authorService;
+        this.genreService = genreService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/")
     public String home(Model model) {
-        long authorCount = author.count();
-        long genreCount = genre.count();
-        long bookCount = book.count();
-        model.addAttribute("authorCount", authorCount);
-        model.addAttribute("genreCount", genreCount);
-        model.addAttribute("bookCount", bookCount);
+        model.addAttribute("authorCount", authorService.count());
+        model.addAttribute("genreCount", genreService.count());
+        model.addAttribute("bookCount", bookService.count());
         return "home";
     }
 }

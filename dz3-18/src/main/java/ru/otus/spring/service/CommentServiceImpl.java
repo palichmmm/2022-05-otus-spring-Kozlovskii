@@ -14,12 +14,10 @@ import java.util.Optional;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository repository;
     private final BookRepository bookRepository;
-    private final IOService ioService;
 
-    public CommentServiceImpl(CommentRepository repository, BookRepository bookRepository, IOService ioService) {
+    public CommentServiceImpl(CommentRepository repository, BookRepository bookRepository) {
         this.repository = repository;
         this.bookRepository = bookRepository;
-        this.ioService = ioService;
     }
 
     @Transactional
@@ -31,16 +29,13 @@ public class CommentServiceImpl implements CommentService {
         }
         comment.setBook(book.get());
         Comment resultComment = repository.save(comment);
-        ioService.outputString("Вставлен новый комментарий на книгу с ID=" + resultComment.getBook().getId());
         return resultComment;
     }
 
     @Transactional(readOnly = true)
     @Override
     public void showById(long id) {
-        repository.findById(id)
-                .ifPresentOrElse(comment -> ioService.outputString(String.valueOf(comment)),
-                        () -> ioService.outputString("Комментария с ID=" + id + " не существует!"));
+        repository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Transactional

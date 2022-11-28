@@ -38,4 +38,9 @@ public class GenreServiceImpl implements GenreService {
     public void deleteById(long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
 }

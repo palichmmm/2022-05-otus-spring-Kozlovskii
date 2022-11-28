@@ -39,4 +39,10 @@ public class AuthorServiceImpl implements AuthorService {
         repository.deleteById(id);
 
     }
+
+    @Transactional
+    @Override
+    public long count() {
+        return repository.count();
+    }
 }

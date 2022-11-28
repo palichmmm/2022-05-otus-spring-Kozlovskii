@@ -19,16 +19,13 @@ public class BookServiceImpl implements BookService {
     private final BookRepository repository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
-    private final IOService ioService;
 
     public BookServiceImpl(BookRepository repository,
                            AuthorRepository authorRepository,
-                           GenreRepository genreRepository,
-                           IOService ioService) {
+                           GenreRepository genreRepository) {
         this.repository = repository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
-        this.ioService = ioService;
     }
 
     @Transactional
@@ -47,7 +44,6 @@ public class BookServiceImpl implements BookService {
         if (!repository.findBookByBookName(book.getBookName()).contains(book)) {
 
             Book resultBook = repository.save(book);
-            ioService.outputString("Вставлена новая книга с ID=" + resultBook.getId());
             return resultBook;
         } else {
             throw new RuntimeException("Книга с NAME=" + book.getBookName() +
@@ -58,9 +54,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public void showById(long id) {
-        repository.findById(id)
-                .ifPresentOrElse(book -> ioService.outputString(String.valueOf(book)),
-                        () -> ioService.outputString("Книги с ID=" + id + " не существует!"));
+        repository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Transactional(readOnly = true)
@@ -68,10 +62,8 @@ public class BookServiceImpl implements BookService {
     public void showByName(String name) {
         List<Book> books = repository.findBookByBookName(name);
         if (books.isEmpty()) {
-            ioService.outputString("Книг с NAME=" + name + " не существует!");
         } else {
             for (Book book : books) {
-                ioService.outputString(String.valueOf(book));
             }
         }
     }
@@ -84,7 +76,6 @@ public class BookServiceImpl implements BookService {
             throw new NoResultException("Книги с ID=" + id + " нет в базе!");
         }
         for (Comment comment : book.get().getComments()) {
-            ioService.outputString(String.valueOf(comment));
         }
     }
 
@@ -92,7 +83,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public void showAll() {
         for (Book book : repository.findAll()) {
-            ioService.outputString(String.valueOf(book));
         }
     }
 

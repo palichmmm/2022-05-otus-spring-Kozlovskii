@@ -12,4 +12,6 @@ public interface GenreService {
     List<Genre> findAll();
 
     void deleteById(long id);
+
+    long count();
 }

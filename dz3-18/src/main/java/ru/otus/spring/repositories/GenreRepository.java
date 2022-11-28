@@ -10,6 +10,4 @@ public interface GenreRepository extends CrudRepository<Genre, Long> {
     Optional<Genre> findByGenreName(String name);
 
     List<Genre> findAll();
-
-    long count();
 }

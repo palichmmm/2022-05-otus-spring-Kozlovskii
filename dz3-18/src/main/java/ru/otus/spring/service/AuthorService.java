@@ -12,4 +12,6 @@ public interface AuthorService {
     List<Author> findAll();
 
     void deleteById(long id);
+
+    long count();
 }

@@ -10,9 +10,7 @@ import ru.otus.spring.repositories.AuthorRepository;
 import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.repositories.GenreRepository;
 
-import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -48,17 +46,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book findById(long id) {
         return bookRepository.findById(id).orElseThrow(RuntimeException::new);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void findAllCommentsBookById(long id) {
-        Optional<Book> book = bookRepository.findById(id);
-        if (book.isEmpty()) {
-            throw new NoResultException("Книги с ID=" + id + " нет в базе!");
-        }
-        for (Comment comment : book.get().getComments()) {
-        }
     }
 
     @Transactional(readOnly = true)

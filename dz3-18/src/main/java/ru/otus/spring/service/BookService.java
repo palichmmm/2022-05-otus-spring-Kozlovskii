@@ -9,8 +9,6 @@ public interface BookService {
 
     Book findById(long id);
 
-    void findAllCommentsBookById(long id);
-
     List<Book> findAll();
 
     void deleteById(long id);

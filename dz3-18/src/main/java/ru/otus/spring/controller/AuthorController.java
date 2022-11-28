@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Author;
-import ru.otus.spring.repositories.AuthorRepository;
+import ru.otus.spring.service.AuthorService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,22 +14,22 @@ import java.util.List;
 @Controller
 public class AuthorController {
 
-    private final AuthorRepository repository;
+    private final AuthorService service;
 
-    public AuthorController(AuthorRepository repository) {
-        this.repository = repository;
+    public AuthorController(AuthorService service) {
+        this.service = service;
     }
 
     @GetMapping("/author/all")
     public String all(Model model) {
-        List<Author> authors = repository.findAll();
+        List<Author> authors = service.findAll();
         model.addAttribute("authors", authors);
         return "/author/all";
     }
 
     @GetMapping("/author/edit/{id}")
     public String edit(@PathVariable("id") long id, Model model) {
-        Author author = repository.findById(id).orElseThrow(RuntimeException::new);
+        Author author = service.findById(id);
         model.addAttribute("author", author);
         return "/author/edit";
     }
@@ -43,7 +43,7 @@ public class AuthorController {
             return "/author/edit";
         }
         author.setId(id);
-        repository.save(author);
+        service.save(author);
         return "redirect:/author/all";
     }
 
@@ -60,13 +60,13 @@ public class AuthorController {
             return "/author/create";
         }
         Author newAuthor = new Author(author.getAuthorName());
-        repository.save(newAuthor);
+        service.save(newAuthor);
         return "redirect:/author/all";
     }
 
     @DeleteMapping("/author/delete/{id}")
     public @ResponseBody String edit(@PathVariable("id") long id) {
-        repository.deleteById(id);
+        service.deleteById(id);
         return "/author/all";
     }
 }

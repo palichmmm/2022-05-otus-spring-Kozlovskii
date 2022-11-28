@@ -84,4 +84,11 @@ td, th{
 .errors {
     color: red;
 }
+#lang {
+    float: right;
+}
+#lang a {
+    padding-right: 0;
+    padding-left: 0;
+}
 

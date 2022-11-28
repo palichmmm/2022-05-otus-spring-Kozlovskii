@@ -24,3 +24,6 @@ spring:
   sql:
     init:
       mode: always
+  messages:
+    encoding: UTF-8
+    basename: messages

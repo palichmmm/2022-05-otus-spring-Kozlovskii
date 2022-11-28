@@ -9,8 +9,8 @@
 <div th:object="${comment}">
     <ul id="menu">
         <li><a href="/templates/book/comments/1" th:href="@{'/book/comments/' + *{getBookId()}}">&larr;</a></li>
-        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
-        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}" th:text="#{authors-menu-section}">Авторы</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}" th:text="#{genres-menu-section}">Жанры</a></li>
     </ul>
     <h1>Создание отзыва:</h1>
     <div>

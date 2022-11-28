@@ -10,12 +10,16 @@
 <div>
     <ul id="menu">
         <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
-        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
-        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}">Книги</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}" th:text="#{genres-menu-section}">Жанры</a></li>
+        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}" th:text="#{books-menu-section}">Книги</a></li>
+        <li id="lang">
+            <a href="/templates/author/all.html" th:href="@{/author/all(lang=en)}" th:text="#{en-lang-menu}">EN</a>
+            <a href="/templates/author/all.html" th:href="@{/author/all(lang=ru)}" th:text="#{ru-lang-menu}">RU</a>
+        </li>
     </ul>
-    <h1>Авторы</h1>
+    <h1 th:text="#{author-head}">Авторы</h1>
     <p class="center">
-        <a id="create" href="/templates/author/creat" th:href="@{'/author/create'}">Создать нового автора</a>
+        <a id="create" href="/templates/author/creat" th:href="@{'/author/create'}" th:text="#{button-new-author}">Создать</a>
     </p>
     <table>
         <caption style="padding-bottom: 0.2em;font-size: 1.2em;">Список авторов</caption>

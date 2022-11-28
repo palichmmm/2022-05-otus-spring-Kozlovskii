@@ -10,12 +10,16 @@
 <div>
     <ul id="menu">
         <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
-        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}">Жанры</a></li>
-        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}">Авторы</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}" th:text="#{genres-menu-section}">Жанры</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}" th:text="#{authors-menu-section}">Авторы</a></li>
+        <li id="lang">
+            <a href="/templates/book/all.html" th:href="@{/book/all(lang=en)}" th:text="#{en-lang-menu}">EN</a>
+            <a href="/templates/book/all.html" th:href="@{/book/all(lang=ru)}" th:text="#{ru-lang-menu}">RU</a>
+        </li>
     </ul>
-    <h1>Книги</h1>
+    <h1 th:text="#{book-head}">Книги</h1>
     <p class="center">
-        <a id="create" href="/templates/book/creat" th:href="@{'/book/create'}">Создать новую книгу</a>
+        <a id="create" href="/templates/book/creat" th:href="@{'/book/create'}" th:text="#{button-new-book}">Создать</a>
     </p>
     <table>
         <caption style="padding-bottom: 0.2em;font-size: 1.2em;">Список книг</caption>

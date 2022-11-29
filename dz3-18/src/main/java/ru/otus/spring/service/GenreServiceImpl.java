@@ -24,13 +24,13 @@ public class GenreServiceImpl implements GenreService {
     @Transactional(readOnly = true)
     @Override
     public Genre findById(long id) {
-        return repository.findById(id).orElseThrow(RuntimeException::new);
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("ЖАНР С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Transactional
     @Override
     public Genre findByName(String name) {
-        return repository.findByGenreName(name).orElseThrow(RuntimeException::new);
+        return repository.findByGenreName(name).orElseThrow(() -> new RuntimeException("ЖАНР С НАЗВАНИЕМ - " + name + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Transactional(readOnly = true)

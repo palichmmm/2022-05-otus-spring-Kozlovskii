@@ -24,13 +24,13 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional(readOnly = true)
     @Override
     public Author findById(long id) {
-        return repository.findById(id).orElseThrow(RuntimeException::new);
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("АВТОР С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Transactional
     @Override
     public Author findByName(String name) {
-        return repository.findByAuthorName(name).orElseThrow(RuntimeException::new);
+        return repository.findByAuthorName(name).orElseThrow(() -> new RuntimeException("АВТОР С ИМЕНЕМ - " + name + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Transactional(readOnly = true)

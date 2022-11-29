@@ -17,7 +17,9 @@
             <p style="text-align: center;">
                 <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="100" alt="SOVA">
             </p>
-            <h1 th:text="${'ОШИБКА - ' + #response.getStatus()}">ОШИБКА 404</h1>
+            <h1 th:if="${#response.getStatus() == 200}" th:text="#{error}">Ошибка!</h1>
+            <h1 th:if="${#response.getStatus() != 200}" th:text="${'Ошибка - ' + #response.getStatus()}">Ошибка - 404</h1>
+            <h1 th:text="${message}">Текст ошибки</h1>
         </div>
     </div>
 </div>

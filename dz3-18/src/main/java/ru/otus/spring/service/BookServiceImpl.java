@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
-import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.AuthorRepository;
 import ru.otus.spring.repositories.BookRepository;
@@ -31,11 +30,11 @@ public class BookServiceImpl implements BookService {
     public Book save(Book book) {
         Author author = authorRepository.findById(book.getAuthor().getId()).orElseThrow(RuntimeException::new);
         if (author == null) {
-            throw new RuntimeException("Автора с ID=" + book.getAuthor().getId() + " не существует!");
+            throw new RuntimeException("АВТОР С ID=" + book.getAuthor().getId() + " НЕ СУЩЕСТВУЕТ!");
         }
         Genre genre = genreRepository.findById(book.getGenre().getId()).orElseThrow(RuntimeException::new);
         if (genre == null) {
-            throw new RuntimeException("Жанра с ID=" + book.getGenre().getId() + " не существует!");
+            throw new RuntimeException("ЖАНР С ID=" + book.getGenre().getId() + " НЕ СУЩЕСТВУЕТ!");
         }
         book.setAuthor(author);
         book.setGenre(genre);
@@ -45,7 +44,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Book findById(long id) {
-        return bookRepository.findById(id).orElseThrow(RuntimeException::new);
+        return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("КНИГИ С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Transactional(readOnly = true)

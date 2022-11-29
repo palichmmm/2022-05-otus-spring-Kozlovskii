@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment save(Comment comment) {
         Optional<Book> book = bookRepository.findById(comment.getBook().getId());
         if (book.isEmpty()) {
-            throw new RuntimeException("Книги с ID=" + comment.getBook().getId() + " нет в базе!");
+            throw new RuntimeException("КНИГИ С ID=" + comment.getBook().getId() + " НЕТ В БАЗЕ!");
         }
         comment.setBook(book.get());
         return repository.save(comment);
@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public Comment findById(long id) {
-        return repository.findById(id).orElseThrow(RuntimeException::new);
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("КОММЕНТАРИЯ С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Transactional

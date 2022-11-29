@@ -6,10 +6,10 @@ function Delete(id) {
         let url = deleteBtn.getAttribute("data-delete-url") + id;
         req.open("DELETE", url, true);
         req.addEventListener("load", function () {
-            if (req.status === 200) {
+            if (req.status === 200 && req.responseText.indexOf('exception') === -1) {
                 window.location.replace(req.responseText);
             } else {
-                alert("Не удалось удалить объект! Код ошибки: " + req.status);
+                alert("Не удалось удалить объект! Возможно объект связан!");
             }
         });
         req.send();

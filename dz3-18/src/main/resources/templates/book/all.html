@@ -22,17 +22,17 @@
         <a id="create" href="/templates/book/creat" th:href="@{'/book/create'}" th:text="#{button-new-book}">Создать</a>
     </p>
     <table>
-        <caption style="padding-bottom: 0.2em;font-size: 1.2em;">Список книг</caption>
+        <caption style="padding-bottom: 0.2em;font-size: 1.2em;" th:text="#{table-head-book}">Список книг</caption>
         <tr>
             <th rowspan="2" th:rowspan="${books.size() + 1}">
                 <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
             </th>
-            <th>Id</th>
-            <th>Название</th>
-            <th>Автор</th>
-            <th>Жанр</th>
-            <th>Отзывы</th>
-            <th>Действия</th>
+            <th th:text="#{table-id}">Id</th>
+            <th th:text="#{table-name}">Название</th>
+            <th th:text="#{table-author}">Автор</th>
+            <th th:text="#{table-genre}">Жанр</th>
+            <th th:text="#{table-reviews}">Отзывы</th>
+            <th th:text="#{table-actions}">Действия</th>
         </tr>
         <tr th:each="book : ${books}">
             <td th:text="${book.getId()}">0</td>
@@ -47,9 +47,10 @@
             </td>
             <td>
                 <ul id="actions">
-                    <li><a href="edit.html" th:href="@{'/book/edit/' + ${book.getId()}}">Изменить</a></li>
+                    <li><a href="edit.html" th:href="@{'/book/edit/' + ${book.getId()}}" th:text="#{form-buttom-edit}">Изменить</a></li>
                     <li>
                         <input id="del0" class="delete" type="button" value="Удалить"
+                               th:value="#{form-buttom-delete}"
                                th:id="${'del' + book.getId()}"
                                th:onclick="|Delete(@{${book.getId()}})|"
                                th:attr="data-delete-url=@{'/book/delete/'}">

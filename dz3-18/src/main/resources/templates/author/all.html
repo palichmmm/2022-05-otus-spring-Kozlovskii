@@ -22,14 +22,14 @@
         <a id="create" href="/templates/author/creat" th:href="@{'/author/create'}" th:text="#{button-new-author}">Создать</a>
     </p>
     <table>
-        <caption style="padding-bottom: 0.2em;font-size: 1.2em;">Список авторов</caption>
+        <caption style="padding-bottom: 0.2em;font-size: 1.2em;" th:text="#{table-head-author}">Список авторов</caption>
         <tr>
             <th rowspan="2" th:rowspan="${authors.size() + 1}">
                 <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
             </th>
-            <th>Id</th>
-            <th>Автор</th>
-            <th>Действия</th>
+            <th th:text="#{table-id}">Id</th>
+            <th th:text="#{table-author}">Автор</th>
+            <th th:text="#{table-actions}">Действия</th>
         </tr>
         <tr th:each="author : ${authors}">
             <td th:text="${author.getId()}">0</td>
@@ -37,10 +37,11 @@
             <td>
                 <ul id="actions">
                     <li>
-                        <a href="edit.html" th:href="@{'/author/edit/' + ${author.getId()}}">Изменить</a>
+                        <a href="edit.html" th:href="@{'/author/edit/' + ${author.getId()}}" th:text="#{form-buttom-edit}">Изменить</a>
                     </li>
                     <li>
                         <input id="del0" class="delete" type="button" value="Удалить"
+                               th:value="#{form-buttom-delete}"
                                th:id="${'del' + author.getId()}"
                                th:onclick="|Delete(@{${author.getId()}})|"
                                th:attr="data-delete-url=@{'/author/delete/'}"

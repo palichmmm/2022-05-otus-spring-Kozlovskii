@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Авторы</title>
     <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
-    <script src="/static/js/delete.js" th:src="@{/js/delete.js}"></script>
 </head>
 <body>
 <div>
@@ -35,19 +34,10 @@
             <td th:text="${author.getId()}">0</td>
             <td th:text="${author.getAuthorName()}">Автор</td>
             <td>
-                <ul id="actions">
-                    <li>
-                        <a href="edit.html" th:href="@{'/author/edit/' + ${author.getId()}}" th:text="#{form-buttom-edit}">Изменить</a>
-                    </li>
-                    <li>
-                        <input id="del0" class="delete" type="button" value="Удалить"
-                               th:value="#{form-buttom-delete}"
-                               th:id="${'del' + author.getId()}"
-                               th:onclick="|deleteObj(@{${author.getId()}})|"
-                               th:attr="data-delete-url=@{'/author/delete/'}"
-                        >
-                    </li>
-                </ul>
+                <a class="edit" href="edit.html" th:href="@{'/author/edit/' + ${author.getId()}}"
+                   th:text="#{form-buttom-edit}">Изменить</a>
+                <a class="delete" href="delete.html" th:href="@{'/author/delete/' + ${author.getId()}}"
+                   th:text="#{form-buttom-delete}">Удалить</a>
             </td>
         </tr>
     </table>

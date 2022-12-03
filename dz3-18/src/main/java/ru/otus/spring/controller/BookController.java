@@ -91,9 +91,15 @@ public class BookController {
         return "/book/comments";
     }
 
-    @DeleteMapping("/book/delete/{id}")
-    public @ResponseBody String delete(@PathVariable("id") long id) {
+    @GetMapping("/book/delete/{id}")
+    public String deleteForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("book", bookService.findById(id));
+        return "/book/delete";
+    }
+
+    @PostMapping("/book/delete")
+    public String delete(@RequestParam("id") long id) {
         bookService.deleteById(id);
-        return "/book/all";
+        return "redirect:/book/all";
     }
 }

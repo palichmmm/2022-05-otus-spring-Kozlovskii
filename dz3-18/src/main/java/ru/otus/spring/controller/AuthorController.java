@@ -3,7 +3,6 @@ package ru.otus.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.service.AuthorService;
@@ -59,9 +58,15 @@ public class AuthorController {
         return "redirect:/author/all";
     }
 
-    @DeleteMapping("/author/delete/{id}")
-    public @ResponseBody String edit(@PathVariable("id") long id) {
+    @GetMapping("/author/delete/{id}")
+    public String deleteForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("author", service.findById(id));
+        return "/author/delete";
+    }
+
+    @PostMapping("/author/delete")
+    public String delete(@RequestParam("id") long id) {
         service.deleteById(id);
-        return "/author/all";
+        return "redirect:/author/all";
     }
 }

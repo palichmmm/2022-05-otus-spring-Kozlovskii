@@ -62,9 +62,15 @@ public class GenreController {
         return "redirect:/genre/all";
     }
 
-    @DeleteMapping("/genre/delete/{id}")
-    public @ResponseBody String edit(@PathVariable("id") long id) {
+    @GetMapping("/genre/delete/{id}")
+    public String deleteForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("genre", service.findById(id));
+        return "/genre/delete";
+    }
+
+    @PostMapping("/genre/delete")
+    public String delete(@RequestParam("id") long id) {
         service.deleteById(id);
-        return "/genre/all";
+        return "redirect:/genre/all";
     }
 }

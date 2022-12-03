@@ -35,16 +35,10 @@
             <td th:text="${genre.getId()}">0</td>
             <td th:text="${genre.getGenreName()}">Жанр</td>
             <td>
-                <ul id="actions">
-                    <li><a href="edit.html" th:href="@{'/genre/edit/' + ${genre.getId()}}" th:text="#{form-buttom-edit}">Изменить</a></li>
-                    <li>
-                        <input id="del0" class="delete" type="button" value="Удалить"
-                               th:value="#{form-buttom-delete}"
-                               th:id="${'del' + genre.getId()}"
-                               th:onclick="|deleteObj(@{${genre.getId()}})|"
-                               th:attr="data-delete-url=@{'/genre/delete/'}">
-                    </li>
-                </ul>
+                <a class="edit" href="edit.html" th:href="@{'/genre/edit/' + ${genre.getId()}}"
+                   th:text="#{form-buttom-edit}">Изменить</a>
+                <a class="delete" href="delete.html" th:href="@{'/genre/delete/' + ${genre.getId()}}"
+                   th:text="#{form-buttom-delete}">Удалить</a>
             </td>
         </tr>
     </table>

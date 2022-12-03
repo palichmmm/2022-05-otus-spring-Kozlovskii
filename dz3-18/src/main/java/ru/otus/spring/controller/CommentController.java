@@ -1,6 +1,7 @@
 package ru.otus.spring.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -68,10 +69,15 @@ public class CommentController {
         return "redirect:/book/comments/" + book.getId();
     }
 
-    @DeleteMapping("/comment/delete/{id}")
-    public @ResponseBody String delete(@PathVariable("id") long id) {
-        Comment comment = commentService.findById(id);
+    @GetMapping("/comment/delete/{id}")
+    public String deleteForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("comment", commentService.findById(id));
+        return "/comment/delete";
+    }
+
+    @PostMapping("/comment/delete")
+    public String delete(@RequestParam("id") long id, @RequestParam("bookId") long bookId) {
         commentService.deleteById(id);
-        return "/book/comments/" + comment.getBook().getId();
+        return "redirect:/book/comments/" + bookId;
     }
 }

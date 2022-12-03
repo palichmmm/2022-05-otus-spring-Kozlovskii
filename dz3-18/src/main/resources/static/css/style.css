@@ -42,24 +42,23 @@ td, th{
     padding: 0;
     list-style-type: none;
 }
-#actions a, .edit {
-    margin: 1em 0;
-    padding: 0.2em 2em;
+.edit {
+    padding: 0.2em 0.5em;
     text-decoration: none;
     border: 1px solid green;
     background: green;
     color: white;
 }
-#actions a:hover, .edit:hover {
+.edit:hover {
     background: #0eb20e;
     border-color: #0eb20e;
     cursor: pointer;
 }
 #actions .delete {
-    margin: 1em 0;
-    padding: 0.4em 3em;
+    padding: 0.2em 0.5em;
+    text-decoration: none;
+    border: 1px solid red;
     background: red;
-    border: red;
     color: white;
 }
 #actions .delete:hover {
@@ -91,4 +90,16 @@ td, th{
     padding-right: 0;
     padding-left: 0;
 }
+.delete {
+    text-decoration: none;
+    border: 1px solid red;
+    background: red;
+    color: white;
+    padding: 0.2em 0.5em;
+}
+.delete:hover {
+    background: #f83838;
+    cursor: pointer;
+}
+
 

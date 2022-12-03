@@ -34,16 +34,10 @@
             <td th:text="${comment.getId()}">0</td>
             <td th:text="${comment.getComment()}">Отзыв</td>
             <td>
-                <ul id="actions">
-                    <li><a href="/templates/comment/edit.html" th:href="@{'/comment/edit/' + ${comment.getId()}}">Изменить</a></li>
-                    <li>
-                        <input id="del0" class="delete" type="button" value="Удалить"
-                               th:id="${'del' + comment.getId()}"
-                               th:onclick="|deleteObj(@{${comment.getId()}})|"
-                               th:attr="data-delete-url=@{'/comment/delete/'}"
-                        >
-                    </li>
-                </ul>
+                <a class="edit" href="edit.html" th:href="@{'/comment/edit/' + ${comment.getId()}}"
+                   th:text="#{form-buttom-edit}">Изменить</a>
+                <a class="delete" href="delete.html" th:href="@{'/comment/delete/' + ${comment.getId()}}"
+                   th:text="#{form-buttom-delete}">Удалить</a>
             </td>
         </tr>
     </table>

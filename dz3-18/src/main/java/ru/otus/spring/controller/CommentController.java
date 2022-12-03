@@ -69,7 +69,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/comment/delete/{id}")
-    public @ResponseBody String edit(@PathVariable("id") long id) {
+    public @ResponseBody String delete(@PathVariable("id") long id) {
         Comment comment = commentService.findById(id);
         commentService.deleteById(id);
         return "/book/comments/" + comment.getBook().getId();

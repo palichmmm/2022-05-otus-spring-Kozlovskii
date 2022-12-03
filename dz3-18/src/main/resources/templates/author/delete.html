@@ -13,12 +13,12 @@
         </li>
         <li><a href="/templates/book/all.html" th:href="@{'/book/all'}" th:text="#{books-menu-section}">Книги</a></li>
     </ul>
-    <h1>Удаление автора:</h1>
+    <h1 th:text="${'Удаление автора с id=' + author.getId()}">Удаление автора</h1>
     <div style="display: flex; justify-content: center;">
         <form action="/author/delete" th:object="${author}" th:action="@{'/author/delete'}" method="post">
             <p class="center"><img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200"></p>
             <h2 style="color: red; text-align: center;">Вы действительно хотите удалить автора?</h2>
-            <h2 style="text-align: center;" th:text="*{getAuthorName() + ' с Id=' + getId()}">Автор</h2>
+            <h2 style="text-align: center;" th:text="*{getAuthorName()}">Автор</h2>
             <input type="hidden" name="id" th:value="*{getId()}">
             <div style="display: flex; justify-content: center;"><input class="delete" type="submit" value="Удалить"></div>
         </form>

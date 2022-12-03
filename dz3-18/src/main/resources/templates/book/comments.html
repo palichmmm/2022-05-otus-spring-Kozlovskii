@@ -39,7 +39,7 @@
                     <li>
                         <input id="del0" class="delete" type="button" value="Удалить"
                                th:id="${'del' + comment.getId()}"
-                               th:onclick="|Delete(@{${comment.getId()}})|"
+                               th:onclick="|deleteObj(@{${comment.getId()}})|"
                                th:attr="data-delete-url=@{'/comment/delete/'}"
                         >
                     </li>

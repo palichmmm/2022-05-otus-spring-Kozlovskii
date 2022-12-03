@@ -43,7 +43,7 @@
                         <input id="del0" class="delete" type="button" value="Удалить"
                                th:value="#{form-buttom-delete}"
                                th:id="${'del' + author.getId()}"
-                               th:onclick="|Delete(@{${author.getId()}})|"
+                               th:onclick="|deleteObj(@{${author.getId()}})|"
                                th:attr="data-delete-url=@{'/author/delete/'}"
                         >
                     </li>

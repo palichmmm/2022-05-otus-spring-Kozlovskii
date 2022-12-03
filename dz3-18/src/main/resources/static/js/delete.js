@@ -1,4 +1,4 @@
-function Delete(id) {
+function deleteObj(id) {
     let result = confirm("УДАЛИТЬ ОБЪЕКТ?");
     if (result) {
         let req = new XMLHttpRequest();

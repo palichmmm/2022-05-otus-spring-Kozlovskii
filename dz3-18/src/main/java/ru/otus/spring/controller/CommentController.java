@@ -3,7 +3,6 @@ package ru.otus.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.dto.CommentDTO;
 import ru.otus.spring.models.Book;

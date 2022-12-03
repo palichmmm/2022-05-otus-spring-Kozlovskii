@@ -35,7 +35,7 @@ public class BookController {
     }
 
     @GetMapping("/book/edit/{id}")
-    public String edit(@ModelAttribute("book") BookDTO book, Model model) {
+    public String editForm(@ModelAttribute("book") BookDTO book, Model model) {
         Book editBook = bookService.findById(book.getId());
         model.addAttribute("authors", authorService.findAll());
         model.addAttribute("genres", genreService.findAll());
@@ -45,9 +45,8 @@ public class BookController {
         return "/book/edit";
     }
 
-    @Validated
     @PostMapping("/book/edit/{id}")
-    public String edit(@Valid @ModelAttribute("book") BookDTO book,
+    public String saveFormEdit(@Valid @ModelAttribute("book") BookDTO book,
                        BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.findAll());
@@ -65,15 +64,14 @@ public class BookController {
     }
 
     @GetMapping("/book/create")
-    public String create(@ModelAttribute("book") BookDTO book, Model model) {
+    public String createForm(@ModelAttribute("book") BookDTO book, Model model) {
         model.addAttribute("authors", authorService.findAll());
         model.addAttribute("genres", genreService.findAll());
         return "/book/create";
     }
 
-    @Validated
     @PostMapping("/book/create")
-    public String create(@Valid @ModelAttribute("book") BookDTO book,
+    public String saveFormCreate(@Valid @ModelAttribute("book") BookDTO book,
                          BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.findAll());

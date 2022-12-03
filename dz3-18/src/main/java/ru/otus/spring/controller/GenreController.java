@@ -28,15 +28,14 @@ public class GenreController {
     }
 
     @GetMapping("/genre/edit/{id}")
-    public String edit(@PathVariable("id") long id, Model model) {
+    public String editForm(@PathVariable("id") long id, Model model) {
         Genre genre = service.findById(id);
         model.addAttribute("genre", genre);
         return "/genre/edit";
     }
 
-    @Validated
     @PostMapping("/genre/edit/{id}")
-    public String edit(@Valid @ModelAttribute("genre") Genre genre,
+    public String saveFormEdit(@Valid @ModelAttribute("genre") Genre genre,
                        BindingResult bindingResult,
                        @PathVariable("id") long id) {
         if (bindingResult.hasErrors()) {
@@ -48,13 +47,12 @@ public class GenreController {
     }
 
     @GetMapping("/genre/create")
-    public String create(@ModelAttribute("genre") Genre genre) {
+    public String createForm(@ModelAttribute("genre") Genre genre) {
         return "/genre/create";
     }
 
-    @Validated
     @PostMapping("/genre/create")
-    public String edit(@Valid @ModelAttribute("genre") Genre genre,
+    public String saveFormEdit(@Valid @ModelAttribute("genre") Genre genre,
                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/genre/create";

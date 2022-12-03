@@ -26,14 +26,13 @@ public class AuthorController {
     }
 
     @GetMapping("/author/edit/{id}")
-    public String edit(@PathVariable("id") long id, Model model) {
+    public String editForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("author", service.findById(id));
         return "/author/edit";
     }
 
-    @Validated
     @PostMapping("/author/edit/{id}")
-    public String edit(@Valid @ModelAttribute("author") Author author,
+    public String saveFormEdit(@Valid @ModelAttribute("author") Author author,
                        BindingResult bindingResult,
                        @PathVariable("id") long id) {
         if (bindingResult.hasErrors()) {
@@ -45,13 +44,12 @@ public class AuthorController {
     }
 
     @GetMapping("/author/create")
-    public String create(@ModelAttribute("author") Author author) {
+    public String createForm(@ModelAttribute("author") Author author) {
         return "/author/create";
     }
 
-    @Validated
     @PostMapping("/author/create")
-    public String create(@Valid @ModelAttribute("author") Author author,
+    public String saveFormCreate(@Valid @ModelAttribute("author") Author author,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/author/create";

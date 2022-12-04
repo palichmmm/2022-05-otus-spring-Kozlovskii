@@ -24,7 +24,7 @@ public class CommentController {
     }
 
     @GetMapping("/comment/edit/{id}")
-    public String editForm(@ModelAttribute("comment") CommentDTO comment) {
+    public String getCommentEditPage(@ModelAttribute("comment") CommentDTO comment) {
         Comment editComment = commentService.findById(comment.getId());
         comment.setComment(editComment.getComment());
         comment.setBookId(editComment.getBook().getId());
@@ -33,8 +33,8 @@ public class CommentController {
     }
 
     @PostMapping("/comment/edit/{id}")
-    public String saveFormEdit(@Valid @ModelAttribute("comment") CommentDTO comment,
-                       BindingResult bindingResult) {
+    public String saveCommentEditPage(@Valid @ModelAttribute("comment") CommentDTO comment,
+                                      BindingResult bindingResult) {
         Comment editComment = commentService.findById(comment.getId());
         if (bindingResult.hasErrors()) {
             comment.setBookId(editComment.getBook().getId());
@@ -47,7 +47,7 @@ public class CommentController {
     }
 
     @GetMapping("/comment/create/{id}")
-    public String createForm(@ModelAttribute("comment") CommentDTO comment) {
+    public String getCommentByBookIdCreationPage(@ModelAttribute("comment") CommentDTO comment) {
         Book book = bookService.findById(comment.getId());
         comment.setBookId(book.getId());
         comment.setBookName(book.getBookName());
@@ -55,8 +55,8 @@ public class CommentController {
     }
 
     @PostMapping("/comment/create/{id}")
-    public String saveFormCreate(@Valid @ModelAttribute("comment") CommentDTO comment,
-                         BindingResult bindingResult) {
+    public String saveCommentByBookIdCreationPage(@Valid @ModelAttribute("comment") CommentDTO comment,
+                                                  BindingResult bindingResult) {
         Book book = bookService.findById(comment.getId());
         if (bindingResult.hasErrors()) {
             comment.setBookId(book.getId());
@@ -69,7 +69,7 @@ public class CommentController {
     }
 
     @GetMapping("/comment/delete/{id}")
-    public String deleteForm(@PathVariable("id") long id, Model model) {
+    public String deleteComment(@PathVariable("id") long id, Model model) {
         model.addAttribute("comment", commentService.findById(id));
         return "/comment/delete";
     }

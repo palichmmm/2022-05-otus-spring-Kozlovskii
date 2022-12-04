@@ -19,21 +19,21 @@ public class AuthorController {
     }
 
     @GetMapping("/author/all")
-    public String all(Model model) {
+    public String getAllAuthor(Model model) {
         model.addAttribute("authors", service.findAll());
         return "/author/all";
     }
 
     @GetMapping("/author/edit/{id}")
-    public String editForm(@PathVariable("id") long id, Model model) {
+    public String getAuthorEditPage(@PathVariable("id") long id, Model model) {
         model.addAttribute("author", service.findById(id));
         return "/author/edit";
     }
 
     @PostMapping("/author/edit/{id}")
-    public String saveFormEdit(@Valid @ModelAttribute("author") Author author,
-                       BindingResult bindingResult,
-                       @PathVariable("id") long id) {
+    public String saveAuthorEditPage(@Valid @ModelAttribute("author") Author author,
+                                     BindingResult bindingResult,
+                                     @PathVariable("id") long id) {
         if (bindingResult.hasErrors()) {
             return "/author/edit";
         }
@@ -43,13 +43,13 @@ public class AuthorController {
     }
 
     @GetMapping("/author/create")
-    public String createForm(@ModelAttribute("author") Author author) {
+    public String getAuthorCreationPage(@ModelAttribute("author") Author author) {
         return "/author/create";
     }
 
     @PostMapping("/author/create")
-    public String saveFormCreate(@Valid @ModelAttribute("author") Author author,
-                         BindingResult bindingResult) {
+    public String saveAuthorCreationPage(@Valid @ModelAttribute("author") Author author,
+                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/author/create";
         }
@@ -59,13 +59,13 @@ public class AuthorController {
     }
 
     @GetMapping("/author/delete/{id}")
-    public String deleteForm(@PathVariable("id") long id, Model model) {
+    public String getAuthorDeletePage(@PathVariable("id") long id, Model model) {
         model.addAttribute("author", service.findById(id));
         return "/author/delete";
     }
 
     @PostMapping("/author/delete")
-    public String delete(@RequestParam("id") long id) {
+    public String deleteAuthor(@RequestParam("id") long id) {
         service.deleteById(id);
         return "redirect:/author/all";
     }

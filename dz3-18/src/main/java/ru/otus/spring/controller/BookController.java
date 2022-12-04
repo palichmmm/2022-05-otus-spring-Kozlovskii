@@ -28,13 +28,13 @@ public class BookController {
     }
 
     @GetMapping("/book/all")
-    public String all(Model model) {
+    public String getAllBook(Model model) {
         model.addAttribute("books", bookService.findAll());
         return "/book/all";
     }
 
     @GetMapping("/book/edit/{id}")
-    public String editForm(@ModelAttribute("book") BookDTO book, Model model) {
+    public String getBookEditPage(@ModelAttribute("book") BookDTO book, Model model) {
         Book editBook = bookService.findById(book.getId());
         model.addAttribute("authors", authorService.findAll());
         model.addAttribute("genres", genreService.findAll());
@@ -45,8 +45,8 @@ public class BookController {
     }
 
     @PostMapping("/book/edit/{id}")
-    public String saveFormEdit(@Valid @ModelAttribute("book") BookDTO book,
-                       BindingResult bindingResult, Model model) {
+    public String saveBookEditPage(@Valid @ModelAttribute("book") BookDTO book,
+                                   BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.findAll());
             model.addAttribute("genres", genreService.findAll());
@@ -63,15 +63,15 @@ public class BookController {
     }
 
     @GetMapping("/book/create")
-    public String createForm(@ModelAttribute("book") BookDTO book, Model model) {
+    public String getBookCreationPage(@ModelAttribute("book") BookDTO book, Model model) {
         model.addAttribute("authors", authorService.findAll());
         model.addAttribute("genres", genreService.findAll());
         return "/book/create";
     }
 
     @PostMapping("/book/create")
-    public String saveFormCreate(@Valid @ModelAttribute("book") BookDTO book,
-                         BindingResult bindingResult, Model model) {
+    public String saveBookCreationPage(@Valid @ModelAttribute("book") BookDTO book,
+                                       BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.findAll());
             model.addAttribute("genres", genreService.findAll());
@@ -85,19 +85,19 @@ public class BookController {
     }
 
     @GetMapping("/book/comments/{id}")
-    public String comments(@PathVariable("id") long id, Model model) {
+    public String getCommentsBook(@PathVariable("id") long id, Model model) {
         model.addAttribute("book", bookService.findById(id));
         return "/book/comments";
     }
 
     @GetMapping("/book/delete/{id}")
-    public String deleteForm(@PathVariable("id") long id, Model model) {
+    public String getBookDeletePage(@PathVariable("id") long id, Model model) {
         model.addAttribute("book", bookService.findById(id));
         return "/book/delete";
     }
 
     @PostMapping("/book/delete")
-    public String delete(@RequestParam("id") long id) {
+    public String deleteBook(@RequestParam("id") long id) {
         bookService.deleteById(id);
         return "redirect:/book/all";
     }

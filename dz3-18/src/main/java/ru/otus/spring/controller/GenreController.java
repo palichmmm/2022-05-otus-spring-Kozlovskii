@@ -20,23 +20,23 @@ public class GenreController {
     }
 
     @GetMapping("/genre/all")
-    public String all(Model model) {
+    public String getAllGenre(Model model) {
         List<Genre> genres = service.findAll();
         model.addAttribute("genres", genres);
         return "/genre/all";
     }
 
     @GetMapping("/genre/edit/{id}")
-    public String editForm(@PathVariable("id") long id, Model model) {
+    public String getGenreEditPage(@PathVariable("id") long id, Model model) {
         Genre genre = service.findById(id);
         model.addAttribute("genre", genre);
         return "/genre/edit";
     }
 
     @PostMapping("/genre/edit/{id}")
-    public String saveFormEdit(@Valid @ModelAttribute("genre") Genre genre,
-                       BindingResult bindingResult,
-                       @PathVariable("id") long id) {
+    public String saveGenreEditPage(@Valid @ModelAttribute("genre") Genre genre,
+                                    BindingResult bindingResult,
+                                    @PathVariable("id") long id) {
         if (bindingResult.hasErrors()) {
             return "/genre/edit";
         }
@@ -46,13 +46,13 @@ public class GenreController {
     }
 
     @GetMapping("/genre/create")
-    public String createForm(@ModelAttribute("genre") Genre genre) {
+    public String getGenreCreationPage(@ModelAttribute("genre") Genre genre) {
         return "/genre/create";
     }
 
     @PostMapping("/genre/create")
-    public String saveFormEdit(@Valid @ModelAttribute("genre") Genre genre,
-                       BindingResult bindingResult) {
+    public String saveGenreCreationPage(@Valid @ModelAttribute("genre") Genre genre,
+                                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/genre/create";
         }
@@ -62,13 +62,13 @@ public class GenreController {
     }
 
     @GetMapping("/genre/delete/{id}")
-    public String deleteForm(@PathVariable("id") long id, Model model) {
+    public String getGenreDeletePage(@PathVariable("id") long id, Model model) {
         model.addAttribute("genre", service.findById(id));
         return "/genre/delete";
     }
 
     @PostMapping("/genre/delete")
-    public String delete(@RequestParam("id") long id) {
+    public String deleteGenre(@RequestParam("id") long id) {
         service.deleteById(id);
         return "redirect:/genre/all";
     }

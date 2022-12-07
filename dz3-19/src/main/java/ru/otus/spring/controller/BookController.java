@@ -1,6 +1,5 @@
 package ru.otus.spring.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +92,7 @@ public class BookController {
 
 
     @DeleteMapping("/api/book")
-    public void deleteBook(@RequestParam("id") long id) {
+    public void deleteBookById(@RequestParam("id") long id) {
         bookService.deleteById(id);
     }
 

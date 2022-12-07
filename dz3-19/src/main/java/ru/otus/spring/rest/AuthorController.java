@@ -41,12 +41,12 @@ public class AuthorController {
     }
 
     @DeleteMapping("/api/author")
-    public void deleteAuthor(@RequestParam("id") long id) {
+    public void deleteAuthorById(@RequestParam("id") long id) {
         service.deleteById(id);
     }
 
     @GetMapping("/api/author/count")
-    public long getCount() {
+    public long getCountAuthor() {
         return service.count();
     }
 }

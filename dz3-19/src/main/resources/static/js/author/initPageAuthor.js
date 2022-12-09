@@ -11,7 +11,6 @@ function clickActions(e) {
 
     }
     if (action === "update") {
-        var authorName = e.target.dataset.authorName;
         updateAuthor('http://localhost:8080/api/author/' + id, 'Изменить Автора', button);
     }
     if (action === "delete") {

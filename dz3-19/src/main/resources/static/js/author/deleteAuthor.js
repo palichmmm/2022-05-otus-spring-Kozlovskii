@@ -1,4 +1,4 @@
-function deleteObject(url, id) {
+function deleteAuthor(url, id) {
     fetch(url, {
         method: 'DELETE',
         headers: {
@@ -8,12 +8,11 @@ function deleteObject(url, id) {
     })
         .then(result => {
             if (result.ok) {
-                info('Объект успешно удален', true);
-                getAllObject(url);
+                informer('Объект успешно удален', true);
             } else {
-                info('Ошибка удаления - ' + result.status, false);
-                console.log(result.json())
+                informer('Ошибка удаления - ' + result.status, false);
+                return result.json();
             }
-        })
+        }).then(data => console.log(data['message']['error']))
         .catch(err => console.log(err));
 }

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css" th:href="@{'/bootstrap/bootstrap.min.css'}">
 </head>
 <body>
+<!--Панель навигации-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/templates/home.html" th:href="@{'/'}">Библиотека книг</a>
@@ -17,18 +18,19 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a id="author" class="nav-link" href="/templates/author.html" th:href="@{'/author'}">Авторы <span class="badge bg-secondary">0</span></a>
+                    <a class="nav-link" href="/templates/author.html" th:href="@{'/author'}">Авторы <span id="author" class="badge bg-secondary">0</span></a>
                 </li>
                 <li class="nav-item">
-                    <a id="genre" class="nav-link" href="/templates/genre.thml" th:href="@{'/genre'}">Жанры <span class="badge bg-secondary">0</span></a>
+                    <a class="nav-link" href="/templates/genre.thml" th:href="@{'/genre'}">Жанры <span id="genre" class="badge bg-secondary">0</span></a>
                 </li>
                 <li class="nav-item">
-                    <a id="book" class="nav-link" href="/templates/book.html" th:href="@{'/book'}">Книги <span class="badge bg-secondary">0</span></a>
+                    <a class="nav-link" href="/templates/book.html" th:href="@{'/book'}">Книги <span id="book" class="badge bg-secondary">0</span></a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+<!--Страница сайта-->
 <div class="container">
     <div class="row pt-5">
         <h1 class="text-center display-4 mt-1">Библиотека книг</h1>
@@ -38,5 +40,6 @@
     </div>
 </div>
 </body>
-<script src="/js/count.js"></script>
+<script src="/js/countObjectUpdateTextById.js"></script>
+<script src="/js/initPageHome.js"></script>
 </html>

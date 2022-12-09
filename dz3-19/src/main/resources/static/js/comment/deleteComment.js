@@ -1,4 +1,4 @@
-function deleteBook(url, id) {
+function deleteComment(url, id) {
     fetch(url, {
         method: 'DELETE',
         headers: {

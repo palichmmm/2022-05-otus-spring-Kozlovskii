@@ -6,9 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css" th:href="@{'/bootstrap/bootstrap.min.css'}">
   <script src="/static/bootstrap/bootstrap.bundle.min.js" th:src="@{'/bootstrap/bootstrap.bundle.min.js'}"></script>
-  <script src="/static/js/info.js" th:src="@{'/js/info.js'}"></script>
 </head>
 <body>
+<!--Модальное окно-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="subForm">Save object</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Панель навигации-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="/templates/home.html" th:href="@{'/'}">Библиотека книг</a>
@@ -19,20 +36,21 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
-          <a id="author" class="nav-link" href="/templates/author.html" th:href="@{'/author'}">Авторы <span class="badge bg-secondary">0</span></a>
+          <a class="nav-link" href="/templates/author.html" th:href="@{'/author'}">Авторы <span id="author" class="badge bg-secondary">0</span></a>
         </li>
         <li class="nav-item">
-          <a id="genre" class="nav-link" href="/templates/genre.thml" th:href="@{'/genre'}">Жанры <span class="badge bg-secondary">0</span></a>
+          <a class="nav-link" href="/templates/genre.html" th:href="@{'/genre'}">Жанры <span id="genre" class="badge bg-secondary">0</span></a>
         </li>
         <li class="nav-item">
-          <a id="book" class="nav-link" href="/templates/book.html" th:href="@{'/book'}">Книги <span class="badge bg-secondary">0</span></a>
+          <a class="nav-link" href="/templates/book.html" th:href="@{'/book'}">Книги <span id="book" class="badge bg-secondary">0</span></a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+<!--Страница сайта-->
 <div class="container">
-  <div id="informer" class="row pt-5">
+  <div id="pointStartInformer" class="row pt-5">
     <h1 class="text-center display-4 mt-1">Все авторы</h1>
     <div class="text-center">
       <table class="table">
@@ -53,8 +71,12 @@
   </div>
 </div>
 </body>
-<script src="/js/count.js"></script>
-<script src="/js/getAllObject.js"></script>
-<script src="/js/author/all-author.js"></script>
-<script src="/js/deleteObject.js"></script>
+<!--<script src="/js/author/updateAuthor.js"></script>-->
+<!--<script src="/js/insertObjectInModal.js"></script>-->
+
+<script src="/js/author/deleteAuthor.js"></script>
+<script src="/js/author/updateTableAuthor.js"></script>
+<script src="/js/countObjectUpdateTextById.js"></script>
+<script src="/js/informer.js"></script>
+<script src="/js/author/initPageAuthor.js"></script>
 </html>

@@ -3,15 +3,18 @@ countObjectUpdateTextById('http://localhost:8080/api/genre/count','genre');
 countObjectUpdateTextById('http://localhost:8080/api/book/count','book');
 updateTableGenre('http://localhost:8080/api/genre');
 function clickActions(e) {
-    var action = e.target.dataset.action;
-    var id = e.target.dataset.id;
+    var button = e.target;
+    var action = button.dataset.action;
+    var id = button.dataset.id;
 
     if (action === "creat") {
 
     }
     if (action === "update") {
         var authorName = e.target.dataset.authorName;
-        updateGenre('http://localhost:8080/api/genre/' + id, 'Изменить Жанр');
+        updateGenre('http://localhost:8080/api/genre/' + id, 'Изменить Жанр', button);
+        setTimeout(countObjectUpdateTextById, 50,'http://localhost:8080/api/genre/count','genre')
+        setTimeout(updateTableGenre, 50, 'http://localhost:8080/api/genre');
     }
     if (action === "delete") {
         deleteGenre("http://localhost:8080/api/genre", id);

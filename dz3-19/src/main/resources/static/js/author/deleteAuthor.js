@@ -1,9 +1,7 @@
 function deleteAuthor(url, id) {
     fetch(url, {
         method: 'DELETE',
-        headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-        },
+        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
         body: "id=" + id
     })
         .then(result => {

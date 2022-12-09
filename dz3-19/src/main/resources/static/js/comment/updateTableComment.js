@@ -8,6 +8,7 @@ function updateTableComment(url) {
                 } else {
                     document.getElementById('body-table').innerHTML = '';
                 }
+                document.getElementById('insert-point').innerText = data[0]['bookName']
                 for (let comment of data) {
                     var creatTableLine = `<tr>
                         <td>${comment['id']}</td>

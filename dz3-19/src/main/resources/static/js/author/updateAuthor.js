@@ -1,35 +1,40 @@
-function updateAuthor(url, title) {
-    fetch(url)
-        .then(result => result.json())
-        .then(dto => {
-            var exampleModal = document.getElementById('exampleModal');
-            var modalTitle = exampleModal.querySelector('.modal-title');
-            var modalForm = exampleModal.querySelector('form');
-            modalForm.innerHTML = '';
-            var keys = Object.keys(dto);
-            var disabled = /id/i;
-            for (let key of keys) {
-
-                var div = document.createElement('div');
-                div.className = 'md-3';
-
-                var label = document.createElement('label');
-                label.htmlFor = 'object-' + key;
-                label.className = 'col-form-label';
-                label.innerText = key + ':'
-
-                var input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'form-control';
-                input.id = 'object-' + key;
-                input.value = dto[key];
-                input.disabled = disabled.test(key);
-
-
-                modalTitle.textContent = title;
-                div.append(label, input)
-                modalForm.append(div);
-            }
+function updateAuthor(url, title, btnData) {
+    var id = btnData.dataset.id;
+    var authorName = btnData.dataset.authorName;
+    document.querySelector('.modal-body').innerHTML = '';
+    var creatForm = `<form>
+                         <div class="mb-3">
+                            <label for="author-id" class="col-form-label">Id:</label>
+                            <input type="text" class="form-control" id="author-id"  value="${id}" disabled>
+                         </div>
+                         <div class="mb-3">
+                            <label for="author-name" class="col-form-label">Название:</label>
+                            <input type="text" class="form-control" id="author-name" value="${authorName}">
+                         </div>
+                    </form>`;
+    document.querySelector('.modal-body').insertAdjacentHTML('beforeend', creatForm);
+    var exampleModal = document.getElementById('exampleModal')
+    var modalTitle = exampleModal.querySelector('.modal-title');
+    modalTitle.textContent = title;
+    const btnSave = document.getElementById('subForm');
+    btnSave.addEventListener('click', async function () {
+        var authorId = document.getElementById('author-id').value;
+        var authorName = document.getElementById('author-name').value;
+        await fetch('/api/author', {
+            method: 'POST',
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({"id": authorId,"authorName": authorName})
         })
-        .catch(err => console.log(err));
+            .then(result => {
+                if (result.ok) {
+                    informer('Объект успешно обновлен', true);
+                } else {
+                    informer('Ошибка обновления - ' + result.status, false);
+                    return result.json();
+                }
+            }).then(data => console.log(data))
+            .catch(err => console.log(err));
+        updateTableAuthor('http://localhost:8080/api/author');
+        // setTimeout(updateTableAuthor, 50, 'http://localhost:8080/api/author');
+    });
 }

@@ -7,6 +7,8 @@ function deleteAuthor(url, id) {
         .then(result => {
             if (result.ok) {
                 informer('Объект успешно удален', true);
+                setTimeout(countObjectUpdateTextById, 50,'http://localhost:8080/api/author/count', 'author')
+                setTimeout(updateTableAuthor, 50, 'http://localhost:8080/api/author');
             } else {
                 informer('Ошибка удаления - ' + result.status, false);
                 return result.json();

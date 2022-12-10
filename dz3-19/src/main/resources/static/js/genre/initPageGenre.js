@@ -18,7 +18,5 @@ function clickActions(e) {
     }
     if (action === "delete") {
         deleteGenre("http://localhost:8080/api/genre", id);
-        setTimeout(countObjectUpdateTextById, 50,'http://localhost:8080/api/genre/count','genre')
-        setTimeout(updateTableGenre, 50, 'http://localhost:8080/api/genre');
     }
 }

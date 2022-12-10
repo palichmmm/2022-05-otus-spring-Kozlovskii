@@ -22,6 +22,5 @@ function clickActions(e) {
     }
     if (action === "delete") {
         deleteComment("http://localhost:8080/api/comment", id);
-        setTimeout(updateTableComment, 50, 'http://localhost:8080/api/comment/book/' + takeBookIdFromUrl());
     }
 }

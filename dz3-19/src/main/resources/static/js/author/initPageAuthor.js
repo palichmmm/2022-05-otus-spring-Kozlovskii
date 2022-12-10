@@ -15,7 +15,5 @@ function clickActions(e) {
     }
     if (action === "delete") {
         deleteAuthor("http://localhost:8080/api/author", id);
-        setTimeout(countObjectUpdateTextById, 50,'http://localhost:8080/api/author/count', 'author')
-        setTimeout(updateTableAuthor, 50, 'http://localhost:8080/api/author');
     }
 }

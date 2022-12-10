@@ -9,6 +9,7 @@ function deleteComment(url, id) {
         .then(result => {
             if (result.ok) {
                 informer('Объект успешно удален', true);
+                setTimeout(updateTableComment, 50, 'http://localhost:8080/api/comment/book/' + takeBookIdFromUrl());
             } else {
                 informer('Ошибка удаления - ' + result.status, false);
                 return result.json();

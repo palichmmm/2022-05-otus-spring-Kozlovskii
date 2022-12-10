@@ -22,7 +22,5 @@ function clickActions(e) {
 
     if (action === "delete") {
         deleteBook("http://localhost:8080/api/book", id);
-        setTimeout(countObjectUpdateTextById, 50,'http://localhost:8080/api/book/count', 'book')
-        setTimeout(updateTableBook, 50, 'http://localhost:8080/api/book');
     }
 }

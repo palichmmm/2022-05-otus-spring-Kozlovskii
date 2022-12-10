@@ -1,25 +1,17 @@
-function updateBook(url, title, btnData) {
-    var id = btnData.dataset.id;
-    var bookName = btnData.dataset.bookName;
-    var authorName = btnData.dataset.author;
-    var genreName = btnData.dataset.genre;
+function creatBook(url, title) {
     document.querySelector('.modal-body').innerHTML = '';
     var creatForm = `<form>
                          <div class="mb-3">
-                            <label for="book-id" class="col-form-label">Id:</label>
-                            <input type="text" class="form-control" id="book-id"  value="${id}" disabled>
-                         </div>
-                         <div class="mb-3">
-                            <label for="book-name" class="col-form-label">Название:</label>
-                            <input type="text" class="form-control" id="book-name" value="${bookName}">
+                            <label for="book-name" class="col-form-label">Название книги:</label>
+                            <input type="text" class="form-control" id="book-name" value="">
                          </div>
                          <div id="book-author-form" class="mb-3">
                             <label for="book-author" class="col-form-label">Автор:</label>
-                            <input type="text" class="form-control" id="book-author" value="${authorName}">
+                            <input type="text" class="form-control" id="book-author" value="">
                          </div>
                          <div id="book-genre-form" class="mb-3">
                             <label for="book-genre" class="col-form-label">Жанр:</label>
-                            <input type="text" class="form-control" id="book-genre" value="${genreName}">
+                            <input type="text" class="form-control" id="book-genre" value="">
                          </div>
                     </form>`;
     document.querySelector('.modal-body').insertAdjacentHTML('beforeend', creatForm);
@@ -32,9 +24,7 @@ function updateBook(url, title, btnData) {
         .then(data => {
             var options = '';
             for (var author of data) {
-                options += `<option ${author['authorName'] === authorName ? 'selected' : ''} 
-                                ${author['authorName'] === authorName ? 'style="color: green;"' : ''}
-                                value="${author['id']}">${author['authorName']}</option>`;
+                options += `<option value="${author['id']}">${author['authorName']}</option>`;
             }
             document.getElementById('book-author-form').innerHTML = '';
             document.getElementById('book-author-form').insertAdjacentHTML('beforeend',
@@ -48,9 +38,7 @@ function updateBook(url, title, btnData) {
         .then(data => {
             var options = '';
             for (var genre of data) {
-                options += `<option ${genre['genreName'] === genreName ? 'selected' : ''} 
-                                ${genre['genreName'] === genreName ? 'style="color: green;"' : ''}
-                                value="${genre['id']}">${genre['genreName']}</option>`;
+                options += `<option value="${genre['id']}">${genre['genreName']}</option>`;
             }
             document.getElementById('book-genre-form').innerHTML = '';
             document.getElementById('book-genre-form').insertAdjacentHTML('beforeend',
@@ -64,26 +52,24 @@ function updateBook(url, title, btnData) {
         .catch(error => console.log(error));
 
     const btnSave = document.getElementById('subForm');
-    btnSave.removeEventListener('click', runUpdateBook);
-    btnSave.addEventListener('click', runUpdateBook, {once: true});
+    btnSave.removeEventListener('click', runCreatBook);
+    btnSave.addEventListener('click', runCreatBook, {once: true});
 }
 
-async function runUpdateBook() {
-    var bookId = document.getElementById('book-id').value;
+async function runCreatBook() {
     var bookName = document.getElementById('book-name').value;
     var authorId = document.getElementById('book-author').value;
     var genreId = document.getElementById('book-genre').value;
     await fetch('/api/book', {
-        method: 'PUT',
+        method: 'POST',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify({"id": bookId, "bookName": bookName, "authorId": authorId, "genreId": genreId})
+        body: JSON.stringify({"bookName": bookName, "authorId": authorId, "genreId": genreId})
     })
         .then(result => {
             if (result.ok) {
-                informer('Книга успешно обновлена', true);
-            } else {
-                return result.json();
+                informer('Книга успешно создана', true);
             }
+            return result.json();
         })
         .then(data => {
             if ('message' in data) {

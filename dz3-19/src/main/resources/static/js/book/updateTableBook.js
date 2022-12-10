@@ -37,11 +37,13 @@ function updateTableBook(url) {
                 }
                 const btnComment = document.querySelectorAll('.temp');
                 btnComment.forEach((comment) => {
-                    comment.addEventListener('click', clickActions);
+                    comment.removeEventListener('click', clickActions);
+                    comment.addEventListener('click', clickActions, {once: true});
                 });
                 const btnAction = document.querySelectorAll('.actions');
                 btnAction.forEach((action) => {
-                    action.addEventListener('click', clickActions);
+                    action.removeEventListener('click', clickActions);
+                    action.addEventListener('click', clickActions,{once: true});
                 });
             } else {
                 document.getElementById('body-table').innerHTML = `<tr id="message-table">

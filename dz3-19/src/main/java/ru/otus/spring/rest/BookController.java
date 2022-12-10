@@ -25,7 +25,7 @@ public class BookController {
 
     @PostMapping("/api/book")
     public BookDto saveBook(@Valid @RequestBody BookDto book) {
-        Book realBook = BookDto.toBook(book, service.findById(book.getId()));
+        Book realBook = BookDto.toBook(book, new Book(0));
         return BookDto.toDto(service.save(realBook));
     }
 

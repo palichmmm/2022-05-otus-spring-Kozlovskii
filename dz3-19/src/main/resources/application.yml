@@ -21,7 +21,7 @@ spring:
     properties:
       hibernate:
         format_sql: false
-    open-in-view: false
+    open-in-view: true
   sql:
     init:
       mode: always

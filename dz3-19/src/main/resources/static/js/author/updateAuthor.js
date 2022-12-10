@@ -34,7 +34,7 @@ function updateAuthor(url, title, btnData) {
                 }
             }).then(data => console.log(data))
             .catch(err => console.log(err));
+        document.getElementById('clsForm').click();
         updateTableAuthor('http://localhost:8080/api/author');
-        // setTimeout(updateTableAuthor, 50, 'http://localhost:8080/api/author');
     });
 }

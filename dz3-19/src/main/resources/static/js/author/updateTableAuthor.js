@@ -1,5 +1,5 @@
-function updateTableAuthor(url) {
-    fetch(url)
+async function updateTableAuthor(url) {
+    await fetch(url)
         .then(result => result.json())
         .then(data => {
             if (data.length > 0) {
@@ -22,7 +22,8 @@ function updateTableAuthor(url) {
                 }
                 const actions = document.querySelectorAll('.actions');
                 actions.forEach((action) => {
-                    action.addEventListener('click', clickActions);
+                    action.removeEventListener('click', clickActions);
+                    action.addEventListener('click', clickActions, {once: true});
                 });
             } else {
                 document.getElementById('body-table').innerHTML = `<tr id="message-table">

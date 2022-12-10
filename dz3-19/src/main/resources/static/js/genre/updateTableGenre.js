@@ -22,7 +22,8 @@ function updateTableGenre(url) {
                 }
                 const actions = document.querySelectorAll('.actions');
                 actions.forEach((action) => {
-                    action.addEventListener('click', clickActions);
+                    action.removeEventListener('click', clickActions);
+                    action.addEventListener('click', clickActions, {once: true});
                 });
             } else {
                 document.getElementById('body-table').innerHTML = `<tr id="message-table">

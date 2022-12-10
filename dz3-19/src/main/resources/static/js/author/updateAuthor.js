@@ -16,6 +16,7 @@ function updateAuthor(url, title, btnData) {
     var exampleModal = document.getElementById('exampleModal')
     var modalTitle = exampleModal.querySelector('.modal-title');
     modalTitle.textContent = title;
+
     const btnSave = document.getElementById('subForm');
     btnSave.addEventListener('click', async function () {
         var authorId = document.getElementById('author-id').value;

@@ -51,6 +51,13 @@ public class Book {
         this.genre = genre;
     }
 
+    public Book(long id, String bookName, Author author, Genre genre) {
+        this.id = id;
+        this.bookName = bookName;
+        this.author = author;
+        this.genre = genre;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

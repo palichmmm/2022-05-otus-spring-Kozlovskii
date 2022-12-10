@@ -16,8 +16,6 @@ function clickActions(e) {
     }
     if (action === "update") {
         updateBook('http://localhost:8080/api/book/' + id, 'Изменить Книгу', button);
-        setTimeout(countObjectUpdateTextById, 50,'http://localhost:8080/api/book/count', 'book')
-        setTimeout(updateTableBook, 50, 'http://localhost:8080/api/book');
     }
 
     if (action === "delete") {

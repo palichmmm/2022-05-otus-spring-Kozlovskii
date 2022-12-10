@@ -34,7 +34,7 @@ function updateBook(url, title, btnData) {
             for (var author of data) {
                 options += `<option ${author['authorName'] === authorName ? 'selected' : ''} 
                                 ${author['authorName'] === authorName ? 'style="color: green;"' : ''}
-                                value="${author['authorName']}">${author['authorName']}</option>`;
+                                value="${author['id']}">${author['authorName']}</option>`;
             }
             document.getElementById('book-author-form').innerHTML = '';
             document.getElementById('book-author-form').insertAdjacentHTML('beforeend',
@@ -50,7 +50,7 @@ function updateBook(url, title, btnData) {
             for (var genre of data) {
                 options += `<option ${genre['genreName'] === genreName ? 'selected' : ''} 
                                 ${genre['genreName'] === genreName ? 'style="color: green;"' : ''}
-                                value="${genre['genreName']}">${genre['genreName']}</option>`;
+                                value="${genre['id']}">${genre['genreName']}</option>`;
             }
             document.getElementById('book-genre-form').innerHTML = '';
             document.getElementById('book-genre-form').insertAdjacentHTML('beforeend',
@@ -62,4 +62,28 @@ function updateBook(url, title, btnData) {
             });
         })
         .catch(error => console.log(error));
+
+    const btnSave = document.getElementById('subForm');
+    btnSave.addEventListener('click', async function () {
+        var bookId = document.getElementById('book-id').value;
+        var bookName = document.getElementById('book-name').value;
+        var authorId = document.getElementById('book-author').value;
+        var genreId = document.getElementById('book-genre').value;
+        await fetch('/api/book', {
+            method: 'PUT',
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({"id": bookId, "bookName": bookName, "authorId": authorId, "genreId": genreId})
+        })
+            .then(result => {
+                if (result.ok) {
+                    informer('Объект успешно обновлен', true);
+                } else {
+                    informer('Ошибка обновления - ' + result.status, false);
+                    return result.json();
+                }
+            }).then(data => console.log(data))
+            .catch(err => console.log(err));
+        document.getElementById('clsForm').click();
+        setTimeout(updateTableBook, 50, 'http://localhost:8080/api/book');
+    })
 }

@@ -30,10 +30,15 @@ function updateAuthor(url, title, btnData) {
                 if (result.ok) {
                     informer('Объект успешно обновлен', true);
                 } else {
-                    informer('Ошибка обновления - ' + result.status, false);
                     return result.json();
                 }
-            }).then(data => console.log(data))
+            }).then(data => {
+                if (data['statusCode'] === 406) {
+                    informer('Ошибка ' + data['statusCode'] + '. ' + data['message']['authorName'], false);
+                } else {
+                    informer('Что то пошло не так...', false)
+                }
+            })
             .catch(err => console.log(err));
         document.getElementById('clsForm').click();
         updateTableAuthor('http://localhost:8080/api/author');

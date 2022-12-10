@@ -16,4 +16,31 @@ function updateGenre(url, title, btnData) {
     var exampleModal = document.getElementById('exampleModal')
     var modalTitle = exampleModal.querySelector('.modal-title');
     modalTitle.textContent = title;
+
+    const btnSave = document.getElementById('subForm');
+    btnSave.addEventListener('click', async function () {
+        var genreId = document.getElementById('genre-id').value;
+        var genreName = document.getElementById('genre-name').value;
+        await fetch('/api/genre', {
+            method: 'POST',
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({"id": genreId,"genreName": genreName})
+        })
+            .then(result => {
+                if (result.ok) {
+                    informer('Объект успешно обновлен', true);
+                } else {
+                    return result.json();
+                }
+            }).then(data => {
+                if (data['statusCode'] === 406) {
+                    informer('Ошибка ' + data['statusCode'] + '. ' + data['message']['genreName'], false);
+                } else {
+                    informer('Что то пошло не так...', false)
+                }
+            })
+            .catch(err => console.log(err));
+        document.getElementById('clsForm').click();
+        updateTableGenre('http://localhost:8080/api/genre');
+    });
 }

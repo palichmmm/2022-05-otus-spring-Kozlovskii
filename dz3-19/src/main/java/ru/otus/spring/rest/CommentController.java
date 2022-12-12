@@ -2,7 +2,9 @@ package ru.otus.spring.rest;
 
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.dto.CommentDto;
+import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
+import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.CommentService;
 
 import javax.validation.Valid;
@@ -14,29 +16,34 @@ public class CommentController {
 
     private final CommentService service;
 
-    public CommentController(CommentService service) {
+    private final BookService bookService;
+
+    public CommentController(CommentService service, BookService bookService) {
         this.service = service;
+        this.bookService = bookService;
     }
 
     @GetMapping("/api/comment/book/{id}")
     public List<CommentDto> getAllCommentByBookId(@PathVariable("id") long id) {
         return service.findAllCommentByBookId(id).stream().map(CommentDto::toDto).collect(Collectors.toList());
     }
+//
+//    @GetMapping("/api/comment/{id}")
+//    public CommentDto getComment(@PathVariable("id") long id) {
+//        return CommentDto.toDto(service.findById(id));
+//    }
 
-    @GetMapping("/api/comment/{id}")
-    public CommentDto getComment(@PathVariable("id") long id) {
-        return CommentDto.toDto(service.findById(id));
-    }
-
-    @PostMapping("/api/comment")
-    public CommentDto saveComment(@Valid @RequestBody CommentDto comment) {
-        Comment realComment = CommentDto.toComment(comment);
+    @PostMapping("/api/comment/book/{id}")
+    public CommentDto saveComment(@PathVariable("id") long id, @Valid @RequestBody CommentDto comment) {
+        Book book = bookService.findById(id);
+        Comment realComment = CommentDto.toComment(book, comment);
         return CommentDto.toDto(service.save(realComment));
     }
 
-    @PutMapping("/api/comment")
-    public CommentDto updateComment(@Valid @RequestBody CommentDto comment) {
-        Comment realComment = CommentDto.toComment(comment);
+    @PutMapping("/api/comment/book/{id}")
+    public CommentDto updateComment(@PathVariable("id") long id, @Valid @RequestBody CommentDto comment) {
+        Book book = bookService.findById(id);
+        Comment realComment = CommentDto.toComment(book, comment);
         return CommentDto.toDto(service.save(realComment));
     }
 

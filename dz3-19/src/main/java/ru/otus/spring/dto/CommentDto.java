@@ -24,7 +24,7 @@ public class CommentDto {
         return new CommentDto(comment.getId(), comment.getComment(), comment.getBook().getId(), comment.getBook().getBookName());
     }
 
-    public static Comment toComment(CommentDto dto) {
-        return new Comment(dto.getId(), dto.getComment(), new Book(dto.getBookId()));
+    public static Comment toComment(Book book, CommentDto dto) {
+        return new Comment(dto.getId(), dto.getComment(), book);
     }
 }

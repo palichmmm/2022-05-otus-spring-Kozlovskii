@@ -27,11 +27,6 @@ public class CommentController {
     public List<CommentDto> getAllCommentByBookId(@PathVariable("id") long id) {
         return service.findAllCommentByBookId(id).stream().map(CommentDto::toDto).collect(Collectors.toList());
     }
-//
-//    @GetMapping("/api/comment/{id}")
-//    public CommentDto getComment(@PathVariable("id") long id) {
-//        return CommentDto.toDto(service.findById(id));
-//    }
 
     @PostMapping("/api/comment/book/{id}")
     public CommentDto saveComment(@PathVariable("id") long id, @Valid @RequestBody CommentDto comment) {

@@ -53,4 +53,5 @@ async function runUpdateAuthor() {
         .catch(err => console.log(err));
     document.getElementById('clsForm').click();
     updateTableAuthor('http://localhost:8080/api/author');
+    countObjectUpdateTextById('http://localhost:8080/api/author/count','author');
 }

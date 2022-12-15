@@ -88,4 +88,5 @@ async function runCreatBook() {
         .catch(err => console.log(err));
     document.getElementById('clsForm').click();
     setTimeout(updateTableBook, 50, 'http://localhost:8080/api/book');
+    countObjectUpdateTextById('http://localhost:8080/api/book/count', 'book');
 }

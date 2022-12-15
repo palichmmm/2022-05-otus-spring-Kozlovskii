@@ -8,7 +8,7 @@ function clickActions(e) {
     var action = button.dataset.action;
 
     if (action === "creat") {
-        creatGenre('http://localhost:8080/api/genre/' + id, 'Создать Жанр')
+        creatGenre('http://localhost:8080/api/genre/' + id, 'Создать Жанр');
     }
 
     var id = button.dataset.id;

@@ -1,32 +1,33 @@
 package ru.otus.spring.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.dto.CommentDto;
-import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
-import ru.otus.spring.models.Genre;
 import ru.otus.spring.rest.CommentController;
 import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.CommentService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CommentController.class)
 public class CommentControllerTest {
 
-    public static final long COMMENT_ID = 1;
-    public static final long BOOK_ID = 2;
+    public static final long BOOK_ID = 1;
     @Autowired
     private MockMvc mvc;
 
@@ -36,31 +37,24 @@ public class CommentControllerTest {
     @MockBean
     private BookService bookService;
 
-    @DisplayName("Страница редактирования отзыва должна вернуть статус 200")
-    @Test
-    void CommentEditFormPageShouldReturnStatus200() throws Exception {
-        Comment comment = new Comment(COMMENT_ID, "Комментарий", new Book());
-        CommentDto commentDTO = new CommentDto(comment.getId(), comment.getComment(), comment.getBook().getId(), comment.getBook().getBookName());
-        Mockito.when(commentService.findById(COMMENT_ID)).thenReturn(comment);
-        mvc.perform(get("/comment/edit/{id}", COMMENT_ID))
-                .andDo(print())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(view().name("/comment/edit"))
-                .andExpect(model().attribute("comment", commentDTO))
-                .andExpect(status().isOk());
-    }
+    @Autowired
+    private ObjectMapper mapper;
 
-    @DisplayName("Страница создания отзыва должна вернуть статус 200")
+    @DisplayName("REST API всех комментариев по книге должна вернуть статус 200 и JSON")
     @Test
-    void CommentCreateFormPageShouldReturnStatus200() throws Exception {
-        Book book = new Book(BOOK_ID, "Книга", new Author(), new Genre(), List.of(new Comment()));
-        CommentDto commentDTO = new CommentDto(book.getId(), null, book.getId(), book.getBookName());
-        Mockito.when(bookService.findById(BOOK_ID)).thenReturn(book);
-        mvc.perform(get("/comment/create/{id}", BOOK_ID))
+    void REST_API_OfAllBookCommentsShouldReturnStatus200AndJSON() throws Exception {
+
+        List<Comment> comments = List.of(
+                new Comment(1, "Комментарий1", new Book(BOOK_ID)),
+                new Comment(2, "Комментарий2", new Book(BOOK_ID))
+        );
+        List<CommentDto> commentDtos = comments.stream().map(CommentDto::toDto).collect(Collectors.toList());
+        String expectedResult = mapper.writeValueAsString(commentDtos);
+        Mockito.when(commentService.findAllCommentByBookId(BOOK_ID)).thenReturn(comments);
+        mvc.perform(get("/api/comment/book/{id}", BOOK_ID))
                 .andDo(print())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(view().name("/comment/create"))
-                .andExpect(model().attribute("comment", commentDTO))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(expectedResult))
                 .andExpect(status().isOk());
     }
 }

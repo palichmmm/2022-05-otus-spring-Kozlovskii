@@ -46,4 +46,5 @@ async function runCreatGenre() {
         .catch(err => console.log(err));
     document.getElementById('clsForm').click();
     updateTableGenre('http://localhost:8080/api/genre');
+    countObjectUpdateTextById('http://localhost:8080/api/genre/count','genre');
 }

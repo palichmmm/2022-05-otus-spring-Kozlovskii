@@ -10,7 +10,7 @@ function clickActions(e) {
     var action = button.dataset.action;
 
     if (action === "creat") {
-        creatBook('http://localhost:8080/api/book/', 'Создать Книгу')
+        creatBook('http://localhost:8080/api/book/', 'Создать Книгу');
     }
 
     var id = button.dataset.id;

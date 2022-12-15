@@ -23,6 +23,13 @@ public class BookDto {
     private String author;
     private String genre;
 
+    // Сделан для теста на всякий случай)
+    public BookDto(long authorId, long genreId, String bookName) {
+        this.authorId = authorId;
+        this.genreId = genreId;
+        this.bookName = bookName;
+    }
+
     public static BookDto toDto(Book book) {
         return new BookDto(book.getId(), book.getAuthor().getId(), book.getGenre().getId(), book.getBookName(), book.getAuthor().getAuthorName(), book.getGenre().getGenreName());
     }

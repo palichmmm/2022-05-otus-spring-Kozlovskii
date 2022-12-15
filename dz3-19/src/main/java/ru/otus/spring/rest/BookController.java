@@ -23,13 +23,13 @@ public class BookController {
         return service.findAll().stream().map(BookDto::toDto).collect(Collectors.toList());
     }
 
-    @PostMapping("/api/book")
+    @PostMapping(value = "/api/book", consumes = {"application/json"})
     public BookDto saveBook(@Valid @RequestBody BookDto book) {
         Book realBook = BookDto.toBook(book, new Book(0));
         return BookDto.toDto(service.save(realBook));
     }
 
-    @PutMapping("/api/book")
+    @PutMapping(value = "/api/book", consumes = {"application/json"})
     public BookDto updateBook(@Valid @RequestBody BookDto book) {
         Book realBook = BookDto.toBook(book, service.findById(book.getId()));
         return BookDto.toDto(service.save(realBook));

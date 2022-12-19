@@ -1,7 +1,9 @@
 package ru.otus.spring.rest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.dto.BookDtoMapper;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.service.BookService;
 
@@ -14,25 +16,29 @@ public class BookController {
 
     private final BookService service;
 
-    public BookController(BookService service) {
+    private final BookDtoMapper bookDtoMapper;
+
+    public BookController(BookService service, BookDtoMapper bookDtoMapper) {
         this.service = service;
+        this.bookDtoMapper = bookDtoMapper;
     }
 
     @GetMapping("/api/book")
     public List<BookDto> getAllBook() {
-        return service.findAll().stream().map(BookDto::toDto).collect(Collectors.toList());
+        return service.findAll().stream().map(bookDtoMapper::toDto).collect(Collectors.toList());
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/api/book", consumes = {"application/json"})
-    public BookDto saveBook(@Valid @RequestBody BookDto book) {
-        Book realBook = BookDto.toBook(book, new Book(0));
-        return BookDto.toDto(service.save(realBook));
+    public BookDto saveBook(@Valid @RequestBody BookDto bookDto) {
+        Book realBook = bookDtoMapper.toBook(bookDto, new Book(0));
+        return bookDtoMapper.toDto(service.save(realBook));
     }
 
     @PutMapping(value = "/api/book", consumes = {"application/json"})
-    public BookDto updateBook(@Valid @RequestBody BookDto book) {
-        Book realBook = BookDto.toBook(book, service.findById(book.getId()));
-        return BookDto.toDto(service.save(realBook));
+    public BookDto updateBook(@Valid @RequestBody BookDto bookDto) {
+        Book realBook = bookDtoMapper.toBook(bookDto, service.findById(bookDto.getId()));
+        return bookDtoMapper.toDto(service.save(realBook));
     }
 
     @DeleteMapping("/api/book")

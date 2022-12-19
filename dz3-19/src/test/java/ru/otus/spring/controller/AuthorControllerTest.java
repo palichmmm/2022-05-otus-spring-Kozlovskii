@@ -36,7 +36,7 @@ class AuthorControllerTest {
 
     @DisplayName("REST API всех авторов должна вернуть статус 200 и JSON")
     @Test
-    void AuthorsREST_API_ShouldReturnStatus200AndJSON() throws Exception {
+    void authorsREST_API_ShouldReturnStatus200AndJSON() throws Exception {
         List<Author> authors = List.of(new Author(1, "Автор1"), new Author(2, "Автор2"));
         String expectedResult = mapper.writeValueAsString(authors);
         Mockito.when(authorService.findAll()).thenReturn(authors);
@@ -49,7 +49,7 @@ class AuthorControllerTest {
 
     @DisplayName("REST API автора должна вернуть статус 200 и JSON")
     @Test
-    void AuthorREST_API_ShouldReturnStatus200AndJSON() throws Exception {
+    void authorREST_API_ShouldReturnStatus200AndJSON() throws Exception {
         Author author = new Author(AUTHOR_ID, "Автор");
         String expectedResult = mapper.writeValueAsString(author);
         Mockito.when(authorService.findById(AUTHOR_ID)).thenReturn(author);
@@ -62,7 +62,7 @@ class AuthorControllerTest {
 
     @DisplayName("REST API создания автора должна вернуть статус 200 и JSON")
     @Test
-    void AuthorCreation_REST_API_ShouldReturnStatus200AndJSON() throws Exception {
+    void authorCreation_REST_API_ShouldReturnStatus200AndJSON() throws Exception {
         Author author = new Author(0, "Автор");
         String postBody = mapper.writeValueAsString(author);
         Mockito.when(authorService.save(author)).thenReturn(author);

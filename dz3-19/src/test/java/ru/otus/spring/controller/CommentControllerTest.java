@@ -13,7 +13,6 @@ import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 import ru.otus.spring.rest.CommentController;
-import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.CommentService;
 
 import java.util.List;
@@ -34,15 +33,12 @@ public class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
-    @MockBean
-    private BookService bookService;
-
     @Autowired
     private ObjectMapper mapper;
 
     @DisplayName("REST API всех комментариев по книге должна вернуть статус 200 и JSON")
     @Test
-    void REST_API_OfAllBookCommentsShouldReturnStatus200AndJSON() throws Exception {
+    void rest_API_OfAllBookCommentsShouldReturnStatus200AndJSON() throws Exception {
 
         List<Comment> comments = List.of(
                 new Comment(1, "Комментарий1", new Book(BOOK_ID)),

@@ -35,7 +35,7 @@ public class GenreControllerTest {
 
     @DisplayName("REST API всех жанров должна вернуть статус 200 и JSON")
     @Test
-    void GenresREST_API_ShouldReturnStatus200AndJSON() throws Exception {
+    void genresREST_API_ShouldReturnStatus200AndJSON() throws Exception {
         List<Genre> genres = List.of(new Genre(GENRE_ID, "Жанр1"), new Genre(2, "Жанр2"));
         String expectedResult = mapper.writeValueAsString(genres);
         Mockito.when(genreService.findAll()).thenReturn(genres);
@@ -48,7 +48,7 @@ public class GenreControllerTest {
 
     @DisplayName("REST API автора должна вернуть статус 200 и JSON")
     @Test
-    void GenreREST_API_ShouldReturnStatus200AndJSON() throws Exception {
+    void genreREST_API_ShouldReturnStatus200AndJSON() throws Exception {
         Genre genre = new Genre(GENRE_ID, "Жанр");
         String expectedResult = mapper.writeValueAsString(genre);
         Mockito.when(genreService.findById(GENRE_ID)).thenReturn(genre);
@@ -61,7 +61,7 @@ public class GenreControllerTest {
 
     @DisplayName("REST API создания жанра должна вернуть статус 200 и JSON")
     @Test
-    void GenreCreation_REST_API_ShouldReturnStatus200AndJSON() throws Exception {
+    void genreCreation_REST_API_ShouldReturnStatus200AndJSON() throws Exception {
         Genre genre = new Genre(0, "Жанр");
         String postBody = mapper.writeValueAsString(genre);
         Mockito.when(genreService.save(genre)).thenReturn(genre);

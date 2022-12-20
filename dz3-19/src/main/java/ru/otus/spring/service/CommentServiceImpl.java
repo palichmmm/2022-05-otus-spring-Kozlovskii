@@ -20,6 +20,7 @@ public class CommentServiceImpl implements CommentService {
         this.bookRepository = bookRepository;
     }
 
+    @Transactional
     @Override
     public List<Comment> findAllCommentByBookId(long bookId) {
         return repository.findAllByBook_Id(bookId);

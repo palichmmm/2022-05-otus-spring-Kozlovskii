@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class GenreController {
+public class GenreRestController {
 
     private final GenreService service;
 
-    public GenreController(GenreService service) {
+    public GenreRestController(GenreService service) {
         this.service = service;
     }
 

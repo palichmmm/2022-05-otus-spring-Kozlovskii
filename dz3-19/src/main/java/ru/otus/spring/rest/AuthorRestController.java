@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class AuthorController {
+public class AuthorRestController {
 
     private final AuthorService service;
 
-    public AuthorController(AuthorService service) {
+    public AuthorRestController(AuthorService service) {
         this.service = service;
     }
 

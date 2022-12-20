@@ -1,4 +1,4 @@
-package ru.otus.spring.controller;
+package ru.otus.spring.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.rest.GenreController;
 import ru.otus.spring.service.GenreService;
 
 import java.util.List;
@@ -18,10 +17,11 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(GenreController.class)
-public class GenreControllerTest {
+@WebMvcTest(GenreRestController.class)
+public class GenreRestControllerTest {
 
     public static final long GENRE_ID = 1;
     @Autowired

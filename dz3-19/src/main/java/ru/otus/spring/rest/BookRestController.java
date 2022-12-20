@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class BookController {
+public class BookRestController {
 
     private final BookService service;
 
     private final BookDtoMapper bookDtoMapper;
 
-    public BookController(BookService service, BookDtoMapper bookDtoMapper) {
+    public BookRestController(BookService service, BookDtoMapper bookDtoMapper) {
         this.service = service;
         this.bookDtoMapper = bookDtoMapper;
     }

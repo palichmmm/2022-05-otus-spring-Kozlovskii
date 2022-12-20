@@ -1,4 +1,4 @@
-package ru.otus.spring.controller;
+package ru.otus.spring.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Author;
-import ru.otus.spring.rest.AuthorController;
 import ru.otus.spring.service.AuthorService;
 
 import java.util.List;
@@ -21,8 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthorController.class)
-class AuthorControllerTest {
+@WebMvcTest(AuthorRestController.class)
+class AuthorRestControllerTest {
 
     public static final long AUTHOR_ID = 1;
     @Autowired

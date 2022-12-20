@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class CommentController {
+public class CommentRestController {
 
     private final CommentService service;
 
     private final BookService bookService;
 
-    public CommentController(CommentService service, BookService bookService) {
+    public CommentRestController(CommentService service, BookService bookService) {
         this.service = service;
         this.bookService = bookService;
     }

@@ -1,4 +1,4 @@
-package ru.otus.spring.controller;
+package ru.otus.spring.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +13,6 @@ import ru.otus.spring.dto.BookDtoMapper;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.rest.BookController;
 import ru.otus.spring.service.BookService;
 
 import java.util.List;
@@ -26,8 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(BookController.class)
-public class BookControllerTest {
+@WebMvcTest(BookRestController.class)
+public class BookRestControllerTest {
 
     @Autowired
     private MockMvc mvc;

@@ -1,36 +1,21 @@
 package ru.otus.spring.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "genres")
 public class Genre {
     @Id
-    private long id;
-
+    private String id;
     private String genreName;
 
-    public Genre(long id) {
-        this.id = id;
-    }
-
     public Genre(String genreName) {
-        this.genreName = genreName;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getGenreName() {
-        return genreName;
-    }
-
-    public void setGenreName(String genreName) {
         this.genreName = genreName;
     }
 }

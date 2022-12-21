@@ -5,60 +5,49 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.GenreRepository;
 
+import java.util.List;
+
 @Service
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository repository;
-    private final IOService ioService;
 
-    public GenreServiceImpl(GenreRepository repository, IOService ioService) {
+    public GenreServiceImpl(GenreRepository repository) {
         this.repository = repository;
-        this.ioService = ioService;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Genre findById(String id) {
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("ЖАНРА С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Genre> findByName(String name) {
+        return repository.findByGenreName(name);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Genre> findAll() {
+        return repository.findAll();
     }
 
     @Transactional
     @Override
-    public Genre create(Genre genre) {
-        Genre resultGenre = repository.save(genre);
-        ioService.outputString("Вставлена новая запись жанра с ID=" + genre.getId());
-        return resultGenre;
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void showById(long id) {
-        repository.findById(id)
-                .ifPresentOrElse(genre -> ioService.outputString(String.valueOf(genre)),
-                        () -> ioService.outputString("Жанр с ID=" + id + " не существует!"));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void showByName(String name) {
-        repository.findByGenreName(name)
-                .ifPresentOrElse(genre -> ioService.outputString(String.valueOf(genre)),
-                        () -> ioService.outputString("Жанра с NAME=" + name + " не существует!"));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void showAll() {
-        for (Genre genre : repository.findAll()) {
-            ioService.outputString(String.valueOf(genre));
+    public Genre save(Genre genre) {
+        if (genre.getId() == null) {
+            return repository.save(genre);
         }
+        Genre genreUpdate = repository.findById(genre.getId()).orElseThrow(() ->
+                new RuntimeException("ЖАНР С ID - " + genre.getId() + " НЕ СУЩЕСТВУЕТ!"));
+        genreUpdate.setGenreName(genre.getGenreName());
+        return repository.save(genreUpdate);
     }
 
     @Transactional
     @Override
-    public void update(long id, String name) {
-        repository.findById(id).ifPresent(genre -> {
-            genre.setGenreName(name);
-            repository.save(genre);
-        });
-    }
-
-    @Transactional
-    @Override
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         repository.deleteById(id);
     }
 }

@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GenreRepository extends MongoRepository<Genre, Long> {
-    Optional<Genre> findByGenreName(String name);
 
-    List<Genre> findAll();
+    Optional<Genre> findById(String id);
+
+    List<Genre> findByGenreName(String name);
+
+    void deleteById(String id);
 }

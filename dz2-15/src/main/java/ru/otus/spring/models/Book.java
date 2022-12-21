@@ -20,6 +20,10 @@ public class Book {
     @DBRef
     private Genre genre;
 
+    public Book(String id) {
+        this.id = id;
+    }
+
     public Book(String id, String bookName) {
         this.id = id;
         this.bookName = bookName;

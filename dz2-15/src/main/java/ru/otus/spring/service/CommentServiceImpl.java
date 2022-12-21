@@ -7,6 +7,7 @@ import ru.otus.spring.models.Comment;
 import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.repositories.CommentRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,37 +24,29 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public Comment create(Comment comment) {
-        Optional<Book> book = bookRepository.findById(comment.getBook().getId());
-        if (book.isEmpty()) {
-            throw new RuntimeException("Книги с ID=" + comment.getBook().getId() + " нет в базе!");
+    public Optional<Comment> findById(String id) {
+        return repository.findById(id);
+    }
+
+    @Transactional
+    @Override
+    public List<Comment> findAllCommentByBook(Book book) {
+        return repository.findAllByBook(book);
+    }
+
+    @Transactional
+    @Override
+    public Comment save(Comment comment) {
+        if (comment.getId() == null) {
+            return repository.save(comment);
         }
-        comment.setBook(book.get());
-        Comment resultComment = repository.save(comment);
-        ioService.outputString("Вставлен новый комментарий на книгу с ID=" + resultComment.getBook().getId());
-        return resultComment;
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void showById(long id) {
-        repository.findById(id)
-                .ifPresentOrElse(comment -> ioService.outputString(String.valueOf(comment)),
-                        () -> ioService.outputString("Комментария с ID=" + id + " не существует!"));
+        repository.save(comment);
+        return comment;
     }
 
     @Transactional
     @Override
-    public void update(long id, String name) {
-        repository.findById(id).ifPresent(comment -> {
-            comment.setComment(name);
-            repository.save(comment);
-        });
-    }
-
-    @Transactional
-    @Override
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         repository.deleteById(id);
     }
 }

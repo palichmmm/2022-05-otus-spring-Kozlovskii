@@ -3,7 +3,6 @@ package ru.otus.spring.shell;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 import ru.otus.spring.service.CommentService;
@@ -12,38 +11,36 @@ import ru.otus.spring.service.IOService;
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommandsComment {
-    public static final String COMMAND_COMPLETED = "Команда завершена";
-    public static final String STRING_DEFAULT_ID = "1";
-    public static final String INPUT_TEMPLATE_COMMAND_ID = "<command> [id]";
-    public static final String INPUT_TEMPLATE_COMMAND_ID_NAME = "<command> [id] [name]";
-    private final CommentService comment;
+    private final CommentService service;
     private final IOService ioService;
 
-    @ShellMethod(key = {"c", "comment"}, value = "One comment: " + INPUT_TEMPLATE_COMMAND_ID)
-    public String showOneComment(@ShellOption(defaultValue = STRING_DEFAULT_ID) long id) {
+    @ShellMethod(key = {"c", "comment"}, value = "One comment: <command> [id]")
+    public void showOneComment(String id) {
         ioService.outputString("Запрос в базу комментариев по ID=" + id);
-        comment.showById(id);
-        return COMMAND_COMPLETED;
+        ioService.outputString(String.valueOf(service.findById(id)));
     }
 
-    @ShellMethod(key = {"cd", "comment-delete"}, value = "Delete comment: " + INPUT_TEMPLATE_COMMAND_ID)
-    public String showDeleteComment(long id) {
+    @ShellMethod(key = {"cb", "all-comment-book"}, value = "All comment by book id: <command> [bookId]")
+    public void showAllCommentBookById(String bookId) {
+        ioService.outputString("Запрос в базу комментариев по ID=" + bookId);
+        service.findAllCommentByBook(new Book(bookId)).forEach(comment -> ioService.outputString(String.valueOf(comment)));
+    }
+
+    @ShellMethod(key = {"cd", "comment-delete"}, value = "Delete comment: <command> [id]")
+    public void showDeleteComment(String id) {
         ioService.outputString("Удаляем комментарий из базы с ID=" + id);
-        comment.deleteById(id);
-        return COMMAND_COMPLETED;
+        service.deleteById(id);
     }
 
-    @ShellMethod(key = {"ci", "comment-insert"}, value = "Insert comment: " + INPUT_TEMPLATE_COMMAND_ID_NAME)
-    public String showInsertComment(@ShellOption(defaultValue = "DEFAULT-COMMENT-NAME") long id, String commentName) {
+    @ShellMethod(key = {"ci", "comment-insert"}, value = "Insert comment: <command> [bookId] [comment]")
+    public void showInsertComment(String id, String commentName) {
         ioService.outputString("Вставляем комментарий(" + commentName + ") в базу:");
-        comment.create(new Comment(new Book(id), commentName));
-        return COMMAND_COMPLETED;
+        ioService.outputString(String.valueOf(service.save(new Comment(commentName, new Book(id)))));
     }
 
-    @ShellMethod(key = {"cu", "comment-update"}, value = "Update comment: " + INPUT_TEMPLATE_COMMAND_ID_NAME)
-    public String showUpdateComment(long id, String newComment) {
+    @ShellMethod(key = {"cu", "comment-update"}, value = "Update comment: <command> [id] [comment]")
+    public void showUpdateComment(String id, String newComment) {
         ioService.outputString("Обновляем комментарий в базе с ID=" + id);
-        comment.update(id, newComment);
-        return COMMAND_COMPLETED;
+        ioService.outputString(String.valueOf(service.save(new Comment(id, newComment))));
     }
 }

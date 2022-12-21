@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ChangeLog(order = "001")
-public class DataBaseChangeLogAuthor {
+public class DataBaseChangeLogLibraryBook {
 
     private Author georgEliot;
     private Author virginiaWoolf;

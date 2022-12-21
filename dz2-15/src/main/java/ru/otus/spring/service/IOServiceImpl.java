@@ -6,11 +6,11 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 @Component
-public class IOServiceStreamsImpl implements IOService {
+public class IOServiceImpl implements IOService {
     private final PrintStream output;
     private final Scanner input;
 
-    public IOServiceStreamsImpl() {
+    public IOServiceImpl() {
         output = System.out;
         input = new Scanner(System.in);
     }

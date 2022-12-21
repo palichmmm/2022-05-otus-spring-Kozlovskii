@@ -7,6 +7,7 @@ spring:
   main:
     allow-circular-references: true
 mongock:
-  transaction-enabled: true
   runner-type: "InitializingBean"
-  change-logs-scan-package: -ru.otus.spring.mongock.changelog
+  change-logs-scan-package: ru.otus.spring.mongock.changelog
+  enabled: true
+  index-creation: true

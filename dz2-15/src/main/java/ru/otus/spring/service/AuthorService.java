@@ -2,16 +2,17 @@ package ru.otus.spring.service;
 
 import ru.otus.spring.models.Author;
 
+import java.util.List;
+
 public interface AuthorService {
-    Author create(Author author);
 
-    void showById(long id);
+    Author findById(String id);
 
-    void showByName(String name);
+    List<Author> findByName(String name);
 
-    void showAll();
+    List<Author> findAll();
 
-    void update(long id, String name);
+    Author save(Author author);
 
-    void deleteById(long id);
+    void deleteById(String id);
 }

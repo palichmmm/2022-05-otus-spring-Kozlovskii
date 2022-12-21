@@ -1,14 +1,16 @@
 package ru.otus.spring.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
 import ru.otus.spring.models.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends MongoRepository<Book, Long> {
 
-    List<Book> findBookByBookName(String name);
+    Optional<Book> findById(String id);
 
-    List<Book> findAll();
+    List<Book> findByBookName(String name);
+
+    void deleteById(String id);
 }

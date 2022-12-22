@@ -61,7 +61,7 @@ public class AuthorServiceImpl implements AuthorService {
             repository.deleteById(id);
         } else {
             books.forEach(book -> ioService.outputString(String.valueOf(book)));
-            throw new RuntimeException("Ишь че удумал! На этого автора ссылаются книги! Сначала удалите книги.");
+            throw new RuntimeException("Ошибка удаления! На этого автора ссылаются книги!");
 
         }
     }

@@ -1,13 +1,7 @@
 spring:
   data:
     mongodb:
-      embedded:
-        version: 3.5.5
       database: test
-      port: 0
-#      database: libraryBooks
-#      port: 27017
-#      host: localhost
   main:
     allow-circular-references: true
 mongock:

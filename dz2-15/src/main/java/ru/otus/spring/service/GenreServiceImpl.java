@@ -61,7 +61,7 @@ public class GenreServiceImpl implements GenreService {
             repository.deleteById(id);
         } else {
             books.forEach(book -> ioService.outputString(String.valueOf(book)));
-            throw new RuntimeException("Ишь че удумал! На этот жанр ссылаются книги! Сначала удалите книги.");
+            throw new RuntimeException("Ошибка удаления! На этот жанр ссылаются книги!");
         }
     }
 }

@@ -27,4 +27,9 @@ public class Comment {
         this.comment = comment;
         this.book = book;
     }
+
+    @Override
+    public String toString() {
+        return "{Id=" + id + "   '" + comment + "'}(book='" + book.getBookName() + "')";
+    }
 }

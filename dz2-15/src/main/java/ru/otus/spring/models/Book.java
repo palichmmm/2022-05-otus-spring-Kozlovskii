@@ -34,4 +34,12 @@ public class Book {
         this.author = author;
         this.genre = genre;
     }
+
+    @Override
+    public String toString() {
+        return "{Id=" + id + "   '" + bookName + "'" +
+                ", author=" + author +
+                ", genre=" + genre +
+                '}';
+    }
 }

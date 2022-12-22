@@ -2,7 +2,9 @@ package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
+import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.repositories.GenreRepository;
 
 import java.util.List;
@@ -11,8 +13,14 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository repository;
 
-    public GenreServiceImpl(GenreRepository repository) {
+    private final BookRepository bookRepository;
+
+    private final IOService ioService;
+
+    public GenreServiceImpl(GenreRepository repository, BookRepository bookRepository, IOService ioService) {
         this.repository = repository;
+        this.bookRepository = bookRepository;
+        this.ioService = ioService;
     }
 
     @Transactional(readOnly = true)
@@ -48,6 +56,12 @@ public class GenreServiceImpl implements GenreService {
     @Transactional
     @Override
     public void deleteById(String id) {
-        repository.deleteById(id);
+        List<Book> books = bookRepository.findAllByGenre_Id(id);
+        if (books.isEmpty()) {
+            repository.deleteById(id);
+        } else {
+            books.forEach(book -> ioService.outputString(String.valueOf(book)));
+            throw new RuntimeException("Ишь че удумал! На этот жанр ссылаются книги! Сначала удалите книги.");
+        }
     }
 }

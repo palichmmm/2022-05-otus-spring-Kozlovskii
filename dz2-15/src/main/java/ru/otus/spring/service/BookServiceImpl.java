@@ -3,24 +3,21 @@ package ru.otus.spring.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Book;
-import ru.otus.spring.repositories.AuthorRepository;
+import ru.otus.spring.models.Comment;
 import ru.otus.spring.repositories.BookRepository;
-import ru.otus.spring.repositories.GenreRepository;
+import ru.otus.spring.repositories.CommentRepository;
 
 import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository repository;
-    private final AuthorRepository authorRepository;
-    private final GenreRepository genreRepository;
 
-    public BookServiceImpl(BookRepository repository,
-                           AuthorRepository authorRepository,
-                           GenreRepository genreRepository) {
+    private final CommentRepository commentRepository;
+
+    public BookServiceImpl(BookRepository repository, CommentRepository commentRepository) {
         this.repository = repository;
-        this.authorRepository = authorRepository;
-        this.genreRepository = genreRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Transactional
@@ -56,6 +53,12 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void deleteById(String id) {
-        repository.deleteById(id);
+        List<Comment> comments = commentRepository.findAllByBook_Id(id);
+        if (comments.isEmpty()) {
+            repository.deleteById(id);
+        } else {
+            commentRepository.deleteAllByBook_Id(id);
+            repository.deleteById(id);
+        }
     }
 }

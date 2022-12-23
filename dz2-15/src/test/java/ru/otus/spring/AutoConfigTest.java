@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @EnableConfigurationProperties
 public class AutoConfigTest {
     @Test
-    void example(@Autowired final MongoTemplate mongoTemplate) {
+    void dbMustNotBeEmpty(@Autowired final MongoTemplate mongoTemplate) {
         Assertions.assertThat(mongoTemplate.getDb()).isNotNull();
     }
 }

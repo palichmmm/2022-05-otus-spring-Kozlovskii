@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
+import ru.otus.spring.repositories.AuthorRepository;
 import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.repositories.CommentRepository;
+import ru.otus.spring.repositories.GenreRepository;
 
 import java.util.List;
 
@@ -13,10 +15,16 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     private final BookRepository repository;
 
+    private final AuthorRepository authorRepository;
+
+    private final GenreRepository genreRepository;
+
     private final CommentRepository commentRepository;
 
-    public BookServiceImpl(BookRepository repository, CommentRepository commentRepository) {
+    public BookServiceImpl(BookRepository repository, AuthorRepository authorRepository, GenreRepository genreRepository, CommentRepository commentRepository) {
         this.repository = repository;
+        this.authorRepository = authorRepository;
+        this.genreRepository = genreRepository;
         this.commentRepository = commentRepository;
     }
 
@@ -42,10 +50,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book save(Book book) {
         if (book.getId() == null) {
+            book.setAuthor(authorRepository.findById(book.getAuthor().getId())
+                    .orElseThrow(() -> new RuntimeException("Ошибка сохранения книги! Нет такого автора!")));
+            book.setGenre(genreRepository.findById(book.getGenre().getId())
+                    .orElseThrow(() -> new RuntimeException("Ошибка сохранения книги! Нет такого жанра!")));
             return repository.save(book);
         }
         Book bookUpdate = repository.findById(book.getId()).orElseThrow(() ->
-                new RuntimeException("КНИГИ С ID - " + book.getId() + " НЕ СУЩЕСТВУЕТ!"));
+                new RuntimeException("КНИГИ С Id - " + book.getId() + " НЕ СУЩЕСТВУЕТ!"));
         bookUpdate.setBookName(book.getBookName());
         return repository.save(bookUpdate);
     }
@@ -60,5 +72,17 @@ public class BookServiceImpl implements BookService {
             commentRepository.deleteAllByBook_Id(id);
             repository.deleteById(id);
         }
+    }
+
+    @Transactional
+    @Override
+    public boolean existById(String id) {
+        return repository.existsById(id);
+    }
+
+    @Transactional
+    @Override
+    public boolean existByName(String name) {
+        return repository.existsByBookName(name);
     }
 }

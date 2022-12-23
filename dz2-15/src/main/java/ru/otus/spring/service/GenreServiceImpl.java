@@ -47,10 +47,10 @@ public class GenreServiceImpl implements GenreService {
         if (genre.getId() == null) {
             return repository.save(genre);
         }
-        Genre genreUpdate = repository.findById(genre.getId()).orElseThrow(() ->
-                new RuntimeException("ЖАНР С ID - " + genre.getId() + " НЕ СУЩЕСТВУЕТ!"));
-        genreUpdate.setGenreName(genre.getGenreName());
-        return repository.save(genreUpdate);
+        if (repository.existsById(genre.getId())) {
+            return repository.save(genre);
+        }
+        throw new RuntimeException("ЖАНР С ID - " + genre.getId() + " НЕ СУЩЕСТВУЕТ!");
     }
 
     @Transactional
@@ -63,5 +63,17 @@ public class GenreServiceImpl implements GenreService {
             books.forEach(book -> ioService.outputString(String.valueOf(book)));
             throw new RuntimeException("Ошибка удаления! На этот жанр ссылаются книги!");
         }
+    }
+
+    @Transactional
+    @Override
+    public boolean existById(String id) {
+        return repository.existsById(id);
+    }
+
+    @Transactional
+    @Override
+    public boolean existByName(String name) {
+        return repository.existsByGenreName(name);
     }
 }

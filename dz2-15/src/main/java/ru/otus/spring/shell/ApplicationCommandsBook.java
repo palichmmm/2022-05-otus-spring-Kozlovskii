@@ -15,8 +15,6 @@ import ru.otus.spring.service.IOService;
 @RequiredArgsConstructor
 public class ApplicationCommandsBook {
     private final BookService service;
-    private final AuthorService authorService;
-    private final GenreService genreService;
     private final IOService ioService;
 
     @ShellMethod(key = {"b", "book"}, value = "One book: <command> [id]")
@@ -28,10 +26,10 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"bn", "book-name"}, value = "Books by name: <command> [name]")
     public void showBooks(String name) {
         ioService.outputString("Запрос в базу книг по NAME=" + name);
-        if (service.findByName(name).isEmpty()) {
-            ioService.outputString("Книги с названием " + name + " не существует!!!");
-        } else {
+        if (service.existByName(name)) {
             service.findByName(name).forEach(book -> ioService.outputString(String.valueOf(book)));
+        } else {
+            ioService.outputString("Книги с названием " + name + " не существует!!!");
         }
     }
 
@@ -50,8 +48,8 @@ public class ApplicationCommandsBook {
     @ShellMethod(key = {"bi", "book-insert"}, value = "Insert book: <command> [bookName] [author id] [genre id]")
     public void showInsertBook(String bookName, String authorId, String genreId) {
         ioService.outputString("Вставляем книгу(" + bookName + ") в базу:");
-        Author author = authorService.findById(authorId);
-        Genre genre = genreService.findById(genreId);
+        Author author = new Author(authorId, null);
+        Genre genre = new Genre(genreId, null);
         ioService.outputString(String.valueOf(service.save(new Book(bookName, author, genre))));
     }
 

@@ -13,4 +13,8 @@ public interface AuthorRepository extends MongoRepository<Author, Long> {
     List<Author> findByAuthorName(String name);
 
     void deleteById(String id);
+
+    boolean existsById(String id);
+
+    boolean existsByAuthorName(String name);
 }

@@ -15,4 +15,8 @@ public interface AuthorService {
     Author save(Author author);
 
     void deleteById(String id);
+
+    boolean existById(String id);
+
+    boolean existByName(String name);
 }

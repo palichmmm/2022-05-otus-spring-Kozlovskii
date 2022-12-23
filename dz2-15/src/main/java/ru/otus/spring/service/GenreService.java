@@ -15,4 +15,8 @@ public interface GenreService {
     Genre save(Genre genre);
 
     void deleteById(String id);
+
+    boolean existById(String id);
+
+    boolean existByName(String name);
 }

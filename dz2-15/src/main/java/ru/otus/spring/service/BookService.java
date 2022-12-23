@@ -14,4 +14,8 @@ public interface BookService {
     Book save(Book book);
 
     void deleteById(String id);
+
+    boolean existById(String id);
+
+    boolean existByName(String name);
 }

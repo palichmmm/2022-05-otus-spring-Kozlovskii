@@ -47,10 +47,10 @@ public class AuthorServiceImpl implements AuthorService {
         if (author.getId() == null) {
             return repository.save(author);
         }
-        Author authorUpdate = repository.findById(author.getId()).orElseThrow(() ->
-                new RuntimeException("АВТОР С ID - " + author.getId() + " НЕ СУЩЕСТВУЕТ!"));
-        authorUpdate.setAuthorName(author.getAuthorName());
-        return repository.save(authorUpdate);
+        if (repository.existsById(author.getId())) {
+            return repository.save(author);
+        }
+        throw new RuntimeException("АВТОР С ID - " + author.getId() + " НЕ СУЩЕСТВУЕТ!");
     }
 
     @Transactional
@@ -62,7 +62,18 @@ public class AuthorServiceImpl implements AuthorService {
         } else {
             books.forEach(book -> ioService.outputString(String.valueOf(book)));
             throw new RuntimeException("Ошибка удаления! На этого автора ссылаются книги!");
-
         }
+    }
+
+    @Transactional
+    @Override
+    public boolean existById(String id) {
+        return repository.existsById(id);
+    }
+
+    @Transactional
+    @Override
+    public boolean existByName(String name) {
+        return repository.existsByAuthorName(name);
     }
 }

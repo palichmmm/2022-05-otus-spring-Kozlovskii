@@ -13,4 +13,8 @@ public interface GenreRepository extends MongoRepository<Genre, Long> {
     List<Genre> findByGenreName(String name);
 
     void deleteById(String id);
+
+    boolean existsById(String id);
+
+    boolean existsByGenreName(String name);
 }

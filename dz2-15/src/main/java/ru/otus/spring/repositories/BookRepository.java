@@ -15,5 +15,10 @@ public interface BookRepository extends MongoRepository<Book, Long> {
     void deleteById(String id);
 
     List<Book> findAllByAuthor_Id(String id);
+
     List<Book> findAllByGenre_Id(String id);
+
+    boolean existsById(String id);
+
+    boolean existsByBookName(String name);
 }

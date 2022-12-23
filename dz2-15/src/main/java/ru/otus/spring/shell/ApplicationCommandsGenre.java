@@ -22,10 +22,10 @@ public class ApplicationCommandsGenre {
     @ShellMethod(key = {"gn", "genre-name"}, value = "One genre by name: <command> [name]")
     public void showOneGenreByName(String name) {
         ioService.outputString("Запрос в базу жанров по NAME=" + name);
-        if (service.findByName(name).isEmpty()) {
-            ioService.outputString("Жанра " + name + " не существует!!!");
-        } else {
+        if (service.existByName(name)) {
             service.findByName(name).forEach(genre -> ioService.outputString(String.valueOf(genre)));
+        } else {
+            ioService.outputString("Жанра " + name + " не существует!!!");
         }
     }
 

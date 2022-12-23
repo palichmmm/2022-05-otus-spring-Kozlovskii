@@ -19,8 +19,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public Optional<Comment> findById(String id) {
-        return repository.findById(id);
+    public Comment findById(String id) {
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("КОММЕНТАРИЙ С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Transactional
@@ -35,8 +35,10 @@ public class CommentServiceImpl implements CommentService {
         if (comment.getId() == null) {
             return repository.save(comment);
         }
-        repository.save(comment);
-        return comment;
+        Comment updateComment = repository.findById(comment.getId()).orElseThrow(() ->
+                new RuntimeException("КОММЕНТАРИЙ С ID - " + comment.getId() + " НЕ СУЩЕСТВУЕТ!"));
+        updateComment.setComment(comment.getComment());
+        return repository.save(updateComment);
     }
 
     @Transactional

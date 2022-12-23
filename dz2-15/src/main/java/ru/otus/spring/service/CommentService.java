@@ -4,10 +4,9 @@ import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CommentService {
-    Optional<Comment> findById(String id);
+    Comment findById(String id);
 
     List<Comment> findAllCommentByBook(Book book);
 

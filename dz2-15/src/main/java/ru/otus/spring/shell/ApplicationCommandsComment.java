@@ -33,9 +33,9 @@ public class ApplicationCommandsComment {
     }
 
     @ShellMethod(key = {"ci", "comment-insert"}, value = "Insert comment: <command> [bookId] [comment]")
-    public void showInsertComment(String id, String commentName) {
+    public void showInsertComment(String bookId, String commentName) {
         ioService.outputString("Вставляем комментарий(" + commentName + ") в базу:");
-        ioService.outputString(String.valueOf(service.save(new Comment(commentName, new Book(id)))));
+        ioService.outputString(String.valueOf(service.save(new Comment(commentName, new Book(bookId)))));
     }
 
     @ShellMethod(key = {"cu", "comment-update"}, value = "Update comment: <command> [id] [comment]")

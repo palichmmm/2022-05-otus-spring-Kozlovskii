@@ -65,13 +65,10 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void deleteById(String id) {
-        List<Comment> comments = commentRepository.findAllByBook_Id(id);
-        if (comments.isEmpty()) {
-            repository.deleteById(id);
-        } else {
+        if (commentRepository.existsByBook_Id(id)) {
             commentRepository.deleteAllByBook_Id(id);
-            repository.deleteById(id);
         }
+            repository.deleteById(id);
     }
 
     @Transactional

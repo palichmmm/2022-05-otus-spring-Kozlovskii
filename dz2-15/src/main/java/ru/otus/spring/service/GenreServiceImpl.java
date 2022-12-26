@@ -15,12 +15,9 @@ public class GenreServiceImpl implements GenreService {
 
     private final BookRepository bookRepository;
 
-    private final IOService ioService;
-
-    public GenreServiceImpl(GenreRepository repository, BookRepository bookRepository, IOService ioService) {
+    public GenreServiceImpl(GenreRepository repository, BookRepository bookRepository) {
         this.repository = repository;
         this.bookRepository = bookRepository;
-        this.ioService = ioService;
     }
 
     @Transactional(readOnly = true)
@@ -56,13 +53,10 @@ public class GenreServiceImpl implements GenreService {
     @Transactional
     @Override
     public void deleteById(String id) {
-        List<Book> books = bookRepository.findAllByGenre_Id(id);
-        if (books.isEmpty()) {
-            repository.deleteById(id);
-        } else {
-            books.forEach(book -> ioService.outputString(String.valueOf(book)));
+        if (bookRepository.existsByGenre_Id(id)) {
             throw new RuntimeException("Ошибка удаления! На этот жанр ссылаются книги!");
         }
+        repository.deleteById(id);
     }
 
     @Transactional

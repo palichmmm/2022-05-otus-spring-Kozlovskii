@@ -3,7 +3,6 @@ package ru.otus.spring.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
-import ru.otus.spring.models.Book;
 import ru.otus.spring.repositories.AuthorRepository;
 import ru.otus.spring.repositories.BookRepository;
 
@@ -15,12 +14,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final BookRepository bookRepository;
 
-    private final IOService ioService;
-
-    public AuthorServiceImpl(AuthorRepository repository, BookRepository bookRepository, IOService ioService) {
+    public AuthorServiceImpl(AuthorRepository repository, BookRepository bookRepository) {
         this.repository = repository;
         this.bookRepository = bookRepository;
-        this.ioService = ioService;
     }
 
     @Transactional(readOnly = true)
@@ -56,13 +52,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     @Override
     public void deleteById(String id) {
-        List<Book> books = bookRepository.findAllByAuthor_Id(id);
-        if (books.isEmpty()) {
-            repository.deleteById(id);
-        } else {
-            books.forEach(book -> ioService.outputString(String.valueOf(book)));
+        if (bookRepository.existsByAuthor_Id(id)) {
             throw new RuntimeException("Ошибка удаления! На этого автора ссылаются книги!");
         }
+        repository.deleteById(id);
     }
 
     @Transactional

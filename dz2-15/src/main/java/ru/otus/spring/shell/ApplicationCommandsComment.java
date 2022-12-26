@@ -23,7 +23,7 @@ public class ApplicationCommandsComment {
     @ShellMethod(key = {"cb", "all-comment-book"}, value = "All comment by book id: <command> [bookId]")
     public void showAllCommentBookById(String bookId) {
         ioService.outputString("Запрос в базу комментариев по ID=" + bookId);
-        service.findAllCommentByBook(new Book(bookId)).forEach(comment -> ioService.outputString(String.valueOf(comment)));
+        service.findAllCommentByBookId(bookId).forEach(comment -> ioService.outputString(String.valueOf(comment)));
     }
 
     @ShellMethod(key = {"cd", "comment-delete"}, value = "Delete comment: <command> [id]")

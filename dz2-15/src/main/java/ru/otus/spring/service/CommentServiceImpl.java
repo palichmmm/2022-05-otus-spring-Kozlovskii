@@ -2,12 +2,10 @@ package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 import ru.otus.spring.repositories.CommentRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -25,8 +23,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public List<Comment> findAllCommentByBook(Book book) {
-        return repository.findAllByBook(book);
+    public List<Comment> findAllCommentByBookId(String id) {
+        return repository.findAllByBook_Id(id);
     }
 
     @Transactional

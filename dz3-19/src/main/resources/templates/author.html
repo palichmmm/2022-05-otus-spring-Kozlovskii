@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Все Авторы</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css" th:href="@{'/bootstrap/bootstrap.min.css'}">
+  <script src="/static/bootstrap/bootstrap.bundle.min.js" th:src="@{'/bootstrap/bootstrap.bundle.min.js'}"></script>
+</head>
+<body>
+<!--Модальное окно-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="clsForm" data-bs-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" id="subForm">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Панель навигации-->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/templates/home.html" th:href="@{'/'}">Библиотека книг</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/templates/author.html" th:href="@{'/author'}">Авторы <span id="author" class="badge bg-secondary">0</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/templates/genre.html" th:href="@{'/genre'}">Жанры <span id="genre" class="badge bg-secondary">0</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/templates/book.html" th:href="@{'/book'}">Книги <span id="book" class="badge bg-secondary">0</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--Страница сайта-->
+<div class="container">
+  <div id="pointStartInformer" class="row pt-5">
+    <h1 class="text-center display-4 mt-1">Все авторы</h1>
+    <button type="button" id="creat" class="btn btn-success col-3 mx-auto" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            data-action="creat">Создать автора</button>
+    <script>document.getElementById('')</script>
+    <div class="text-center">
+      <table class="table">
+        <thead class="table-light">
+        <tr>
+          <th>Id</th>
+          <th>Имя автора</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody id="body-table">
+        <tr id="message-table">
+          <td colspan="3">Данных нет...</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+<script src="/js/author/creatAuthor.js"></script>
+<script src="/js/author/updateAuthor.js"></script>
+<script src="/js/author/deleteAuthor.js"></script>
+<script src="/js/author/updateTableAuthor.js"></script>
+<script src="/js/countObjectUpdateTextById.js"></script>
+<script src="/js/informer.js"></script>
+<script src="/js/author/initPageAuthor.js"></script>
+</html>

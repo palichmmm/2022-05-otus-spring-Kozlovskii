@@ -12,7 +12,9 @@ public class Application {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(Application.class, args);
-        context.getBean(MongoDbDataInit.class).run();
+        if (context.containsBean("mongoDbDataInit")) {
+            context.getBean(MongoDbDataInit.class).run();
+        }
     }
 
 }

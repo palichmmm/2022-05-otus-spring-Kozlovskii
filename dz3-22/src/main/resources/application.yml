@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      database: libraryBooks
+      port: 27017
+      host: localhost
+  main:
+    allow-circular-references: true
+  profiles:
+    active: dev

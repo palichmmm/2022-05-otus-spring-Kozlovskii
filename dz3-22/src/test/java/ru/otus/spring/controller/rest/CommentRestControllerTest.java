@@ -10,17 +10,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.spring.dto.GenreDto;
+import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.CommentRepository;
-import ru.otus.spring.repository.GenreRepository;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @WebFluxTest(CommentRestController.class)
@@ -51,49 +48,32 @@ class CommentRestControllerTest {
     }
 
     @Test
-    @DisplayName("Должен выводить жанр по Id")
-    public void shouldDisplayGenreById() {
-        Genre genre = new Genre("111", "Жанр1");
-        Mono<Genre> genreMono = Mono.just(genre);
-
-        when(repository.findById("111")).thenReturn(genreMono);
-
-        webTestClient.get()
-                .uri("/api/genre/111")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(GenreDto.class)
-                .value(GenreDto::getId, equalTo("111"))
-                .value(GenreDto::getGenreName, equalTo("Жанр1"));
-    }
-
-    @Test
-    @DisplayName("Должен удалять жанр по Id")
-    public void shouldDeleteGenreById() {
+    @DisplayName("Должен удалять комментарий по Id")
+    public void shouldDeleteCommentById() {
         Mono<Void> voidReturn = Mono.empty();
-        when(bookRepository.existsByGenre_Id("111")).thenReturn(Mono.just(false));
         when(repository.deleteById("111")).thenReturn(voidReturn);
 
         webTestClient.delete()
-                .uri("/api/genre/111")
+                .uri("/api/comment/111")
                 .exchange()
                 .expectStatus().isOk();
     }
 
     @Test
-    @DisplayName("Должен создавать жанр")
-    public void shouldCreateGenre() {
-        Genre genre = new Genre("111", "Жанр1");
-        Mono<Genre> genreMono = Mono.just(genre);
+    @DisplayName("Должен создавать комментарий по книге")
+    public void shouldCreateCommentByBookId() {
+        Book book = new Book("123", "Книга1", new Author("11", "Автор1"), new Genre("11", "Жанр1"));
+        Comment comment = new Comment("111", "Комментарий1", book);
+        Mono<Comment> commentMono = Mono.just(comment);
 
-        when(repository.save(genre)).thenReturn(genreMono);
+        when(bookRepository.findById("123")).thenReturn(Mono.just(book));
+        when(repository.save(comment)).thenReturn(commentMono);
 
         webTestClient.post()
-                .uri("/api/genre")
+                .uri("/api/comment/book/123")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .body(Mono.just(GenreDto.toDto(genre)), GenreDto.class)
+                .body(Mono.just(CommentDto.toDto(comment)), CommentDto.class)
                 .exchange()
                 .expectStatus().isCreated();
     }

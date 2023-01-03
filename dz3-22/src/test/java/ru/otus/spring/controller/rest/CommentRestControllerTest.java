@@ -11,34 +11,40 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.spring.dto.GenreDto;
+import ru.otus.spring.models.Author;
+import ru.otus.spring.models.Book;
+import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.CommentRepository;
 import ru.otus.spring.repository.GenreRepository;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@WebFluxTest(GenreRestController.class)
-@ContextConfiguration(classes = {GenreRestController.class})
-class GenreRestControllerTest {
+@WebFluxTest(CommentRestController.class)
+@ContextConfiguration(classes = {CommentRestController.class})
+class CommentRestControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
     @MockBean
-    private GenreRepository repository;
+    private CommentRepository repository;
 
     @MockBean
     private BookRepository bookRepository;
 
     @Test
-    @DisplayName("Должен выводить все жанры")
-    public void shouldOutputAllGenres() {
-        Genre genre1 = new Genre("111", "Жанр1");
-        Genre genre2 = new Genre("222", "Жанр2");
-        Flux<Genre> genreFlux = Flux.just(genre1, genre2);
-        when(repository.findAll()).thenReturn(genreFlux);
+    @DisplayName("Должен выводить все комментарии по книге")
+    public void shouldOutputAllCommentsByBookId() {
+        Book book = new Book("123", "Книга1", new Author("11", "Автор1"), new Genre("11", "Жанр1"));
+        Comment comment1 = new Comment("111", "Комментарий1", book);
+        Comment comment2 = new Comment("222", "Комментарий2", book);
+        Flux<Comment> commentFlux = Flux.just(comment1, comment2);
+        when(repository.findAllByBook_Id("123")).thenReturn(commentFlux);
         webTestClient.get()
-                .uri("/api/genre")
+                .uri("/api/comment/book/123")
                 .exchange()
                 .expectStatus()
                 .isOk();

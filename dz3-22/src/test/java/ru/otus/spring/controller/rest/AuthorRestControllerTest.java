@@ -32,7 +32,7 @@ class AuthorRestControllerTest {
 
     @Test
     @DisplayName("Должен выводить всех авторов")
-    public void ShouldOutputAllAuthors() {
+    public void shouldOutputAllAuthors() {
         Author author1 = new Author("111", "Автор1");
         Author author2 = new Author("222", "Автор2");
         Flux<Author> authorFlux = Flux.just(author1, author2);
@@ -46,7 +46,7 @@ class AuthorRestControllerTest {
 
     @Test
     @DisplayName("Должен выводить автора по Id")
-    public void ShouldDisplayAuthorById() {
+    public void shouldDisplayAuthorById() {
         Author author = new Author("111", "Автор1");
         Mono<Author> authorMono = Mono.just(author);
 
@@ -64,7 +64,7 @@ class AuthorRestControllerTest {
 
     @Test
     @DisplayName("Должен удалять автора по Id")
-    public void ShouldDeleteAuthorById() {
+    public void shouldDeleteAuthorById() {
         Mono<Void> voidReturn = Mono.empty();
         when(bookRepository.existsByAuthor_Id("111")).thenReturn(Mono.just(false));
         when(repository.deleteById("111")).thenReturn(voidReturn);
@@ -78,7 +78,7 @@ class AuthorRestControllerTest {
 
     @Test
     @DisplayName("Должен создавать автора")
-    public void ShouldCreateAuthor() {
+    public void shouldCreateAuthor() {
         Author author = new Author("111", "Автор1");
         Mono<Author> authorMono = Mono.just(author);
 

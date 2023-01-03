@@ -1,5 +1,6 @@
 package ru.otus.spring.controller.rest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,6 +26,7 @@ public class CommentRestController {
         return commentRepository.findAllByBook_Id(id).map(CommentDto::toDto);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/comment/book/{id}")
     public Mono<CommentDto> saveComment(@PathVariable("id") String id, @RequestBody CommentDto commentDto) {
         return bookRepository.findById(id).flatMap(book -> {

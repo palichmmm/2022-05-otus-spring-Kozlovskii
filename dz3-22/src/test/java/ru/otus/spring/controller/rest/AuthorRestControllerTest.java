@@ -73,7 +73,6 @@ class AuthorRestControllerTest {
                 .uri("/api/author/111")
                 .exchange()
                 .expectStatus().isOk();
-
     }
 
     @Test

@@ -1,5 +1,6 @@
 package ru.otus.spring.controller.rest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -31,6 +32,7 @@ public class AuthorRestController {
         return repository.findById(id).map(AuthorDto::toDto);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/author")
     public Mono<AuthorDto> saveAuthor(@RequestBody AuthorDto authorDto) {
         Author realAuthor = AuthorDto.toAuthor(authorDto);

@@ -1,5 +1,6 @@
 package ru.otus.spring.controller.rest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -31,6 +32,7 @@ public class GenreRestController {
         return repository.findById(id).map(GenreDto::toDto);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/genre")
     public Mono<GenreDto> saveGenre(@RequestBody GenreDto genre) {
         Genre realGenre = GenreDto.toGenre(genre);

@@ -14,6 +14,7 @@ function deleteGenre(url, id) {
         .then(data => {
             if (data['message']) {
                 informer('Ошибка удаления - ' + data['message'], false);
+                setTimeout(updateTableGenre, 50, 'http://localhost:8080/api/genre');
             }
         })
         .catch(err => console.log(err));

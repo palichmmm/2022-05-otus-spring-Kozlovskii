@@ -14,6 +14,7 @@ function deleteAuthor(url, id) {
         .then(data => {
             if (data['message']) {
                 informer('Ошибка удаления - ' + data['message'], false);
+                setTimeout(updateTableAuthor, 50, 'http://localhost:8080/api/author');
             }
         })
         .catch(err => console.log(err['message']));

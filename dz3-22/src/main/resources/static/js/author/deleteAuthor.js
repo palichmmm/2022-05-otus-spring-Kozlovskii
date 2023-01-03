@@ -1,8 +1,6 @@
 function deleteAuthor(url, id) {
-    fetch(url, {
-        method: 'DELETE',
-        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        body: "id=" + id
+    fetch(url + '/' + id, {
+        method: 'DELETE'
     })
         .then(result => {
             if (result.ok) {
@@ -10,9 +8,13 @@ function deleteAuthor(url, id) {
                 setTimeout(countObjectUpdateTextById, 50,'http://localhost:8080/api/author/count', 'author')
                 setTimeout(updateTableAuthor, 50, 'http://localhost:8080/api/author');
             } else {
-                informer('Ошибка удаления - ' + result.status, false);
-                return result.json();
+                return  result.json();
             }
-        }).then(data => console.log(data['message']['error']))
-        .catch(err => console.log(err));
+        })
+        .then(data => {
+            if (data['message']) {
+                informer('Ошибка удаления - ' + data['message'], false);
+            }
+        })
+        .catch(err => console.log(err['message']));
 }

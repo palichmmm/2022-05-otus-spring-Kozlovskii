@@ -1,8 +1,6 @@
 function deleteBook(url, id) {
-    fetch(url, {
-        method: 'DELETE',
-        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        body: "id=" + id
+    fetch(url + '/' + id, {
+        method: 'DELETE'
     })
         .then(result => {
             if (result.ok) {

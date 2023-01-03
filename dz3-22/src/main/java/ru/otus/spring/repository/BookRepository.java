@@ -4,9 +4,8 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
 import ru.otus.spring.models.Book;
 
-public interface BookRepository extends ReactiveMongoRepository<Book, Long> {
+public interface BookRepository extends ReactiveMongoRepository<Book, String> {
+    Mono<Boolean> existsByAuthor_Id(String id);
 
-    Mono<Book> findById(String id);
-
-    Mono<Void> deleteById(String id);
+    Mono<Boolean> existsByGenre_Id(String id);
 }

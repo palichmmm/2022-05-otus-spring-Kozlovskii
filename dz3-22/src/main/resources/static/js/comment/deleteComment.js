@@ -1,19 +1,19 @@
 function deleteComment(url, id) {
-    fetch(url, {
-        method: 'DELETE',
-        headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-        },
-        body: "id=" + id
+    fetch(url +'/' + id, {
+        method: 'DELETE'
     })
         .then(result => {
             if (result.ok) {
                 informer('Объект успешно удален', true);
                 setTimeout(updateTableComment, 50, 'http://localhost:8080/api/comment/book/' + takeBookIdFromUrl());
             } else {
-                informer('Ошибка удаления - ' + result.status, false);
                 return result.json();
             }
-        }).then(data => console.log(data['message']['error']))
+        })
+        .then(data => {
+            if (data['message']) {
+                informer('Ошибка удаления - ' + data['message'], false);
+            }
+        })
         .catch(err => console.log(err));
 }

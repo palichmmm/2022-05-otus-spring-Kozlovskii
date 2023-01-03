@@ -8,6 +8,7 @@ import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.BookDtoMapper;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.CommentRepository;
 
 @RestController
 public class BookRestController {
@@ -15,10 +16,13 @@ public class BookRestController {
     private final BookRepository repository;
 
     private final BookDtoMapper bookDtoMapper;
+    private final CommentRepository commentRepository;
 
-    public BookRestController(BookRepository repository, BookDtoMapper bookDtoMapper) {
+    public BookRestController(BookRepository repository, BookDtoMapper bookDtoMapper,
+                              CommentRepository commentRepository) {
         this.repository = repository;
         this.bookDtoMapper = bookDtoMapper;
+        this.commentRepository = commentRepository;
     }
 
     @GetMapping("/api/book")
@@ -27,13 +31,13 @@ public class BookRestController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/api/book", consumes = {"application/json"})
+    @PostMapping(value = "/api/book")
     public Mono<BookDto> saveBook(@RequestBody BookDto bookDto) {
         Book realBook = bookDtoMapper.toBook(bookDto, new Book(null));
         return repository.save(realBook).map(bookDtoMapper::toDto);
     }
 
-    @PutMapping(value = "/api/book", consumes = {"application/json"})
+    @PutMapping(value = "/api/book")
     public Mono<BookDto> updateBook(@RequestBody BookDto bookDto) {
         return repository.findById(bookDto.getId()).flatMap(book -> {
             Book realBook = bookDtoMapper.toBook(bookDto, book);
@@ -41,9 +45,9 @@ public class BookRestController {
         }).map(bookDtoMapper::toDto);
     }
 
-    @DeleteMapping("/api/book")
-    public Mono<Void> deleteBookById(@RequestParam("id") String id) {
-        return repository.deleteById(id);
+    @DeleteMapping("/api/book/{id}")
+    public Mono<Void> deleteBookById(@PathVariable("id") String id) {
+        return Mono.when(repository.deleteById(id), commentRepository.deleteAllByBook_Id(id));
     }
 
     @GetMapping("/api/book/count")

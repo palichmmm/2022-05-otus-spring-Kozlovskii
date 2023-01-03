@@ -73,30 +73,19 @@ async function runUpdateBook() {
     var bookName = document.getElementById('book-name').value;
     var authorId = document.getElementById('book-author').value;
     var genreId = document.getElementById('book-genre').value;
+    var authorName = document.querySelector('#book-author option[value="'+ authorId +'"]').textContent;
+    var genreName = document.querySelector('#book-genre option[value="'+ genreId +'"]').textContent;
     await fetch('/api/book', {
         method: 'PUT',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify({"id": bookId, "bookName": bookName, "authorId": authorId, "genreId": genreId})
+        body: JSON.stringify({"id": bookId, "bookName": bookName, "authorId": authorId, "genreId": genreId,
+                                   "author": authorName, "genre": genreName})
     })
         .then(result => {
             if (result.ok) {
                 informer('Книга успешно обновлена', true);
             } else {
                 return result.json();
-            }
-        })
-        .then(data => {
-            if ('message' in data) {
-                switch (data['statusCode']) {
-                    case 404:
-                        informer('Ошибка ' + data['statusCode'] + '. ' + data['message']['error'], false);
-                        break;
-                    case 406:
-                        informer('Ошибка ' + data['statusCode'] + '. ' + data['message']['bookName'], false);
-                        break;
-                    default:
-                        informer('Что то пошло не так...', false);
-                }
             }
         })
         .catch(err => console.log(err));

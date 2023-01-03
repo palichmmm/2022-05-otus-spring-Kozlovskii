@@ -41,8 +41,8 @@ public class CommentRestController {
         }).map(CommentDto::toDto);
     }
 
-    @DeleteMapping("/api/comment")
-    public Mono<Void> deleteCommentById(@RequestParam("id") String id) {
+    @DeleteMapping("/api/comment/{id}")
+    public Mono<Void> deleteCommentById(@PathVariable("id") String id) {
         return commentRepository.deleteById(id);
     }
 

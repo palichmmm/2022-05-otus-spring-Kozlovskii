@@ -60,30 +60,19 @@ async function runCreatBook() {
     var bookName = document.getElementById('book-name').value;
     var authorId = document.getElementById('book-author').value;
     var genreId = document.getElementById('book-genre').value;
+    var authorName = document.querySelector('#book-author option[value="'+ authorId +'"]').textContent;
+    var genreName = document.querySelector('#book-genre option[value="'+ genreId +'"]').textContent;
     await fetch('/api/book', {
         method: 'POST',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify({"bookName": bookName, "authorId": authorId, "genreId": genreId})
+        body: JSON.stringify({"bookName": bookName, "authorId": authorId, "genreId": genreId,
+                                   "author": authorName, "genre": genreName})
     })
         .then(result => {
             if (result.ok) {
                 informer('Книга успешно создана', true);
             }
             return result.json();
-        })
-        .then(data => {
-            if ('message' in data) {
-                switch (data['statusCode']) {
-                    case 404:
-                        informer('Ошибка ' + data['statusCode'] + '. ' + data['message']['error'], false);
-                        break;
-                    case 406:
-                        informer('Ошибка ' + data['statusCode'] + '. ' + data['message']['bookName'], false);
-                        break;
-                    default:
-                        informer('Что то пошло не так...', false);
-                }
-            }
         })
         .catch(err => console.log(err));
     document.getElementById('clsForm').click();

@@ -1,10 +1,12 @@
 package ru.otus.spring.controller.rest;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.spring.dto.GenreDto;
 import ru.otus.spring.models.Genre;
+import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.GenreRepository;
 
 @RestController
@@ -12,8 +14,11 @@ public class GenreRestController {
 
     private final GenreRepository repository;
 
-    public GenreRestController(GenreRepository repository) {
+    private final BookRepository bookRepository;
+
+    public GenreRestController(GenreRepository repository, BookRepository bookRepository) {
         this.repository = repository;
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/api/genre")
@@ -38,9 +43,14 @@ public class GenreRestController {
         return repository.save(realGenre).map(GenreDto::toDto);
     }
 
-    @DeleteMapping("/api/genre")
-    public Mono<Void> deleteGenreById(@RequestParam("id") long id) {
-        return repository.deleteById(id);
+    @DeleteMapping("/api/genre/{id}")
+    public Mono<ResponseEntity<Void>> deleteGenreById(@PathVariable("id") String id) {
+        return bookRepository.existsByGenre_Id(id).flatMap(result -> {
+            if (result) {
+                return Mono.error(new RuntimeException("Удалить невозможно. Объект используется."));
+            }
+            return repository.deleteById(id).map(ResponseEntity::ok);
+        });
     }
 
     @GetMapping("/api/genre/count")

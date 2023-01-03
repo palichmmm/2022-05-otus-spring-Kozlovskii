@@ -32,7 +32,7 @@ public class HomeController {
     }
 
     @GetMapping("/comment/book/{id}")
-    public String comment(@PathVariable("id") long id, Model model) {
+    public String comment(@PathVariable("id") String id, Model model) {
         model.addAttribute("id", id);
         return "comment";
     }

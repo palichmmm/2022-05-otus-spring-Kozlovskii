@@ -16,5 +16,4 @@ public class Application {
             context.getBean(MongoDbDataInit.class).run();
         }
     }
-
 }

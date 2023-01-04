@@ -30,6 +30,11 @@ public class BookRestController {
         return repository.findAll().map(bookDtoMapper::toDto);
     }
 
+    @GetMapping("/api/book/{id}")
+    public Mono<BookDto> getAllBook(@PathVariable("id") String id) {
+        return repository.findById(id).map(bookDtoMapper::toDto);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/api/book")
     public Mono<BookDto> saveBook(@RequestBody BookDto bookDto) {

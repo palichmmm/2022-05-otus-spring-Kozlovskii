@@ -18,7 +18,6 @@ import ru.otus.spring.repository.GenreRepository;
 public class BookRestController {
 
     private final BookRepository repository;
-
     private final BookDtoMapper bookDtoMapper;
     private final CommentRepository commentRepository;
     private final AuthorRepository authorRepository;

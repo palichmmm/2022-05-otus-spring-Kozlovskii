@@ -15,8 +15,10 @@ import ru.otus.spring.dto.BookDtoMapper;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
+import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.CommentRepository;
+import ru.otus.spring.repository.GenreRepository;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
@@ -35,6 +37,12 @@ class BookRestControllerTest {
 
     @MockBean
     private CommentRepository commentRepository;
+
+    @MockBean
+    private AuthorRepository authorRepository;
+
+    @MockBean
+    private GenreRepository genreRepository;
 
     @Test
     @DisplayName("Должен выводить все книги")
@@ -88,9 +96,15 @@ class BookRestControllerTest {
     @Test
     @DisplayName("Должен создавать книгу")
     public void shouldCreateBook() {
-        Book book = new Book("111", "Книга1", new Author("11", "Автор1"), new Genre("1", "Жанр1"));
+        Genre genre = new Genre("1", "Жанр1");
+        Author author = new Author("11", "Автор1");
+        Book book = new Book(null, "Книга1", author, genre);
         Mono<Book> bookMono = Mono.just(book);
+        Mono<Author> authorMono = Mono.just(author);
+        Mono<Genre> genreMono = Mono.just(genre);
 
+        when(authorRepository.findById("11")).thenReturn(authorMono);
+        when(genreRepository.findById("1")).thenReturn(genreMono);
         when(bookRepository.save(book)).thenReturn(bookMono);
 
         webTestClient.post()
@@ -99,6 +113,7 @@ class BookRestControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(dtoMapper.toDto(book)), BookDto.class)
                 .exchange()
-                .expectStatus().isCreated();
+                .expectStatus()
+                .isCreated();
     }
 }

@@ -27,4 +27,9 @@ public class HomeController {
         model.addAttribute("bookCount", bookService.count());
         return "home";
     }
+
+    @GetMapping("/login")
+    public String formLogin() {
+        return "login";
+    }
 }

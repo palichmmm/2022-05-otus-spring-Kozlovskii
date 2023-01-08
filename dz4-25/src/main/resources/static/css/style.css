@@ -101,5 +101,13 @@ td, th{
     background: #f83838;
     cursor: pointer;
 }
+.logout {
+    color: white;
+    padding: 15px 10px;
+}
+.logout:hover {
+    cursor: pointer;
+    background-color: #0066FF;
+}
 
 

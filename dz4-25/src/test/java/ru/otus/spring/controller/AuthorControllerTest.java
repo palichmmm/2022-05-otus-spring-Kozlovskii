@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.service.AuthorService;
@@ -26,6 +27,7 @@ class AuthorControllerTest {
     @MockBean
     private AuthorService authorService;
 
+    @WithMockUser
     @DisplayName("Страница всех авторов должна вернуть статус 200")
     @Test
     void AllAuthorsPageShouldReturnStatus200() throws Exception {
@@ -39,6 +41,7 @@ class AuthorControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @DisplayName("Страница редактирования автора должна вернуть статус 200")
     @Test
     void AuthorEditFormPageShouldReturnStatus200() throws Exception {
@@ -52,6 +55,7 @@ class AuthorControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @DisplayName("Страница создания автора должна вернуть статус 200")
     @Test
     void AuthorCreationFormPageShouldReturnStatus200() throws Exception {

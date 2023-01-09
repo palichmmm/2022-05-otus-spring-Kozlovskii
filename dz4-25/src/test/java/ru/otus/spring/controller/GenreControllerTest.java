@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.service.GenreService;
@@ -26,6 +27,7 @@ public class GenreControllerTest {
     @MockBean
     private GenreService genreService;
 
+    @WithMockUser
     @DisplayName("Страница всех жанров должна вернуть статус 200")
     @Test
     void AllGenresPageShouldReturnStatus200() throws Exception {
@@ -39,6 +41,7 @@ public class GenreControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @DisplayName("Страница редактирования жанра должна вернуть статус 200")
     @Test
     void GenreEditFormPageShouldReturnStatus200() throws Exception {
@@ -52,6 +55,7 @@ public class GenreControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @DisplayName("Страница создания жанра должна вернуть статус 200")
     @Test
     void GenreCreateFormPageShouldReturnStatus200() throws Exception {

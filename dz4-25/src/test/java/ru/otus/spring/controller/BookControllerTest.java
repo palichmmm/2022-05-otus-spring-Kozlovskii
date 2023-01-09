@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.dto.BookDTO;
 import ru.otus.spring.models.Author;
@@ -38,6 +39,7 @@ public class BookControllerTest {
     @MockBean
     private GenreService genreService;
 
+    @WithMockUser
     @DisplayName("Страница всех книг должна вернуть статус 200")
     @Test
     void AllBooksPageShouldReturnStatus200() throws Exception {
@@ -53,6 +55,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @DisplayName("Страница редактирования книги должна вернуть статус 200")
     @Test
     void BookEditPageShouldReturnStatus200() throws Exception {
@@ -73,6 +76,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @DisplayName("Страница создания книги должна вернуть статус 200")
     @Test
     void BookCreateFormPageShouldReturnStatus200() throws Exception {

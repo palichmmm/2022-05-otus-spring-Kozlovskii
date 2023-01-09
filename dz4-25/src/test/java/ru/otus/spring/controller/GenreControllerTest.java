@@ -54,7 +54,7 @@ public class GenreControllerTest {
     @WithMockUser
     @DisplayName("Страница редактирования жанра должна вернуть статус 200")
     @Test
-    void GenreEditFormPageShouldReturnStatus200() throws Exception {
+    void genreEditFormPageShouldReturnStatus200() throws Exception {
         Genre genre = new Genre(GENRE_ID, "Жанр");
         Mockito.when(genreService.findById(GENRE_ID)).thenReturn(genre);
         mvc.perform(get("/genre/edit/{id}", GENRE_ID))
@@ -68,7 +68,7 @@ public class GenreControllerTest {
     @WithAnonymousUser
     @DisplayName("/genre/edit/{id} - Неавторизованным вернуть статус 401")
     @Test
-    void GenreEditFormPageUnauthorizedReturnStatus401() throws Exception {
+    void genreEditFormPageUnauthorizedReturnStatus401() throws Exception {
         mvc.perform(get("/genre/edit/{id}", GENRE_ID))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -77,7 +77,7 @@ public class GenreControllerTest {
     @WithMockUser
     @DisplayName("Страница создания жанра должна вернуть статус 200")
     @Test
-    void GenreCreateFormPageShouldReturnStatus200() throws Exception {
+    void genreCreateFormPageShouldReturnStatus200() throws Exception {
         Genre genre = new Genre();
         mvc.perform(get("/genre/create"))
                 .andDo(print())
@@ -90,7 +90,7 @@ public class GenreControllerTest {
     @WithAnonymousUser
     @DisplayName("/genre/create - Неавторизованным вернуть статус 401")
     @Test
-    void GenreCreateFormPageUnauthorizedReturnStatus401() throws Exception {
+    void genreCreateFormPageUnauthorizedReturnStatus401() throws Exception {
         mvc.perform(get("/genre/create"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());

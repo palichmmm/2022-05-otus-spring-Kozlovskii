@@ -39,7 +39,7 @@ public class CommentControllerTest {
     @WithMockUser
     @DisplayName("Страница редактирования отзыва должна вернуть статус 200")
     @Test
-    void CommentEditFormPageShouldReturnStatus200() throws Exception {
+    void commentEditFormPageShouldReturnStatus200() throws Exception {
         Comment comment = new Comment(COMMENT_ID, "Комментарий", new Book());
         CommentDTO commentDTO = new CommentDTO(comment.getId(), comment.getComment(), comment.getBook().getId(), comment.getBook().getBookName());
         Mockito.when(commentService.findById(COMMENT_ID)).thenReturn(comment);
@@ -54,7 +54,7 @@ public class CommentControllerTest {
     @WithMockUser
     @DisplayName("Страница создания отзыва должна вернуть статус 200")
     @Test
-    void CommentCreateFormPageShouldReturnStatus200() throws Exception {
+    void commentCreateFormPageShouldReturnStatus200() throws Exception {
         Book book = new Book(BOOK_ID, "Книга", new Author(), new Genre(), List.of(new Comment()));
         CommentDTO commentDTO = new CommentDTO(book.getId(), null, book.getId(), book.getBookName());
         Mockito.when(bookService.findById(BOOK_ID)).thenReturn(book);

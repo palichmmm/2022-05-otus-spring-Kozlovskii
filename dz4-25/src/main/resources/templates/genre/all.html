@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Жанры</title>
@@ -21,7 +22,7 @@
         </li>
     </ul>
     <h1 th:text="#{genre-head}">Жанры</h1>
-    <p class="center">
+    <p sec:authorize="hasRole('ADMIN')" class="center">
         <a id="create" href="/templates/genre/creat" th:href="@{'/genre/create'}" th:text="#{button-new-genre}">Создать</a>
     </p>
     <table>
@@ -32,15 +33,15 @@
             </th>
             <th th:text="#{table-id}">Id</th>
             <th th:text="#{table-genre}">Жанр</th>
-            <th th:text="#{table-actions}">Действия</th>
+            <th sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:text="#{table-actions}">Действия</th>
         </tr>
         <tr th:each="genre : ${genres}">
             <td th:text="${genre.getId()}">0</td>
             <td th:text="${genre.getGenreName()}">Жанр</td>
-            <td>
+            <td sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
                 <a class="edit" href="edit.html" th:href="@{'/genre/edit/' + ${genre.getId()}}"
                    th:text="#{form-buttom-edit}">Изменить</a>
-                <a class="delete" href="delete.html" th:href="@{'/genre/delete/' + ${genre.getId()}}"
+                <a sec:authorize="hasRole('ADMIN')" class="delete" href="delete.html" th:href="@{'/genre/delete/' + ${genre.getId()}}"
                    th:text="#{form-buttom-delete}">Удалить</a>
             </td>
         </tr>

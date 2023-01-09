@@ -39,17 +39,17 @@ public class SecurityConfiguration {
                 .antMatchers("/comment/**").hasAnyRole("ADMIN", "MANAGER")
                 .anyRequest().authenticated()
                 .and()
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .deleteCookies("JSESSIONID")
-                        .logoutSuccessUrl("/")
-                        .permitAll())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .usernameParameter("userName")
                         .passwordParameter("password")
                         .permitAll()
-                );
+                )
+                .logout(logout -> logout
+                .logoutUrl("/logout")
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
+                .permitAll());
         return http.build();
     }
 }

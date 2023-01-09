@@ -103,7 +103,7 @@ td, th{
 }
 .logout {
     color: white;
-    padding: 15px 10px;
+    padding: 15px;
 }
 .logout:hover {
     cursor: pointer;

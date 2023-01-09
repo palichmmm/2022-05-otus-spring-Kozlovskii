@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Библиотека книг</title>
@@ -23,6 +24,11 @@
         <li id="lang">
             <a href="/templates/home.html" th:href="@{/(lang=en)}" th:text="#{en-lang-menu}">EN</a>
             <a href="/templates/home.html" th:href="@{/(lang=ru)}" th:text="#{ru-lang-menu}">RU</a>
+            <a sec:authorize="!isAuthenticated()" href="/templates/login.html" th:href="@{'/login'}">Вход</a>
+            <label sec:authorize="isAuthenticated()" class="logout" for="form-logout">Выход</label>
+            <form sec:authorize="isAuthenticated()" th:action="@{'/logout'}" th:method="${'post'}">
+                <input th:type="${'submit'}" th:value="${'Выход'}" id="form-logout" style="display: none;">
+            </form>
         </li>
     </ul>
     <h1 th:text="#{project-name}">Библиотека книг</h1>

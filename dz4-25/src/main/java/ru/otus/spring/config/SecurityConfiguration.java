@@ -20,25 +20,25 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests()
-                .antMatchers("/", "/css/**", "/images/**").permitAll()
-                // Книги
-                .antMatchers("/book/delete/*").hasRole("ADMIN")
-                .antMatchers("/book/create", "/book/edit/*").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/book/all", "/book/comments/*").hasAnyRole("ADMIN", "MANAGER", "USER")
-                // Авторы
-                .antMatchers("/author/delete/*", "/author/create").hasRole("ADMIN")
-                .antMatchers("/author/all").hasAnyRole("ADMIN", "MANAGER", "USER")
-                .antMatchers("/author/edit/*").hasAnyRole("ADMIN", "MANAGER")
-                // Жанры
-                .antMatchers("/genre/delete/*", "/genre/create").hasRole("ADMIN")
-                .antMatchers("/genre/all").hasAnyRole("ADMIN", "MANAGER", "USER")
-                .antMatchers("/genre/edit/*").hasAnyRole("ADMIN", "MANAGER")
-                // Комментарии
-                .antMatchers("/comment/create/*").hasAnyRole("ADMIN", "USER", "MANAGER")
-                .antMatchers("/comment/**").hasAnyRole("ADMIN", "MANAGER")
-                .anyRequest().authenticated()
-                .and()
+                .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("/", "/css/**", "/images/**").permitAll()
+                        // Книги
+                        .antMatchers("/book/delete/*").hasRole("ADMIN")
+                        .antMatchers("/book/create", "/book/edit/*").hasAnyRole("ADMIN", "MANAGER")
+                        .antMatchers("/book/all", "/book/comments/*").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        // Авторы
+                        .antMatchers("/author/delete/*", "/author/create").hasRole("ADMIN")
+                        .antMatchers("/author/all").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/author/edit/*").hasAnyRole("ADMIN", "MANAGER")
+                        // Жанры
+                        .antMatchers("/genre/delete/*", "/genre/create").hasRole("ADMIN")
+                        .antMatchers("/genre/all").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/genre/edit/*").hasAnyRole("ADMIN", "MANAGER")
+                        // Комментарии
+                        .antMatchers("/comment/create/*").hasAnyRole("ADMIN", "USER", "MANAGER")
+                        .antMatchers("/comment/**").hasAnyRole("ADMIN", "MANAGER")
+                        .anyRequest().authenticated()
+                )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .usernameParameter("userName")
@@ -46,10 +46,10 @@ public class SecurityConfiguration {
                         .permitAll()
                 )
                 .logout(logout -> logout
-                .logoutUrl("/logout")
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/")
-                .permitAll());
+                        .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/")
+                        .permitAll());
         return http.build();
     }
 }

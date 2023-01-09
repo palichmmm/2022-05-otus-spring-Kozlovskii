@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.dto.BookDTO;
@@ -42,7 +43,7 @@ public class BookControllerTest {
     @WithMockUser
     @DisplayName("Страница всех книг должна вернуть статус 200")
     @Test
-    void AllBooksPageShouldReturnStatus200() throws Exception {
+    void allBooksPageShouldReturnStatus200() throws Exception {
         List<Book> books = List.of(
                 new Book(BOOK_ID, "Книга1", new Author(), new Genre(), List.of(new Comment())),
                 new Book(2, "Книга2", new Author(), new Genre(), List.of(new Comment())));
@@ -55,10 +56,19 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithAnonymousUser
+    @DisplayName("/book/all - Неавторизованным вернуть статус 401")
+    @Test
+    void allBooksPageUnauthorizedReturnStatus401() throws Exception {
+        mvc.perform(get("/book/all"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
     @WithMockUser
     @DisplayName("Страница редактирования книги должна вернуть статус 200")
     @Test
-    void BookEditPageShouldReturnStatus200() throws Exception {
+    void bookEditPageShouldReturnStatus200() throws Exception {
         List<Author> authors = List.of(new Author("Автор"));
         List<Genre> genres = List.of(new Genre("Жанр"));
         Book book = new Book(BOOK_ID, "Книга", new Author(), new Genre(), null);
@@ -76,10 +86,19 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithAnonymousUser
+    @DisplayName("/book/edit/{id} - Неавторизованным вернуть статус 401")
+    @Test
+    void bookEditPageUnauthorizedReturnStatus401() throws Exception {
+        mvc.perform(get("/book/edit/{id}", BOOK_ID))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
     @WithMockUser
     @DisplayName("Страница создания книги должна вернуть статус 200")
     @Test
-    void BookCreateFormPageShouldReturnStatus200() throws Exception {
+    void bookCreateFormPageShouldReturnStatus200() throws Exception {
         BookDTO bookDTO = new BookDTO();
         List<Author> authors = List.of(new Author("Автор"));
         List<Genre> genres = List.of(new Genre("Жанр"));
@@ -93,5 +112,14 @@ public class BookControllerTest {
                 .andExpect(model().attribute("authors", authors))
                 .andExpect(model().attribute("genres", genres))
                 .andExpect(status().isOk());
+    }
+
+    @WithAnonymousUser
+    @DisplayName("/book/create - Неавторизованным вернуть статус 401")
+    @Test
+    void bookCreateFormPageUnauthorizedReturnStatus401() throws Exception {
+        mvc.perform(get("/book/create"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
     }
 }

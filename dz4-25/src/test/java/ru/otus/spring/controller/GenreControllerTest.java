@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Genre;
@@ -30,7 +31,7 @@ public class GenreControllerTest {
     @WithMockUser
     @DisplayName("Страница всех жанров должна вернуть статус 200")
     @Test
-    void AllGenresPageShouldReturnStatus200() throws Exception {
+    void allGenresPageShouldReturnStatus200() throws Exception {
         List<Genre> genres = List.of(new Genre(GENRE_ID, "Жанр1"), new Genre(2, "Жанр2"));
         Mockito.when(genreService.findAll()).thenReturn(genres);
         mvc.perform(get("/genre/all"))
@@ -39,6 +40,15 @@ public class GenreControllerTest {
                 .andExpect(view().name("/genre/all"))
                 .andExpect(model().attribute("genres", genres))
                 .andExpect(status().isOk());
+    }
+
+    @WithAnonymousUser
+    @DisplayName("/genre/all - Неавторизованным вернуть статус 401")
+    @Test
+    void allGenresPageUnauthorizedReturnStatus401() throws Exception {
+        mvc.perform(get("/genre/all"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
     }
 
     @WithMockUser
@@ -55,6 +65,15 @@ public class GenreControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithAnonymousUser
+    @DisplayName("/genre/edit/{id} - Неавторизованным вернуть статус 401")
+    @Test
+    void GenreEditFormPageUnauthorizedReturnStatus401() throws Exception {
+        mvc.perform(get("/genre/edit/{id}", GENRE_ID))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
     @WithMockUser
     @DisplayName("Страница создания жанра должна вернуть статус 200")
     @Test
@@ -66,5 +85,14 @@ public class GenreControllerTest {
                 .andExpect(view().name("/genre/create"))
                 .andExpect(model().attribute("genre", genre))
                 .andExpect(status().isOk());
+    }
+
+    @WithAnonymousUser
+    @DisplayName("/genre/create - Неавторизованным вернуть статус 401")
+    @Test
+    void GenreCreateFormPageUnauthorizedReturnStatus401() throws Exception {
+        mvc.perform(get("/genre/create"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
     }
 }

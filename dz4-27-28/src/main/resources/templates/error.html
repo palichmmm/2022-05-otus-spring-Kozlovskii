@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка!!!</title>
+    <link rel="stylesheet" href="/static/css/error.css" th:href="@{/css/error.css}">
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}" th:text="#{authors-menu-section}">Авторы</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}" th:text="#{genres-menu-section}">Жанры</a></li>
+        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}" th:text="#{books-menu-section}">Книги</a></li>
+    </ul>
+    <div class="parent">
+        <div class="block">
+            <p style="text-align: center;">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="100" alt="SOVA">
+            </p>
+            <h1 th:if="${#response.getStatus() == 200}" th:text="#{error}">Ошибка!</h1>
+            <h1 th:if="${#response.getStatus() == 403}" th:text="${'Доступ закрыт!'}">Доступ закрыт!</h1>
+            <h1 th:if="${#response.getStatus() != 200 && #response.getStatus() != 403}" th:text="${'Ошибка - ' + #response.getStatus()}">Ошибка - 404</h1>
+            <h1 th:text="${message}">Текст ошибки</h1>
+        </div>
+    </div>
+</div>
+</body>
+</html>

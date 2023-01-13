@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-01-13--006-acl_sid
+      author: Evgenii Kozlovskii
+      context: dev or test
+      createTable:
+        tableName: acl_sid
+        remark: В таблице перечисляются пользователи и роли которым будут даваться разрешения
+        columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                primaryKeyName: pk_acl_sid
+                nullable: false
+          - column:
+              name: principal
+              type: tinyint
+              constraints:
+                nullable: false
+          - column:
+              name: sid
+              type: varchar
+              constraints:
+                unique: true
+                columnNames: sid, principal
+                constraintName: unique_sid_principal
+                nullable: false

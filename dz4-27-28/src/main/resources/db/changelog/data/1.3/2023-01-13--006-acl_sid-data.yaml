@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-01-13--006-acl_sid-data
+      author: Evgenii Kozlovskii
+      context: dev
+      runOnChange: true
+      loadData:
+        tableName: acl_sid
+        file: ../data/2023-01-13--006-acl_sid.csv
+        relativeToChangeLogFile: true
+        separator: ;
+        encoding: UTF-8

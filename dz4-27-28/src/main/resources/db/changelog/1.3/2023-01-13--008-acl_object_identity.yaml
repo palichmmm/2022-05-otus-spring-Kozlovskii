@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-01-13--008-acl_object_identity
+      author: Evgenii Kozlovskii
+      context: dev or test
+      createTable:
+        tableName: acl_object_identity
+        remark: В таблице задается на какие объекты будут даваться разрешения
+        columns:
+          - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                primaryKeyName: pk_acl_object_identity
+                nullable: false
+          - column:
+              name: object_id_class
+              type: bigint
+              constraints:
+                foreignKeyName: key_object_class
+                references: acl_class(id)
+                nullable: false
+          - column:
+              name: object_id_identity
+              type: bigint
+              constraints:
+                unique: true
+                columnNames: object_id_identity, object_id_class
+                constraintName: unique_id_identity_class
+                nullable: false
+          - column:
+              name: parent_object
+              type: bigint
+              constraints:
+                foreignKeyName: key_object_identity
+                references: acl_object_identity(id)
+                nullable: true
+          - column:
+              name: owner_sid
+              type: bigint
+              constraints:
+                foreignKeyName: key_sid
+                references: acl_sid(id)
+                nullable: true
+          - column:
+              name: entries_inheriting
+              type: tinyint
+              constraints:
+                nullable: false

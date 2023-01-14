@@ -4,9 +4,10 @@ databaseChangeLog:
       author: Evgenii Kozlovskii
       context: dev
       runOnChange: true
-      loadData:
-        tableName: authors
-        file: data/2022-07-19--001-author.csv
-        relativeToChangeLogFile: true
-        separator: ;
-        encoding: UTF-8
+      changes:
+        - loadData:
+            tableName: authors
+            file: data/2022-07-19--001-author.csv
+            relativeToChangelogFile: true
+            separator: ;
+            encoding: UTF-8

@@ -4,9 +4,10 @@ databaseChangeLog:
       author: Evgenii Kozlovskii
       context: dev
       runOnChange: true
-      loadData:
-        tableName: acl_class
-        file: ../data/2023-01-13--007-acl_class.csv
-        relativeToChangeLogFile: true
-        separator: ;
-        encoding: UTF-8
+      changes:
+        - loadData:
+            tableName: acl_class
+            file: ../data/2023-01-13--007-acl_class.csv
+            relativeToChangelogFile: true
+            separator: ;
+            encoding: UTF-8

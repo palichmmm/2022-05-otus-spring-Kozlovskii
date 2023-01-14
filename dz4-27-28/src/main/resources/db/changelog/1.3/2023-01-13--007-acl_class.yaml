@@ -18,7 +18,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: class
-                  type: varchar(255)
+                  type: varchar(100)
                   constraints:
                     unique: true
                     nullable: false
+        - addAutoIncrement:
+            tableName: acl_class
+            columnName: id
+            incrementBy: 1
+            startWith: 100

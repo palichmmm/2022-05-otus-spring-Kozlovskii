@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: object_id_identity
-                  type: bigint
+                  type: bigint(36)
                   constraints:
                     nullable: false
               - column:
@@ -51,3 +51,8 @@ databaseChangeLog:
             tableName: acl_object_identity
             columnNames: object_id_class, object_id_identity
             constraintName: object_id_class_identity
+        - addAutoIncrement:
+            tableName: acl_object_identity
+            columnName: id
+            incrementBy: 1
+            startWith: 100

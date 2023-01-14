@@ -59,3 +59,8 @@ databaseChangeLog:
             tableName: acl_entry
             columnNames: acl_object_identity, ace_order
             constraintName: key_unique_object_identity_ace_order
+        - addAutoIncrement:
+            tableName: acl_entry
+            columnName: id
+            incrementBy: 1
+            startWith: 100

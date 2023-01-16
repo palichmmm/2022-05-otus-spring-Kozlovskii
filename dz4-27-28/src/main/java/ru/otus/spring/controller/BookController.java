@@ -1,5 +1,6 @@
 package ru.otus.spring.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,12 +28,14 @@ public class BookController {
         this.authorService = authorService;
     }
 
+    @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/book/all")
     public String getAllBook(Model model) {
         model.addAttribute("books", bookService.findAll());
         return "/book/all";
     }
 
+    @PreAuthorize("hasAuthority('UPDATE')")
     @GetMapping("/book/edit/{id}")
     public String getBookEditPage(@ModelAttribute("book") BookDTO book, Model model) {
         Book editBook = bookService.findById(book.getId());
@@ -44,6 +47,7 @@ public class BookController {
         return "/book/edit";
     }
 
+    @PreAuthorize("hasAuthority('UPDATE')")
     @PostMapping("/book/edit/{id}")
     public String saveBookEditPage(@Valid @ModelAttribute("book") BookDTO book,
                                    BindingResult bindingResult, Model model) {
@@ -62,6 +66,7 @@ public class BookController {
         return "redirect:/book/all";
     }
 
+    @PreAuthorize("hasAuthority('CREATE')")
     @GetMapping("/book/create")
     public String getBookCreationPage(@ModelAttribute("book") BookDTO book, Model model) {
         model.addAttribute("authors", authorService.findAll());
@@ -69,6 +74,7 @@ public class BookController {
         return "/book/create";
     }
 
+    @PreAuthorize("hasAuthority('CREATE')")
     @PostMapping("/book/create")
     public String saveBookCreationPage(@Valid @ModelAttribute("book") BookDTO book,
                                        BindingResult bindingResult, Model model) {
@@ -84,18 +90,21 @@ public class BookController {
         return "redirect:/book/all";
     }
 
+    @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/book/comments/{id}")
     public String getCommentsBook(@PathVariable("id") long id, Model model) {
         model.addAttribute("book", bookService.findById(id));
         return "/book/comments";
     }
 
+    @PreAuthorize("hasAuthority('DELETE')")
     @GetMapping("/book/delete/{id}")
     public String getBookDeletePage(@PathVariable("id") long id, Model model) {
         model.addAttribute("book", bookService.findById(id));
         return "/book/delete";
     }
 
+    @PreAuthorize("hasAuthority('DELETE')")
     @PostMapping("/book/delete")
     public String deleteBook(@RequestParam("id") long id) {
         bookService.deleteById(id);

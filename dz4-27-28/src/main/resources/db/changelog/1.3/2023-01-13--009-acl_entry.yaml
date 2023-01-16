@@ -61,6 +61,7 @@ databaseChangeLog:
             constraintName: key_unique_object_identity_ace_order
         - addAutoIncrement:
             tableName: acl_entry
+            columnDataType: bigint
             columnName: id
             incrementBy: 1
             startWith: 100

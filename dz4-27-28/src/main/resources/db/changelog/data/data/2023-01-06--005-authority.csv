@@ -1,0 +1,12 @@
+username;authority
+admin;ADMIN
+admin;READ
+admin;UPDATE
+admin;CREATE
+admin;DELETE
+admin;BATCH
+user;USER
+user;READ
+manager;MANAGER
+manager;READ
+manager;UPDATE

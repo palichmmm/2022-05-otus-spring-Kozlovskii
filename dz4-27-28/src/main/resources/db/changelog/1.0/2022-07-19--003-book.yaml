@@ -3,30 +3,31 @@ databaseChangeLog:
       id: 2022-07-19--003-book
       author: Evgenii Kozlovskii
       context: dev or test
-      createTable:
-        tableName: books
-        remarks: Таблица книг
-        columns:
-          - column:
-              name: id
-              type: bigint
-              autoIncrement: true
-              constraints:
-                primaryKey: true
-                primaryKeyName: pk_books
-                nullable: false
-          - column:
-              name: author_id
-              type: bigint
-              constraints:
-                foreignKeyName: key_book_authors
-                references: authors(id)
-          - column:
-              name: genre_id
-              type: bigint
-              constraints:
-                foreignKeyName: key_book_genres
-                references: genres(id)
-          - column:
-              name: book_name
-              type: varchar(255)
+      changes:
+        - createTable:
+            tableName: books
+            remarks: Таблица книг
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_books
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: key_book_authors
+                    references: authors(id)
+              - column:
+                  name: genre_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: key_book_genres
+                    references: genres(id)
+              - column:
+                  name: book_name
+                  type: varchar(255)

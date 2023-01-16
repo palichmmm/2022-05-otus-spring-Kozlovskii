@@ -32,6 +32,7 @@ databaseChangeLog:
             constraintName: unique_principal_sid
         - addAutoIncrement:
             tableName: acl_sid
+            columnDataType: bigint
             columnName: id
-            incrementBy: 1
             startWith: 100
+            incrementBy: 1

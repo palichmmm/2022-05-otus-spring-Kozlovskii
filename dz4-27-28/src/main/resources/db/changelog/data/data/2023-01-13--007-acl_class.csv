@@ -1,6 +1,5 @@
 class
-ru.otus.spring.controller.AuthorController
-ru.otus.spring.controller.BookController
-ru.otus.spring.controller.CommentController
-ru.otus.spring.controller.GenreController
-ru.otus.spring.controller.HomeController
+ru.otus.spring.models.Author
+ru.otus.spring.models.Genre
+ru.otus.spring.models.Book
+ru.otus.spring.models.Comment

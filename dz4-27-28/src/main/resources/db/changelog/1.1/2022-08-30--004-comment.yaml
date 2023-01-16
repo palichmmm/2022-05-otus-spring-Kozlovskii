@@ -3,28 +3,29 @@ databaseChangeLog:
       id: 2022-08-30--004-comment
       author: Evgenii Kozlovskii
       context: dev or test
-      createTable:
-        tableName: comments
-        remark: Таблица комментариев
-        columns:
-          - column:
-              name: id
-              type: bigint
-              autoIncrement: true
-              constraints:
-                primaryKey: true
-                primaryKeyName: pk_comments
-                nullable: false
-          - column:
-              name: comment
-              type: varchar(255)
-              constraints:
-                unique: false
-                nullable: false
-          - column:
-              name: book_id
-              type: bigint
-              constraints:
-                unique: false
-                nullable: false
-                foreignKeyName: key_comment_book
+      changes:
+        - createTable:
+            tableName: comments
+            remarks: Таблица комментариев
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_comments
+                    nullable: false
+              - column:
+                  name: comment
+                  type: varchar(255)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    unique: false
+                    nullable: false
+                    foreignKeyName: key_comment_book

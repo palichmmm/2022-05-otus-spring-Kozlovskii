@@ -9,6 +9,14 @@ databaseChangeLog:
             remarks: Список полномочий (ролей) для пользователя
             columns:
               - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_authority
+                    nullable: false
+              - column:
                   name: username
                   type: varchar(50)
                   constraints:

@@ -22,7 +22,7 @@
         </li>
     </ul>
     <h1 th:text="#{author-head}">Авторы</h1>
-    <p sec:authorize="hasAuthority('WRITE')" class="center">
+    <p sec:authorize="hasAuthority('CREATE')" class="center">
         <a id="create" href="/templates/author/creat" th:href="@{'/author/create'}" th:text="#{button-new-author}">Создать</a>
     </p>
     <table>
@@ -33,15 +33,15 @@
             </th>
             <th th:text="#{table-id}">Id</th>
             <th th:text="#{table-author}">Автор</th>
-            <th sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:text="#{table-actions}">Действия</th>
+            <th sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:text="#{table-actions}">Действия</th>
         </tr>
         <tr th:each="author : ${authors}">
             <td th:text="${author.getId()}">0</td>
             <td th:text="${author.getAuthorName()}">Автор</td>
-            <td sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
                 <a class="edit" href="edit.html" th:href="@{'/author/edit/' + ${author.getId()}}"
                    th:text="#{form-buttom-edit}">Изменить</a>
-                <a sec:authorize="hasRole('ADMIN')" class="delete" href="delete.html" th:href="@{'/author/delete/' + ${author.getId()}}"
+                <a sec:authorize="hasAuthority('ADMIN')" class="delete" href="delete.html" th:href="@{'/author/delete/' + ${author.getId()}}"
                    th:text="#{form-buttom-delete}">Удалить</a>
             </td>
         </tr>

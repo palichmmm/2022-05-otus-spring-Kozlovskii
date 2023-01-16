@@ -1,6 +1,13 @@
 package ru.otus.spring.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +28,9 @@ public class BookController {
     private final BookService bookService;
     private final GenreService genreService;
     private final AuthorService authorService;
+
+    @Autowired
+    protected MutableAclService mutableAclService;
 
     public BookController(BookService bookService, GenreService genreService, AuthorService authorService) {
         this.bookService = bookService;
@@ -87,6 +97,31 @@ public class BookController {
         Genre newGenre = genreService.findByName(book.getGenre());
         Book newBook = new Book(book.getBookName(), newAuthor, newGenre);
         bookService.save(newBook);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MutableAcl acl = null;
+
+        // Подготовить информацию, которую хотим добавить в систему управления доступом (ACE).
+        ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, newGenre.getId());
+        Sid sid = new PrincipalSid(authentication.getName());
+
+        // Встроенные разрешения по умолчанию
+        Permission administration = BasePermission.ADMINISTRATION;
+        Permission create = BasePermission.CREATE;
+        Permission delete = BasePermission.DELETE;
+        Permission read = BasePermission.READ;
+        Permission write = BasePermission.WRITE;
+
+        // Создать или обновите соответствующий ACL
+        try {
+            acl = (MutableAcl) mutableAclService.readAclById(oi);
+        } catch (NotFoundException nfe) {
+            acl = mutableAclService.createAcl(oi);
+        }
+
+        // Теперь предоставьте некоторые разрешения через запись управления доступом (ACE).
+        acl.insertAce(acl.getEntries().size(), read, sid, true);
+        mutableAclService.updateAcl(acl);
         return "redirect:/book/all";
     }
 

@@ -22,7 +22,7 @@
         </li>
     </ul>
     <h1 th:text="#{genre-head}">Жанры</h1>
-    <p sec:authorize="hasAuthority('ADMIN')" class="center">
+    <p sec:authorize="hasAuthority('CREATE')" class="center">
         <a id="create" href="/templates/genre/creat" th:href="@{'/genre/create'}" th:text="#{button-new-genre}">Создать</a>
     </p>
     <table>

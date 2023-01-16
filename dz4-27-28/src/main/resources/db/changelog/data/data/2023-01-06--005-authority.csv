@@ -10,3 +10,4 @@ user;READ
 manager;MANAGER
 manager;READ
 manager;WRITE
+manager;CREATE

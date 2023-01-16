@@ -3,17 +3,12 @@ package ru.otus.spring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextChangedEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -43,67 +38,6 @@ public class GenreController {
     public String getAllGenre(Model model) {
         List<Genre> genres = service.findAll();
         model.addAttribute("genres", genres);
-
-        // Подготовьте информацию, которую мы хотели бы добавить в нашу запись управления доступом (ACE).
-//        ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, new Long(44));
-//        Sid sid = new PrincipalSid("Samantha");
-//        Permission p = BasePermission.ADMINISTRATION;
-
-// Создайте или обновите соответствующий ACL
-//        MutableAcl acl = null;
-//        try {
-//            acl = (MutableAcl) mutableAclService.readAclById(oi);
-//        } catch (NotFoundException nfe) {
-//            acl = mutableAclService.createAcl(oi);
-//        }
-
-// Теперь предоставьте некоторые разрешения через запись управления доступом (ACE).
-//        acl.insertAce(acl.getEntries().length, p, sid, true);
-//        aclService.updateAcl(acl);
-
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Authentication==="+authentication);
-        final Sid owner = new PrincipalSid( authentication );
-        System.out.println("PrincipalSid==="+owner);
-        MutableAcl acl = null;
-        for (Genre genre : genres) {
-
-            // Подготовьте информацию, которую мы хотели бы добавить в нашу запись управления доступом (ACE).
-            ObjectIdentity oi = new ObjectIdentityImpl( Genre.class, genre.getId() );
-            Sid sid = new PrincipalSid(authentication.getName());
-            Permission p = BasePermission.ADMINISTRATION;
-            Permission pp = BasePermission.CREATE;
-            Permission ppp = BasePermission.DELETE;
-            Permission pppp = BasePermission.READ;
-            Permission ppppp = BasePermission.WRITE;
-
-            // Создайте или обновите соответствующий ACL
-            try {
-                acl = (MutableAcl) mutableAclService.readAclById(oi);
-            } catch (NotFoundException nfe) {
-                acl = mutableAclService.createAcl(oi);
-            }
-
-            // Теперь предоставьте некоторые разрешения через запись управления доступом (ACE).
-            acl.insertAce(acl.getEntries().size(), p, sid, true);
-            mutableAclService.updateAcl(acl);
-
-            System.out.println("ObjectIdentityImpl===" + oi);
-//            MutableAcl acl = mutableAclService.createAcl( oi );
-//            System.out.println("+++==="+acl);
-        }
-
-//        Sid admin = new GrantedAuthoritySid("BATCH");
-//        System.out.println("GrantedAuthoritySid===" + admin);
-
-//        acl.setOwner( owner );
-//        acl.insertAce( acl.getEntries().size(), BasePermission.ADMINISTRATION, admin, true );
-//        System.out.println("+++==="+acl);
-//        mutableAclService.updateAcl( acl );
-//        System.out.println("+++==="+acl);
-
-
         return "/genre/all";
     }
 
@@ -143,6 +77,31 @@ public class GenreController {
         }
         Genre newGenre = new Genre(genre.getGenreName());
         service.save(newGenre);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MutableAcl acl = null;
+
+        // Подготовить информацию, которую хотим добавить в систему управления доступом (ACE).
+        ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, newGenre.getId());
+        Sid sid = new PrincipalSid(authentication.getName());
+
+        // Встроенные разрешения по умолчанию
+        Permission administration = BasePermission.ADMINISTRATION;
+        Permission create = BasePermission.CREATE;
+        Permission delete = BasePermission.DELETE;
+        Permission read = BasePermission.READ;
+        Permission write = BasePermission.WRITE;
+
+        // Создать или обновите соответствующий ACL
+        try {
+            acl = (MutableAcl) mutableAclService.readAclById(oi);
+        } catch (NotFoundException nfe) {
+            acl = mutableAclService.createAcl(oi);
+        }
+
+        // Теперь предоставьте некоторые разрешения через запись управления доступом (ACE).
+        acl.insertAce(acl.getEntries().size(), read, sid, true);
+        mutableAclService.updateAcl(acl);
         return "redirect:/genre/all";
     }
 

@@ -1,12 +1,10 @@
 package ru.otus.spring.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +26,13 @@ public class BookController {
     private final BookService bookService;
     private final GenreService genreService;
     private final AuthorService authorService;
+    private final MutableAclService mutableAclService;
 
-    @Autowired
-    protected MutableAclService mutableAclService;
-
-    public BookController(BookService bookService, GenreService genreService, AuthorService authorService) {
+    public BookController(BookService bookService, GenreService genreService, AuthorService authorService, MutableAclService mutableAclService) {
         this.bookService = bookService;
         this.genreService = genreService;
         this.authorService = authorService;
+        this.mutableAclService = mutableAclService;
     }
 
     @PreAuthorize("hasAuthority('READ')")
@@ -98,7 +95,7 @@ public class BookController {
         Book newBook = new Book(book.getBookName(), newAuthor, newGenre);
         bookService.save(newBook);
 
-        MutableAcl acl = null;
+        MutableAcl acl;
 
         // Подготовить информацию, которую хотим добавить в систему управления доступом (ACE).
         ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, newBook.getId());

@@ -1,19 +1,16 @@
 package ru.otus.spring.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.service.GenreService;
 
 import javax.validation.Valid;
@@ -23,14 +20,11 @@ import java.util.List;
 public class GenreController {
 
     private final GenreService service;
+    private final MutableAclService mutableAclService;
 
-    @Autowired
-    protected MutableAclService mutableAclService;
-    @Autowired
-    private GenreRepository genreRepository;
-
-    public GenreController(GenreService service) {
+    public GenreController(GenreService service, MutableAclService mutableAclService) {
         this.service = service;
+        this.mutableAclService = mutableAclService;
     }
 
     @PreAuthorize("hasAuthority('READ')")
@@ -78,7 +72,7 @@ public class GenreController {
         Genre newGenre = new Genre(genre.getGenreName());
         service.save(newGenre);
 
-        MutableAcl acl = null;
+        MutableAcl acl;
 
         // Подготовить информацию, которую хотим добавить в систему управления доступом (ACE).
         ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, newGenre.getId());

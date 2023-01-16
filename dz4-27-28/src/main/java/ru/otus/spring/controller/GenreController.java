@@ -6,10 +6,7 @@ import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.acls.model.MutableAcl;
-import org.springframework.security.acls.model.MutableAclService;
-import org.springframework.security.acls.model.ObjectIdentity;
-import org.springframework.security.acls.model.Sid;
+import org.springframework.security.acls.model.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextChangedEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,14 +44,53 @@ public class GenreController {
         List<Genre> genres = service.findAll();
         model.addAttribute("genres", genres);
 
+        // Подготовьте информацию, которую мы хотели бы добавить в нашу запись управления доступом (ACE).
+//        ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, new Long(44));
+//        Sid sid = new PrincipalSid("Samantha");
+//        Permission p = BasePermission.ADMINISTRATION;
+
+// Создайте или обновите соответствующий ACL
+//        MutableAcl acl = null;
+//        try {
+//            acl = (MutableAcl) mutableAclService.readAclById(oi);
+//        } catch (NotFoundException nfe) {
+//            acl = mutableAclService.createAcl(oi);
+//        }
+
+// Теперь предоставьте некоторые разрешения через запись управления доступом (ACE).
+//        acl.insertAce(acl.getEntries().length, p, sid, true);
+//        aclService.updateAcl(acl);
+
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("Authentication==="+authentication);
         final Sid owner = new PrincipalSid( authentication );
         System.out.println("PrincipalSid==="+owner);
+        MutableAcl acl = null;
         for (Genre genre : genres) {
-            ObjectIdentity oid = new ObjectIdentityImpl( Genre.class, genre.getId() );
-            System.out.println("ObjectIdentityImpl===" + oid);
-//            MutableAcl acl = mutableAclService.createAcl( oid );
+
+            // Подготовьте информацию, которую мы хотели бы добавить в нашу запись управления доступом (ACE).
+            ObjectIdentity oi = new ObjectIdentityImpl( Genre.class, genre.getId() );
+            Sid sid = new PrincipalSid(authentication.getName());
+            Permission p = BasePermission.ADMINISTRATION;
+            Permission pp = BasePermission.CREATE;
+            Permission ppp = BasePermission.DELETE;
+            Permission pppp = BasePermission.READ;
+            Permission ppppp = BasePermission.WRITE;
+
+            // Создайте или обновите соответствующий ACL
+            try {
+                acl = (MutableAcl) mutableAclService.readAclById(oi);
+            } catch (NotFoundException nfe) {
+                acl = mutableAclService.createAcl(oi);
+            }
+
+            // Теперь предоставьте некоторые разрешения через запись управления доступом (ACE).
+            acl.insertAce(acl.getEntries().size(), p, sid, true);
+            mutableAclService.updateAcl(acl);
+
+            System.out.println("ObjectIdentityImpl===" + oi);
+//            MutableAcl acl = mutableAclService.createAcl( oi );
 //            System.out.println("+++==="+acl);
         }
 
@@ -71,7 +107,7 @@ public class GenreController {
         return "/genre/all";
     }
 
-    @PreAuthorize("hasAuthority('UPDATE')")
+    @PreAuthorize("hasAuthority('WRITE')")
     @GetMapping("/genre/edit/{id}")
     public String getGenreEditPage(@PathVariable("id") long id, Model model) {
         Genre genre = service.findById(id);
@@ -79,7 +115,7 @@ public class GenreController {
         return "/genre/edit";
     }
 
-    @PreAuthorize("hasAuthority('UPDATE')")
+    @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping("/genre/edit/{id}")
     public String saveGenreEditPage(@Valid @ModelAttribute("genre") Genre genre,
                                     BindingResult bindingResult,

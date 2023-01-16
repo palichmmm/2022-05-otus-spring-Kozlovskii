@@ -26,13 +26,13 @@ public class AuthorController {
         return "/author/all";
     }
 
-    @PreAuthorize("hasAuthority('UPDATE')")
+    @PreAuthorize("hasAuthority('WRITE')")
     @GetMapping("/author/edit/{id}")
     public String getAuthorEditPage(@PathVariable("id") long id, Model model) {
         model.addAttribute("author", service.findById(id));
         return "/author/edit";
     }
-    @PreAuthorize("hasAuthority('UPDATE')")
+    @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping("/author/edit/{id}")
     public String saveAuthorEditPage(@Valid @ModelAttribute("author") Author author,
                                      BindingResult bindingResult,

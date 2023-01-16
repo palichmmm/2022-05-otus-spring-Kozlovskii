@@ -35,7 +35,7 @@ public class BookController {
         return "/book/all";
     }
 
-    @PreAuthorize("hasAuthority('UPDATE')")
+    @PreAuthorize("hasAuthority('WRITE')")
     @GetMapping("/book/edit/{id}")
     public String getBookEditPage(@ModelAttribute("book") BookDTO book, Model model) {
         Book editBook = bookService.findById(book.getId());
@@ -47,7 +47,7 @@ public class BookController {
         return "/book/edit";
     }
 
-    @PreAuthorize("hasAuthority('UPDATE')")
+    @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping("/book/edit/{id}")
     public String saveBookEditPage(@Valid @ModelAttribute("book") BookDTO book,
                                    BindingResult bindingResult, Model model) {

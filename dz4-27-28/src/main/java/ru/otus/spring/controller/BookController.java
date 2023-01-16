@@ -98,12 +98,11 @@ public class BookController {
         Book newBook = new Book(book.getBookName(), newAuthor, newGenre);
         bookService.save(newBook);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MutableAcl acl = null;
 
         // Подготовить информацию, которую хотим добавить в систему управления доступом (ACE).
-        ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, newGenre.getId());
-        Sid sid = new PrincipalSid(authentication.getName());
+        ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, newBook.getId());
+        Sid sid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication().getName());
 
         // Встроенные разрешения по умолчанию
         Permission administration = BasePermission.ADMINISTRATION;

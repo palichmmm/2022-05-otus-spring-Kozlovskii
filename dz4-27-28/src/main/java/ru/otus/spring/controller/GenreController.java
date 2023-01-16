@@ -78,12 +78,11 @@ public class GenreController {
         Genre newGenre = new Genre(genre.getGenreName());
         service.save(newGenre);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MutableAcl acl = null;
 
         // Подготовить информацию, которую хотим добавить в систему управления доступом (ACE).
         ObjectIdentity oi = new ObjectIdentityImpl(Genre.class, newGenre.getId());
-        Sid sid = new PrincipalSid(authentication.getName());
+        Sid sid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication().getName());
 
         // Встроенные разрешения по умолчанию
         Permission administration = BasePermission.ADMINISTRATION;

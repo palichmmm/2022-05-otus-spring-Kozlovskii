@@ -32,6 +32,9 @@
         </li>
     </ul>
     <h1 th:text="#{project-name}">Библиотека книг</h1>
+    <p sec:authorize="hasAuthority('BATCH')" class="center">
+        <a id="create" href="/templates/job.html" th:href="@{'/job'}">Резервное копирование базы</a>
+    </p>
     <p style="text-align: center;">
         <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="400" alt="sova">
     </p>

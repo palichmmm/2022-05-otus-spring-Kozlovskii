@@ -7,6 +7,11 @@ spring:
       path: /h2-console
       settings:
         web-allow-others: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: backupdb
   main:
     allow-circular-references: true
   liquibase:
@@ -27,4 +32,8 @@ spring:
   messages:
     encoding: UTF-8
     basename: messages
+  batch:
+    job:
+      enabled: false
+
 

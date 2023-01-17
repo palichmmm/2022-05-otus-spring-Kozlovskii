@@ -1,0 +1,24 @@
+package ru.otus.spring.batch.models.mongo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import ru.otus.spring.models.Book;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "comments")
+public class CommentDocument {
+    @Id
+    private String id;
+    private String comment;
+    private ru.otus.spring.models.Book book;
+
+    public CommentDocument(String comment, Book book) {
+        this.comment = comment;
+        this.book = book;
+    }
+}

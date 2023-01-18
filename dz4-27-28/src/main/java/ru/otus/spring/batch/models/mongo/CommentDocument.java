@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ru.otus.spring.models.Book;
 
 @Data
 @NoArgsConstructor
@@ -14,10 +13,12 @@ import ru.otus.spring.models.Book;
 public class CommentDocument {
     @Id
     private String id;
+    private long originalId;
     private String comment;
-    private ru.otus.spring.models.Book book;
+    private BookDocument book;
 
-    public CommentDocument(String comment, Book book) {
+    public CommentDocument(long originalId, String comment, BookDocument book) {
+        this.originalId = originalId;
         this.comment = comment;
         this.book = book;
     }

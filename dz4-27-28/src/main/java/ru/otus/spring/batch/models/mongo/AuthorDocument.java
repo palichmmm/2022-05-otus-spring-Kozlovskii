@@ -13,9 +13,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AuthorDocument {
     @Id
     private String id;
+    private long originalId;
     private String authorName;
 
-    public AuthorDocument(String authorName) {
+    public AuthorDocument(long originalId, String authorName) {
+        this.originalId = originalId;
         this.authorName = authorName;
     }
 }

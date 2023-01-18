@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class BookDocument {
     @Id
     private String id;
+    private long originalId;
     private String bookName;
     private AuthorDocument author;
     private GenreDocument genre;
@@ -21,7 +22,8 @@ public class BookDocument {
         this.id = id;
     }
 
-    public BookDocument(String bookName, AuthorDocument author, GenreDocument genre) {
+    public BookDocument(long originalId, String bookName, AuthorDocument author, GenreDocument genre) {
+        this.originalId = originalId;
         this.bookName = bookName;
         this.author = author;
         this.genre = genre;

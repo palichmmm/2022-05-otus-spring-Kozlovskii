@@ -8,6 +8,6 @@ import ru.otus.spring.models.Genre;
 public class GenreProcessorService {
 
     public GenreDocument mapInGenreDocument(Genre genre) {
-        return new GenreDocument(genre.getGenreName());
+        return new GenreDocument(genre.getId(), genre.getGenreName());
     }
 }

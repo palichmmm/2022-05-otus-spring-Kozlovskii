@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
-  <title>Библиотека книг</title>
+  <title>BATCH</title>
   <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -22,10 +22,14 @@
       </form>
     </li>
   </ul>
-  <h1 th:text="#{project-name}">Резервное копирование базы в Mongo DB</h1>
-  <p style="text-align: center;">
-    <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="400" alt="sova">
-  </p>
+  <h1>Результат резервного копирование базы в Mongo DB</h1>
+  <h2 sec:authorize="isAuthenticated()" th:text="${'Статус работы: ' + status}"></h2>
+  <p sec:authorize="isAuthenticated()" th:text="${jobResult}"></p>
+  <p sec:authorize="isAuthenticated()" th:text="${jobExecution}"></p>
+  <p sec:authorize="isAuthenticated()" th:text="${step1}"></p>
+  <p sec:authorize="isAuthenticated()" th:text="${step2}"></p>
+  <p sec:authorize="isAuthenticated()" th:text="${step3}"></p>
+  <p sec:authorize="isAuthenticated()" th:text="${step4}"></p>
 </div>
 </body>
 </html>

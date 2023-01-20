@@ -22,7 +22,7 @@
         </li>
     </ul>
     <h1 th:text="#{book-head}">Книги</h1>
-    <p sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" class="center">
+    <p sec:authorize="hasAuthority('CREATE')" class="center">
         <a id="create" href="/templates/book/creat" th:href="@{'/book/create'}" th:text="#{button-new-book}">Создать</a>
     </p>
     <table>
@@ -36,7 +36,7 @@
             <th th:text="#{table-author}">Автор</th>
             <th th:text="#{table-genre}">Жанр</th>
             <th th:text="#{table-reviews}">Отзывы</th>
-            <th sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:text="#{table-actions}">Действия</th>
+            <th sec:authorize="hasAnyAuthority('WRITE', 'DELETE')" th:text="#{table-actions}">Действия</th>
         </tr>
         <tr th:each="book : ${books}">
             <td th:text="${book.getId()}">0</td>
@@ -49,10 +49,10 @@
                     Отзывы (0)
                 </a>
             </td>
-            <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+            <td sec:authorize="hasAnyAuthority('WRITE', 'DELETE')">
                 <a class="edit" href="edit.html" th:href="@{'/book/edit/' + ${book.getId()}}"
                    th:text="#{form-buttom-edit}">Изменить</a>
-                <a sec:authorize="hasAuthority('ADMIN')" class="delete" href="delete.html" th:href="@{'/book/delete/' + ${book.getId()}}"
+                <a sec:authorize="hasAuthority('DELETE')" class="delete" href="delete.html" th:href="@{'/book/delete/' + ${book.getId()}}"
                    th:text="#{form-buttom-delete}">Удалить</a>
             </td>
         </tr>

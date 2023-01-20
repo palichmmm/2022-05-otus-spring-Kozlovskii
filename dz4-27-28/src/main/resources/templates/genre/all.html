@@ -29,19 +29,19 @@
         <caption style="padding-bottom: 0.2em;font-size: 1.2em;" th:text="#{table-head-genre}">Список жанров</caption>
         <tr>
             <th rowspan="2" th:rowspan="${genres.size() + 1}">
-                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200" alt="SOVA">
             </th>
             <th th:text="#{table-id}">Id</th>
             <th th:text="#{table-genre}">Жанр</th>
-            <th sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:text="#{table-actions}">Действия</th>
+            <th sec:authorize="hasAnyAuthority('WRITE', 'DELETE')" th:text="#{table-actions}">Действия</th>
         </tr>
         <tr th:each="genre : ${genres}">
             <td th:text="${genre.getId()}">0</td>
             <td th:text="${genre.getGenreName()}">Жанр</td>
-            <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+            <td sec:authorize="hasAnyAuthority('WRITE', 'DELETE')">
                 <a class="edit" href="edit.html" th:href="@{'/genre/edit/' + ${genre.getId()}}"
                    th:text="#{form-buttom-edit}">Изменить</a>
-                <a sec:authorize="hasAuthority('ADMIN')" class="delete" href="delete.html" th:href="@{'/genre/delete/' + ${genre.getId()}}"
+                <a sec:authorize="hasAuthority('DELETE')" class="delete" href="delete.html" th:href="@{'/genre/delete/' + ${genre.getId()}}"
                    th:text="#{form-buttom-delete}">Удалить</a>
             </td>
         </tr>

@@ -22,7 +22,6 @@ public class JobLauncherController {
         this.jobExplorer = jobExplorer;
     }
 
-    @PreAuthorize("hasAuthority('BATCH')")
     @GetMapping("/job")
     public String homeJob(Model model) throws Exception {
         var status = jobLauncher.run(job, new JobParameters());

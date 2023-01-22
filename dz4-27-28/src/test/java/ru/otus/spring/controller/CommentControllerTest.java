@@ -2,10 +2,13 @@ package ru.otus.spring.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.dto.CommentDTO;
@@ -64,5 +67,19 @@ public class CommentControllerTest {
                 .andExpect(view().name("/comment/create"))
                 .andExpect(model().attribute("comment", commentDTO))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("GET запросы. Неавторизованным вернуть статус 401")
+    @WithAnonymousUser
+    @ParameterizedTest(name = "{index} - GET {0} запрос статус {1}")
+    @CsvSource({
+            "/comment/edit/1, 401",
+            "/comment/create/1, 401",
+            "/comment/delete/1, 401"
+    })
+    void unauthorizedReturnStatus401(String url, int statusCode) throws Exception {
+        mvc.perform(get(url))
+                .andDo(print())
+                .andExpect(status().is(statusCode));
     }
 }

@@ -2,15 +2,17 @@ package ru.otus.spring.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Author;
+import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.AuthorService;
 
 import java.util.List;
@@ -30,7 +32,7 @@ class AuthorControllerTest {
     private AuthorService authorService;
 
     @MockBean
-    private MutableAclService mutableAclService;
+    private AclPermissionService permissionService;
 
     @WithMockUser
     @DisplayName("Страница всех авторов должна вернуть статус 200")
@@ -44,15 +46,6 @@ class AuthorControllerTest {
                 .andExpect(view().name("/author/all"))
                 .andExpect(model().attribute("authors", authors))
                 .andExpect(status().isOk());
-    }
-
-    @WithAnonymousUser
-    @DisplayName("/author/all - Неавторизованным вернуть статус 401")
-    @Test
-    void allAuthorsPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/author/all"))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
     }
 
     @WithMockUser
@@ -69,15 +62,6 @@ class AuthorControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithAnonymousUser
-    @DisplayName("/author/edit/{id} - Неавторизованным вернуть статус 401")
-    @Test
-    void authorEditFormPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/author/edit/{id}", AUTHOR_ID))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
     @WithMockUser
     @DisplayName("Страница создания автора должна вернуть статус 200")
     @Test
@@ -91,12 +75,18 @@ class AuthorControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("GET запросы. Неавторизованным вернуть статус 401")
     @WithAnonymousUser
-    @DisplayName("/author/create - Неавторизованным вернуть статус 401")
-    @Test
-    void authorCreationFormPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/author/create"))
+    @ParameterizedTest(name = "{index} - GET {0} запрос статус {1}")
+    @CsvSource({
+            "/author/all, 401",
+            "/author/edit/1, 401",
+            "/author/create, 401",
+            "/author/delete/1, 401",
+    })
+    void unauthorizedReturnStatus401(String url, int statusCode) throws Exception {
+        mvc.perform(get(url))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is(statusCode));
     }
 }

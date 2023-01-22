@@ -89,15 +89,15 @@ public class BookController {
         return "redirect:/book/all";
     }
 
-    @GetMapping("/book/comments/{id}")
-    public String getCommentsBook(@PathVariable("id") long id, Model model) {
-        model.addAttribute("book", bookService.findById(id));
+    @GetMapping("/book/comments/{bookId}")
+    public String getCommentsBook(@PathVariable("bookId") BookDTO book, Model model) {
+        model.addAttribute("book", bookService.findById(book.getId()));
         return "/book/comments";
     }
 
-    @GetMapping("/book/delete/{id}")
-    public String getBookDeletePage(@PathVariable("id") long id, Model model) {
-        model.addAttribute("book", bookService.findById(id));
+    @GetMapping("/book/delete/{bookId}")
+    public String getBookDeletePage(@PathVariable("bookId") BookDTO book, Model model) {
+        model.addAttribute("book", bookService.findById(book.getId()));
         return "/book/delete";
     }
 

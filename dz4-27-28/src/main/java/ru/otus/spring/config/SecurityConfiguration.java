@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                         .antMatchers("/genre/all").hasAuthority("READ")
                         // Комментарии
                         .antMatchers("/comment/delete/*").hasAuthority("DELETE")
-                        .antMatchers("/comment/create/*", "/comment/edit").hasAnyAuthority("ADMIN", "USER", "MANAGER")
+                        .antMatchers("/comment/create/*", "/comment/edit/*").hasAnyAuthority("ADMIN", "USER", "MANAGER")
                         // Batch
                         .antMatchers("/job").hasAuthority("BATCH")
                         .anyRequest().authenticated()

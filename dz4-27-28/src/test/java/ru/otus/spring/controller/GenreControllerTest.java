@@ -2,15 +2,17 @@ package ru.otus.spring.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Genre;
+import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.GenreService;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public class GenreControllerTest {
     private GenreService genreService;
 
     @MockBean
-    private MutableAclService mutableAclService;
+    private AclPermissionService permissionService;
 
     @WithMockUser
     @DisplayName("Страница всех жанров должна вернуть статус 200")
@@ -44,15 +46,6 @@ public class GenreControllerTest {
                 .andExpect(view().name("/genre/all"))
                 .andExpect(model().attribute("genres", genres))
                 .andExpect(status().isOk());
-    }
-
-    @WithAnonymousUser
-    @DisplayName("/genre/all - Неавторизованным вернуть статус 401")
-    @Test
-    void allGenresPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/genre/all"))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
     }
 
     @WithMockUser
@@ -69,15 +62,6 @@ public class GenreControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithAnonymousUser
-    @DisplayName("/genre/edit/{id} - Неавторизованным вернуть статус 401")
-    @Test
-    void genreEditFormPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/genre/edit/{id}", GENRE_ID))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
     @WithMockUser
     @DisplayName("Страница создания жанра должна вернуть статус 200")
     @Test
@@ -91,12 +75,18 @@ public class GenreControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("GET запросы. Неавторизованным вернуть статус 401")
     @WithAnonymousUser
-    @DisplayName("/genre/create - Неавторизованным вернуть статус 401")
-    @Test
-    void genreCreateFormPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/genre/create"))
+    @ParameterizedTest(name = "{index} - GET {0} запрос статус {1}")
+    @CsvSource({
+            "/genre/all, 401",
+            "/genre/edit/1, 401",
+            "/genre/create, 401",
+            "/genre/delete/1, 401",
+    })
+    void unauthorizedReturnStatus401(String url, int statusCode) throws Exception {
+        mvc.perform(get(url))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is(statusCode));
     }
 }

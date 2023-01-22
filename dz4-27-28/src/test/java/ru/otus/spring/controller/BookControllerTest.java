@@ -2,11 +2,12 @@ package ru.otus.spring.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -15,6 +16,7 @@ import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
+import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.GenreService;
@@ -42,7 +44,7 @@ public class BookControllerTest {
     private GenreService genreService;
 
     @MockBean
-    private MutableAclService mutableAclService;
+    private AclPermissionService permissionService;
 
     @WithMockUser
     @DisplayName("Страница всех книг должна вернуть статус 200")
@@ -58,15 +60,6 @@ public class BookControllerTest {
                 .andExpect(view().name("/book/all"))
                 .andExpect(model().attribute("books", books))
                 .andExpect(status().isOk());
-    }
-
-    @WithAnonymousUser
-    @DisplayName("/book/all - Неавторизованным вернуть статус 401")
-    @Test
-    void allBooksPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/book/all"))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
     }
 
     @WithMockUser
@@ -90,15 +83,6 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithAnonymousUser
-    @DisplayName("/book/edit/{id} - Неавторизованным вернуть статус 401")
-    @Test
-    void bookEditPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/book/edit/{id}", BOOK_ID))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
     @WithMockUser
     @DisplayName("Страница создания книги должна вернуть статус 200")
     @Test
@@ -118,12 +102,19 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("GET запросы. Неавторизованным вернуть статус 401")
     @WithAnonymousUser
-    @DisplayName("/book/create - Неавторизованным вернуть статус 401")
-    @Test
-    void bookCreateFormPageUnauthorizedReturnStatus401() throws Exception {
-        mvc.perform(get("/book/create"))
+    @ParameterizedTest(name = "{index} - GET {0} запрос статус {1}")
+    @CsvSource({
+            "/book/all, 401",
+            "/book/edit/1, 401",
+            "/book/create, 401",
+            "/book/comments/1, 401",
+            "/book/delete/1, 401",
+    })
+    void unauthorizedReturnStatus401(String url, int statusCode) throws Exception {
+        mvc.perform(get(url))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is(statusCode));
     }
 }

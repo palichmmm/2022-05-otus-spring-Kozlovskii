@@ -8,7 +8,7 @@ public class Application {
 
     public static void main(String[] args) throws Exception{
         SpringApplication.run(Application.class, args);
-        org.h2.tools.Console.main(args);
+//        org.h2.tools.Console.main(args);
     }
 
 }

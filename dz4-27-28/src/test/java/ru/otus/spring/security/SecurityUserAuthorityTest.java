@@ -12,6 +12,7 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -89,6 +90,7 @@ public class SecurityUserAuthorityTest {
             "User, DELETE, /book/delete/1, 200",
             "User, NOT_DELETE, /book/delete/1, 403"
     })
+    @Transactional
     void bookControllerCheckingUserAuthorities(String user, String authority, String url, int statusCod) throws Exception {
         MockHttpServletRequestBuilder request = get(url);
         SecurityMockMvcRequestPostProcessors.UserRequestPostProcessor userRequestPostProcessor = user(user)

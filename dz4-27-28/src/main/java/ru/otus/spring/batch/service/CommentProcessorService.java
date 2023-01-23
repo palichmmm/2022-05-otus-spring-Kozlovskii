@@ -12,10 +12,9 @@ public class CommentProcessorService {
 
     public CommentDocument mapInCommentDocument(Comment comment) {
         BookDocument book = new BookDocument(
-                comment.getBook().getId(),
                 comment.getBook().getBookName(),
-                new AuthorDocument(comment.getBook().getAuthor().getId(), comment.getBook().getAuthor().getAuthorName()),
-                new GenreDocument(comment.getBook().getGenre().getId(), comment.getBook().getGenre().getGenreName()));
-        return new CommentDocument(comment.getId(), comment.getComment(), book);
+                new AuthorDocument(comment.getBook().getAuthor().getAuthorName()),
+                new GenreDocument(comment.getBook().getGenre().getGenreName()));
+        return new CommentDocument(comment.getComment(), book);
     }
 }

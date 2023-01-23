@@ -13,11 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class GenreDocument {
     @Id
     private String id;
-    private long originalId;
     private String genreName;
 
-    public GenreDocument(long originalId, String genreName) {
-        this.originalId = originalId;
+    public GenreDocument(String genreName) {
         this.genreName = genreName;
     }
 }

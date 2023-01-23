@@ -13,12 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CommentDocument {
     @Id
     private String id;
-    private long originalId;
     private String comment;
     private BookDocument book;
 
-    public CommentDocument(long originalId, String comment, BookDocument book) {
-        this.originalId = originalId;
+    public CommentDocument(String comment, BookDocument book) {
         this.comment = comment;
         this.book = book;
     }

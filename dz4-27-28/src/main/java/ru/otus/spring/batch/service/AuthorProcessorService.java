@@ -8,6 +8,6 @@ import ru.otus.spring.models.Author;
 public class AuthorProcessorService {
 
     public AuthorDocument mapInAuthorDocument(Author author) {
-        return new AuthorDocument(author.getId(),author.getAuthorName());
+        return new AuthorDocument(author.getAuthorName());
     }
 }

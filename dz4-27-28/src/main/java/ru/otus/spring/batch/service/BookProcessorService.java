@@ -10,8 +10,8 @@ import ru.otus.spring.models.Book;
 public class BookProcessorService {
 
     public BookDocument mapInBookDocument(Book book) {
-        return new BookDocument(book.getId(), book.getBookName(),
-                new AuthorDocument(book.getAuthor().getId(), book.getAuthor().getAuthorName()),
-                new GenreDocument(book.getGenre().getId(), book.getGenre().getGenreName()));
+        return new BookDocument(book.getBookName(),
+                new AuthorDocument(book.getAuthor().getAuthorName()),
+                new GenreDocument(book.getGenre().getGenreName()));
     }
 }

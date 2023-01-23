@@ -38,6 +38,7 @@ public class BookStepHandlers {
 
     @Bean
     public MongoItemWriter<BookDocument> bookWriter(MongoTemplate mongoTemplate) {
+        mongoTemplate.dropCollection("books");
         return new MongoItemWriterBuilder<BookDocument>()
                 .template(mongoTemplate)
                 .collection("books")

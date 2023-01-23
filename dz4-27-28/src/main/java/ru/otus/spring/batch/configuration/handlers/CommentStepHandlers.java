@@ -38,6 +38,7 @@ public class CommentStepHandlers {
 
     @Bean
     public MongoItemWriter<CommentDocument> commentWriter(MongoTemplate mongoTemplate) {
+        mongoTemplate.dropCollection("comments");
         return new MongoItemWriterBuilder<CommentDocument>()
                 .template(mongoTemplate)
                 .collection("comments")

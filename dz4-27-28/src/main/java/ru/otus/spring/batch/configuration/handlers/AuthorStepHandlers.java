@@ -6,6 +6,7 @@ import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -37,7 +38,9 @@ public class AuthorStepHandlers {
     }
 
     @Bean
+    @Cacheable(cacheManager = "cacheManager", cacheNames = "author")
     public MongoItemWriter<AuthorDocument> authorWriter(MongoTemplate mongoTemplate) {
+        mongoTemplate.dropCollection("authors");
         return new MongoItemWriterBuilder<AuthorDocument>()
                 .template(mongoTemplate)
                 .collection("authors")

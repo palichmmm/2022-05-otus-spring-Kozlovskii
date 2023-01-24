@@ -38,7 +38,7 @@ public class AuthorStepHandlers {
     }
 
     @Bean
-    @Cacheable(cacheManager = "cacheManager", cacheNames = "author")
+//    @Cacheable(cacheManager = "cacheManager", cacheNames = "author")
     public MongoItemWriter<AuthorDocument> authorWriter(MongoTemplate mongoTemplate) {
         mongoTemplate.dropCollection("authors");
         return new MongoItemWriterBuilder<AuthorDocument>()

@@ -6,7 +6,6 @@ import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -38,7 +37,6 @@ public class GenreStepHandlers {
     }
 
     @Bean
-    @Cacheable(cacheManager = "cacheManager", cacheNames = "genre")
     public MongoItemWriter<GenreDocument> genreWriter(MongoTemplate mongoTemplate) {
         mongoTemplate.dropCollection("genres");
         return new MongoItemWriterBuilder<GenreDocument>()

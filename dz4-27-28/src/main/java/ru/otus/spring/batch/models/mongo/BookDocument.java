@@ -20,10 +20,6 @@ public class BookDocument {
     @DBRef
     private GenreDocument genre;
 
-    public BookDocument(String id) {
-        this.id = id;
-    }
-
     public BookDocument(String bookName, AuthorDocument author, GenreDocument genre) {
         this.bookName = bookName;
         this.author = author;

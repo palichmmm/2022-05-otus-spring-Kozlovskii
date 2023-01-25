@@ -1,12 +1,10 @@
 package ru.otus.spring.controller;
 
-import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.GenreService;
 
 import javax.validation.Valid;
@@ -16,11 +14,9 @@ import java.util.List;
 public class GenreController {
 
     private final GenreService service;
-    private final AclPermissionService aclPermissionService;
 
-    public GenreController(GenreService service, AclPermissionService aclPermissionService) {
+    public GenreController(GenreService service) {
         this.service = service;
-        this.aclPermissionService = aclPermissionService;
     }
 
     @GetMapping("/genre/all")
@@ -62,7 +58,6 @@ public class GenreController {
         }
         Genre newGenre = new Genre(genre.getGenreName());
         service.save(newGenre);
-        aclPermissionService.savePermission(Genre.class, newGenre.getId(), BasePermission.WRITE);
         return "redirect:/genre/all";
     }
 

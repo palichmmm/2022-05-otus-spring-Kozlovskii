@@ -1,14 +1,10 @@
 package ru.otus.spring.controller;
 
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Author;
-import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.AuthorService;
 
 import javax.validation.Valid;
@@ -18,11 +14,8 @@ public class AuthorController {
 
     private final AuthorService service;
 
-    private final AclPermissionService aclPermissionService;
-
-    public AuthorController(AuthorService service, AclPermissionService aclPermissionService) {
+    public AuthorController(AuthorService service) {
         this.service = service;
-        this.aclPermissionService = aclPermissionService;
     }
 
     @GetMapping("/author/all")
@@ -62,7 +55,6 @@ public class AuthorController {
         }
         Author newAuthor = new Author(author.getAuthorName());
         service.save(newAuthor);
-        aclPermissionService.savePermission(Author.class, newAuthor.getId(), BasePermission.WRITE);
         return "redirect:/author/all";
     }
 

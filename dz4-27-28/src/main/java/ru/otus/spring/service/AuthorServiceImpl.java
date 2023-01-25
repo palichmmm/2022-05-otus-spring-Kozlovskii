@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
@@ -10,14 +11,21 @@ import java.util.List;
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository repository;
+    private final AclPermissionService aclPermissionService;
 
-    public AuthorServiceImpl(AuthorRepository repository) {
+    public AuthorServiceImpl(AuthorRepository repository, AclPermissionService aclPermissionService) {
         this.repository = repository;
+        this.aclPermissionService = aclPermissionService;
     }
 
     @Transactional
     @Override
     public Author save(Author author) {
+        if (author.getId() == 0) {
+            Author newAuthor = repository.save(author);
+            aclPermissionService.savePermission(Author.class, newAuthor.getId(), BasePermission.WRITE);
+            return newAuthor;
+        }
         return repository.save(author);
     }
 

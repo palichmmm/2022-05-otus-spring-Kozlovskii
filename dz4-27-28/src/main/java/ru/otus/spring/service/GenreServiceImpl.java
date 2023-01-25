@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Genre;
@@ -10,14 +11,21 @@ import java.util.List;
 @Service
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository repository;
+    private final AclPermissionService aclPermissionService;
 
-    public GenreServiceImpl(GenreRepository repository) {
+    public GenreServiceImpl(GenreRepository repository, AclPermissionService aclPermissionService) {
         this.repository = repository;
+        this.aclPermissionService = aclPermissionService;
     }
 
     @Transactional
     @Override
     public Genre save(Genre genre) {
+        if (genre.getId() == 0) {
+            Genre newGenre = repository.save(genre);
+            aclPermissionService.savePermission(Genre.class, newGenre.getId(), BasePermission.WRITE);
+            return newGenre;
+        }
         return repository.save(genre);
     }
 

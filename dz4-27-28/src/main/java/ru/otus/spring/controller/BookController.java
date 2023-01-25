@@ -1,15 +1,16 @@
 package ru.otus.spring.controller;
 
-import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.spring.dto.BookDTO;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.GenreService;
@@ -22,13 +23,11 @@ public class BookController {
     private final BookService bookService;
     private final GenreService genreService;
     private final AuthorService authorService;
-    private final AclPermissionService aclPermissionService;
 
-    public BookController(BookService bookService, GenreService genreService, AuthorService authorService, AclPermissionService aclPermissionService) {
+    public BookController(BookService bookService, GenreService genreService, AuthorService authorService) {
         this.bookService = bookService;
         this.genreService = genreService;
         this.authorService = authorService;
-        this.aclPermissionService = aclPermissionService;
     }
 
     @GetMapping("/book/all")
@@ -85,7 +84,6 @@ public class BookController {
         Genre newGenre = genreService.findByName(book.getGenre());
         Book newBook = new Book(book.getBookName(), newAuthor, newGenre);
         bookService.save(newBook);
-        aclPermissionService.savePermission(Book.class, newBook.getId(), BasePermission.WRITE);
         return "redirect:/book/all";
     }
 

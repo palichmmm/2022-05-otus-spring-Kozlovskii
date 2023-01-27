@@ -45,7 +45,7 @@ public class SecurityConfiguration {
                         // Batch
                         .antMatchers("/job").hasAuthority("BATCH")
                         // Actuator
-                        .antMatchers("/actuator").hasAuthority("ADMIN")
+                        .antMatchers("/actuator/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

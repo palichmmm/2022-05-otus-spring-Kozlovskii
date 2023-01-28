@@ -3,13 +3,12 @@ package ru.otus.spring.integration.service;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
-import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
 
 import java.util.List;
 
 @Service
-public class ReplacementLettersService {
+public class LettersService {
 
     public List<Author> authorReplacementLetters(List<Author> list) {
         for (Author author : list) {

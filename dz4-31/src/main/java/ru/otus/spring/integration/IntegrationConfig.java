@@ -6,10 +6,17 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.messaging.MessageChannel;
+import ru.otus.spring.integration.service.LettersService;
 
 @Configuration
 @EnableIntegration
 public class IntegrationConfig {
+
+    private final LettersService lettersService;
+
+    public IntegrationConfig(LettersService lettersService) {
+        this.lettersService = lettersService;
+    }
 
     @Bean
     public MessageChannel authorChannel() {
@@ -28,16 +35,16 @@ public class IntegrationConfig {
 
     @Bean
     public IntegrationFlow authorFlow() {
-        return flow -> flow.handle("replacementLettersService", "authorReplacementLetters");
+        return flow -> flow.handle(lettersService, "authorReplacementLetters");
     }
 
     @Bean
     public IntegrationFlow genreFlow() {
-        return flow -> flow.handle("replacementLettersService", "genreReplacementLetters");
+        return flow -> flow.handle(lettersService, "genreReplacementLetters");
     }
 
     @Bean
     public IntegrationFlow bookFlow() {
-        return flow -> flow.handle("replacementLettersService", "bookReplacementLetters");
+        return flow -> flow.handle(lettersService, "bookReplacementLetters");
     }
 }

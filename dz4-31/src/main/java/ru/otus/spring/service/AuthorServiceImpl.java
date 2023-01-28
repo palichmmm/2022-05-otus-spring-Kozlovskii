@@ -1,10 +1,9 @@
 package ru.otus.spring.service;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.integration.service.Replace;
+import ru.otus.spring.integration.service.LetterGateway;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.repository.AuthorRepository;
 
@@ -14,12 +13,12 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository repository;
     private final AclPermissionService aclPermissionService;
-    private final ApplicationContext ctx;
+    private final LetterGateway letterGateway;
 
-    public AuthorServiceImpl(AuthorRepository repository, AclPermissionService aclPermissionService, ApplicationContext ctx) {
+    public AuthorServiceImpl(AuthorRepository repository, AclPermissionService aclPermissionService, LetterGateway letterGateway) {
         this.repository = repository;
         this.aclPermissionService = aclPermissionService;
-        this.ctx = ctx;
+        this.letterGateway = letterGateway;
     }
 
     @Transactional
@@ -48,7 +47,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional(readOnly = true)
     @Override
     public List<Author> findAll() {
-        return ctx.getBean(Replace.class).authorReplacementLetters(repository.findAll());
+        return letterGateway.authorReplacementLetters(repository.findAll());
     }
 
     @Transactional

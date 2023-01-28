@@ -1,10 +1,9 @@
 package ru.otus.spring.service;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.integration.service.Replace;
+import ru.otus.spring.integration.service.LetterGateway;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repository.GenreRepository;
 
@@ -14,12 +13,12 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository repository;
     private final AclPermissionService aclPermissionService;
-    private final ApplicationContext ctx;
+    private final LetterGateway letterGateway;
 
-    public GenreServiceImpl(GenreRepository repository, AclPermissionService aclPermissionService, ApplicationContext ctx) {
+    public GenreServiceImpl(GenreRepository repository, AclPermissionService aclPermissionService, LetterGateway letterGateway) {
         this.repository = repository;
         this.aclPermissionService = aclPermissionService;
-        this.ctx = ctx;
+        this.letterGateway = letterGateway;
     }
 
     @Transactional
@@ -48,7 +47,7 @@ public class GenreServiceImpl implements GenreService {
     @Transactional(readOnly = true)
     @Override
     public List<Genre> findAll() {
-        return ctx.getBean(Replace.class).genreReplacementLetters(repository.findAll());
+        return letterGateway.genreReplacementLetters(repository.findAll());
     }
 
     @Transactional

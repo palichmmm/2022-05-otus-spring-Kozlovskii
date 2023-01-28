@@ -1,10 +1,9 @@
 package ru.otus.spring.service;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.integration.service.Replace;
+import ru.otus.spring.integration.service.LetterGateway;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
@@ -20,17 +19,17 @@ public class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
     private final AclPermissionService aclPermissionService;
-    private final ApplicationContext ctx;
+    private final LetterGateway letterGateway;
 
     public BookServiceImpl(BookRepository bookRepository,
                            AuthorRepository authorRepository,
                            GenreRepository genreRepository,
-                           AclPermissionService aclPermissionService, ApplicationContext ctx) {
+                           AclPermissionService aclPermissionService, LetterGateway letterGateway) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
         this.aclPermissionService = aclPermissionService;
-        this.ctx = ctx;
+        this.letterGateway = letterGateway;
     }
 
     @Transactional
@@ -63,7 +62,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public List<Book> findAll() {
-        return ctx.getBean(Replace.class).bookReplacementLetters(bookRepository.findAll());
+        return letterGateway.bookReplacementLetters(bookRepository.findAll());
     }
 
     @Transactional

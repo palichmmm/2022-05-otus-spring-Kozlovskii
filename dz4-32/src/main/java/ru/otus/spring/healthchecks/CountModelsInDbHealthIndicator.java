@@ -29,12 +29,6 @@ public class CountModelsInDbHealthIndicator implements HealthIndicator {
         this.bookService = bookService;
         this.commentService = commentService;
     }
-
-    @Override
-    public Health getHealth(boolean includeDetails) {
-        return HealthIndicator.super.getHealth(includeDetails);
-    }
-
     @Override
     public Health health() {
         long authorCount = authorService.count();

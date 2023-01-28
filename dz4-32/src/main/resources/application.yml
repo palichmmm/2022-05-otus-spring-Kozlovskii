@@ -1,9 +1,9 @@
 management:
   endpoints:
-    enabled-by-default: false
+    enabled-by-default: true
     web:
       exposure:
-        include: health, logfile
+        include: health, logfile, metrics
   endpoint:
     health:
       enabled: true

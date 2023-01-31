@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-01-13--009-acl_entry-data
+      author: Evgenii Kozlovskii
+      context: dev
+      runOnChange: true
+      changes:
+        - loadData:
+            tableName: acl_entry
+            file: ../data/2023-01-13--009-acl_entry.csv
+            relativeToChangelogFile: true
+            separator: ;
+            encoding: UTF-8

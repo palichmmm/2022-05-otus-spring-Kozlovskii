@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-01-13--008-acl_object_identity-data
+      author: Evgenii Kozlovskii
+      context: dev
+      runOnChange: true
+      changes:
+        - loadData:
+            tableName: acl_object_identity
+            file: ../data/2023-01-13--008-acl_object_identity.csv
+            relativeToChangelogFile: true
+            separator: ;
+            encoding: UTF-8

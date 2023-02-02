@@ -1,0 +1,15 @@
+========Сборка=========
+docker build -t library:v1 .
+
+========Запуск контейнера=========
+docker run -d -p:8080:8080 library:v1
+
+==========Сборка Jib=======
+mvn compile jib:build
+
+==========Docker Hub=======
+docker pull palichmmm/my-library:latest
+docker run -d -p:8080:8080 palichmmm/my-library:latest
+
+=======Логи контейнера=======
+docker logs <CONTAINER ID>

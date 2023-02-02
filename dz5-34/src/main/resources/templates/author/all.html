@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторы</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}" th:text="#{genres-menu-section}">Жанры</a></li>
+        <li><a href="/templates/book/all.html" th:href="@{'/book/all'}" th:text="#{books-menu-section}">Книги</a></li>
+        <li id="lang">
+            <a href="/templates/author/all.html" th:href="@{/author/all(lang=en)}" th:text="#{en-lang-menu}">EN</a>
+            <a href="/templates/author/all.html" th:href="@{/author/all(lang=ru)}" th:text="#{ru-lang-menu}">RU</a>
+            <label class="logout" for="form-logout">Выход</label>
+            <form th:action="@{'/logout'}" th:method="${'post'}">
+                <input th:type="${'submit'}" th:value="${'Выход'}" id="form-logout" style="display: none;">
+            </form>
+        </li>
+    </ul>
+    <h1 th:text="#{author-head}">Авторы</h1>
+    <p sec:authorize="hasAuthority('CREATE')" class="center">
+        <a id="create" href="/templates/author/creat" th:href="@{'/author/create'}" th:text="#{button-new-author}">Создать</a>
+    </p>
+    <table>
+        <caption style="padding-bottom: 0.2em;font-size: 1.2em;" th:text="#{table-head-author}">Список авторов</caption>
+        <tr>
+            <th rowspan="2" th:rowspan="${authors.size() + 1}">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200" alt="SOVA">
+            </th>
+            <th th:text="#{table-id}">Id</th>
+            <th th:text="#{table-author}">Автор</th>
+            <th sec:authorize="hasAnyAuthority('WRITE', 'DELETE')" th:text="#{table-actions}">Действия</th>
+        </tr>
+        <tr th:each="author : ${authors}">
+            <td th:text="${author.getId()}">0</td>
+            <td th:text="${author.getAuthorName()}">Автор</td>
+            <td sec:authorize="hasAnyAuthority('WRITE', 'DELETE')">
+                <a class="edit" href="edit.html" th:href="@{'/author/edit/' + ${author.getId()}}"
+                   th:text="#{form-buttom-edit}">Изменить</a>
+                <a sec:authorize="hasAuthority('DELETE')" class="delete" href="delete.html" th:href="@{'/author/delete/' + ${author.getId()}}"
+                   th:text="#{form-buttom-delete}">Удалить</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

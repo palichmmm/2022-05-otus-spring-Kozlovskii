@@ -1,5 +1,6 @@
 package ru.otus.spring.integration.service;
 
+import com.mongodb.lang.NonNull;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;

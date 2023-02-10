@@ -32,6 +32,11 @@ public class IntegrationConfig {
     }
 
     @Bean
+    public PublishSubscribeChannel aggregateAuthorChannel() {
+        return MessageChannels.publishSubscribe().get();
+    }
+
+    @Bean
     public PublishSubscribeChannel outputAuthorChannel() {
         return MessageChannels.publishSubscribe().get();
     }
@@ -54,17 +59,17 @@ public class IntegrationConfig {
                         mapping -> mapping
                                 .subFlowMapping(true, sub -> sub
                                         .transform(lettersService, "authorReplacementLetters")
-                                        .channel(outputAuthorChannel()))
-                                .subFlowMapping(false, sub -> sub.channel(outputAuthorChannel()))
+                                        .channel(aggregateAuthorChannel()))
+                                .subFlowMapping(false, sub -> sub.channel(aggregateAuthorChannel()))
                 );
     }
 
     @Bean
     public IntegrationFlow aggregateAuthorFlow() {
-        return IntegrationFlows.from(outputAuthorChannel())
+        return IntegrationFlows.from(aggregateAuthorChannel())
                 .aggregate()
+                .channel(outputAuthorChannel())
                 .get();
-
     }
 
     @Bean

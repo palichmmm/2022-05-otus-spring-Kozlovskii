@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Удалить жанр</title>
+  <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+  <ul id="menu">
+    <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
+    <li><a href="/templates/author/all.html" th:href="@{'/author/all'}" th:text="#{authors-menu-section}">Авторы</a></li>
+    <li><a href="/templates/book/all.html" th:href="@{'/book/all'}" th:text="#{books-menu-section}">Книги</a></li>
+  </ul>
+  <h1 th:text="${'Удаление жанра с id=' + genre.getId()}">Удаление Жанра</h1>
+  <div style="display: flex; justify-content: center;">
+    <form action="/genre/delete" th:object="${genre}" th:action="@{'/genre/delete'}" method="post">
+      <p class="center"><img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200"></p>
+      <h2 style="color: red; text-align: center;">Вы действительно хотите удалить жанр?</h2>
+      <h2 style="text-align: center;" th:text="*{getGenreName()}">Жанр</h2>
+      <input type="hidden" name="id" th:value="*{getId()}">
+      <div style="display: flex; justify-content: center;"><input class="delete" type="submit" value="Удалить"></div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

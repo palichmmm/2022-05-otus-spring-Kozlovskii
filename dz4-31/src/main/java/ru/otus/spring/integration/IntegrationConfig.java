@@ -12,6 +12,7 @@ import org.springframework.messaging.MessageChannel;
 import ru.otus.spring.integration.service.LettersService;
 import ru.otus.spring.integration.service.TabooService;
 import ru.otus.spring.models.Author;
+import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
 
 @Configuration
@@ -116,6 +117,22 @@ public class IntegrationConfig {
 
     @Bean
     public IntegrationFlow bookFlow() {
-        return flow -> flow.handle(lettersService, "bookReplacementLetters");
+        return flow -> flow.channel(bookChannel())
+                .split()
+                .<Book, Boolean>route(tabooService::bookTaboo,
+                        mapping -> mapping
+                                .subFlowMapping(true, sub -> sub
+                                        .transform(lettersService, "bookReplacementLetters")
+                                        .channel(aggregateBookChannel()))
+                                .subFlowMapping(false, sub -> sub.channel(aggregateBookChannel()))
+                );
+    }
+
+    @Bean
+    public IntegrationFlow aggregateBookFlow() {
+        return IntegrationFlows.from(aggregateBookChannel())
+                .aggregate()
+                .channel(outputBookChannel())
+                .get();
     }
 }

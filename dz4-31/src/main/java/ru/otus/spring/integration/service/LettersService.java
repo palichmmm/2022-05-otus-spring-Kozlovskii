@@ -1,12 +1,9 @@
 package ru.otus.spring.integration.service;
 
-import com.mongodb.lang.NonNull;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
-
-import java.util.List;
 
 @Service
 public class LettersService {
@@ -20,17 +17,21 @@ public class LettersService {
         return author;
     }
 
-    public List<Genre> genreReplacementLetters(List<Genre> list) {
-        for (Genre genre : list) {
-            genre.setGenreName(genre.getGenreName().replaceAll("[AaEeOo]", "*"));
+    public Genre genreReplacementLetters(Genre genre) {
+        String newName = genre.getGenreName();
+        for (String taboo : TabooService.tabooList) {
+            newName = newName.replaceAll(taboo, "*");
         }
-        return list;
+        genre.setGenreName(newName);
+        return genre;
     }
 
-    public List<Book> bookReplacementLetters(List<Book> list) {
-        for (Book book : list) {
-            book.setBookName(book.getBookName().replaceAll("[AaEeOo]", "*"));
+    public Book bookReplacementLetters(Book book) {
+        String newName = book.getBookName();
+        for (String taboo : TabooService.tabooList) {
+            newName = newName.replaceAll(taboo, "*");
         }
-        return list;
+        book.setBookName(newName);
+        return book;
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @MessagingGateway
 public interface LetterGateway {
 
-    @Gateway(requestChannel = "authorFlow.input")
+    @Gateway(requestChannel = "authorChannel", replyChannel = "outputAuthorChannel")
     List<Author> authorReplacementLetters(List<Author> list);
 
     @Gateway(requestChannel = "genreFlow.input")

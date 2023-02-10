@@ -10,11 +10,13 @@ import java.util.List;
 @Service
 public class LettersService {
 
-    public List<Author> authorReplacementLetters(List<Author> list) {
-        for (Author author : list) {
-            author.setAuthorName(author.getAuthorName().replaceAll("[AaEeOo]", "*"));
+    public Author authorReplacementLetters(Author author) {
+        String newName = author.getAuthorName();
+        for (String taboo : TabooService.tabooList) {
+            newName = newName.replaceAll(taboo, "*");
         }
-        return list;
+        author.setAuthorName(newName);
+        return author;
     }
 
     public List<Genre> genreReplacementLetters(List<Genre> list) {

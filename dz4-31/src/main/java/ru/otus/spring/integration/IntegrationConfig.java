@@ -12,6 +12,7 @@ import org.springframework.messaging.MessageChannel;
 import ru.otus.spring.integration.service.LettersService;
 import ru.otus.spring.integration.service.TabooService;
 import ru.otus.spring.models.Author;
+import ru.otus.spring.models.Genre;
 
 @Configuration
 @EnableIntegration
@@ -47,8 +48,28 @@ public class IntegrationConfig {
     }
 
     @Bean
+    public PublishSubscribeChannel aggregateGenreChannel() {
+        return MessageChannels.publishSubscribe().get();
+    }
+
+    @Bean
+    public PublishSubscribeChannel outputGenreChannel() {
+        return MessageChannels.publishSubscribe().get();
+    }
+
+    @Bean
     public MessageChannel bookChannel() {
         return new DirectChannel();
+    }
+
+    @Bean
+    public PublishSubscribeChannel aggregateBookChannel() {
+        return MessageChannels.publishSubscribe().get();
+    }
+
+    @Bean
+    public PublishSubscribeChannel outputBookChannel() {
+        return MessageChannels.publishSubscribe().get();
     }
 
     @Bean
@@ -74,12 +95,23 @@ public class IntegrationConfig {
 
     @Bean
     public IntegrationFlow genreFlow() {
-        return flow -> flow
+        return flow -> flow.channel(genreChannel())
                 .split()
-                .log()
+                .<Genre, Boolean>route(tabooService::genreTaboo,
+                        mapping -> mapping
+                                .subFlowMapping(true, sub -> sub
+                                        .transform(lettersService, "genreReplacementLetters")
+                                        .channel(aggregateGenreChannel()))
+                                .subFlowMapping(false, sub -> sub.channel(aggregateGenreChannel()))
+                );
+    }
+
+    @Bean
+    public IntegrationFlow aggregateGenreFlow() {
+        return IntegrationFlows.from(aggregateGenreChannel())
                 .aggregate()
-                .log()
-                .handle(lettersService, "genreReplacementLetters");
+                .channel(outputGenreChannel())
+                .get();
     }
 
     @Bean

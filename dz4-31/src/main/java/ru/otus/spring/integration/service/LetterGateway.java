@@ -14,7 +14,7 @@ public interface LetterGateway {
     @Gateway(requestChannel = "authorChannel", replyChannel = "outputAuthorChannel")
     List<Author> authorReplacementLetters(List<Author> list);
 
-    @Gateway(requestChannel = "genreFlow.input")
+    @Gateway(requestChannel = "genreChannel", replyChannel = "outputGenreChannel")
     List<Genre> genreReplacementLetters(List<Genre> list);
 
     @Gateway(requestChannel = "bookFlow.input")

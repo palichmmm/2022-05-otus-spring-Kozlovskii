@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Книги</title>
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <ul id="menu">
+        <li><a href="/templates/home.html" th:href="@{'/'}">&larr;</a></li>
+        <li><a href="/templates/genre/all.html" th:href="@{'/genre/all'}" th:text="#{genres-menu-section}">Жанры</a></li>
+        <li><a href="/templates/author/all.html" th:href="@{'/author/all'}" th:text="#{authors-menu-section}">Авторы</a></li>
+        <li id="lang">
+            <a href="/templates/book/all.html" th:href="@{/book/all(lang=en)}" th:text="#{en-lang-menu}">EN</a>
+            <a href="/templates/book/all.html" th:href="@{/book/all(lang=ru)}" th:text="#{ru-lang-menu}">RU</a>
+            <label class="logout" for="form-logout">Выход</label>
+            <form th:action="@{'/logout'}" th:method="${'post'}">
+                <input th:type="${'submit'}" th:value="${'Выход'}" id="form-logout" style="display: none;">
+            </form>
+        </li>
+    </ul>
+    <h1 th:text="#{book-head}">Книги</h1>
+    <p sec:authorize="hasAuthority('CREATE')" class="center">
+        <a id="create" href="/templates/book/creat" th:href="@{'/book/create'}" th:text="#{button-new-book}">Создать</a>
+    </p>
+    <table>
+        <caption style="padding-bottom: 0.2em;font-size: 1.2em;" th:text="#{table-head-book}">Список книг</caption>
+        <tr>
+            <th rowspan="2" th:rowspan="${books.size() + 1}">
+                <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="200">
+            </th>
+            <th th:text="#{table-id}">Id</th>
+            <th th:text="#{table-name}">Название</th>
+            <th th:text="#{table-author}">Автор</th>
+            <th th:text="#{table-genre}">Жанр</th>
+            <th th:text="#{table-reviews}">Отзывы</th>
+            <th sec:authorize="hasAnyAuthority('WRITE', 'DELETE')" th:text="#{table-actions}">Действия</th>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.getId()}">0</td>
+            <td th:text="${book.getBookName()}">Название</td>
+            <td th:text="${book.getAuthor().getAuthorName()}">Автор</td>
+            <td th:text="${book.getGenre().getGenreName()}">Жанр</td>
+            <td>
+                <a href="comments.html" th:href="@{'/book/comments/' + ${book.getId()}}"
+                   th:text="${'Отзывы (' + book.getComments().size() + ')'}">
+                    Отзывы (0)
+                </a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('WRITE', 'DELETE')">
+                <a class="edit" href="edit.html" th:href="@{'/book/edit/' + ${book.getId()}}"
+                   th:text="#{form-buttom-edit}">Изменить</a>
+                <a sec:authorize="hasAuthority('DELETE')" class="delete" href="delete.html" th:href="@{'/book/delete/' + ${book.getId()}}"
+                   th:text="#{form-buttom-delete}">Удалить</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

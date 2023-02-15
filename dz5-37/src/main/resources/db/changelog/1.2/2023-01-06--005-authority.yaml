@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-01-06--005-authority
+      author: Evgenii Kozlovskii
+      context: dev or test
+      changes:
+        - createTable:
+            tableName: authorities
+            remarks: Список полномочий (ролей) для пользователя
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_authority
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    foreignKeyName: key_username
+                    references: users(username)
+                    nullable: false
+              - column:
+                  name: authority
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - createIndex:
+            tableName: authorities
+            unique: true
+            indexName: ix_auth_username
+            columns:
+              - column:
+                  name: username
+              - column:
+                  name: authority

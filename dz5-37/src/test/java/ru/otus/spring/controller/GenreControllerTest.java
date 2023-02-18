@@ -12,7 +12,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.GenreService;
 
 import java.util.List;
@@ -30,9 +29,6 @@ public class GenreControllerTest {
 
     @MockBean
     private GenreService genreService;
-
-    @MockBean
-    private AclPermissionService permissionService;
 
     @WithMockUser
     @DisplayName("Страница всех жанров должна вернуть статус 200")

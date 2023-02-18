@@ -12,7 +12,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.models.Author;
-import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.AuthorService;
 
 import java.util.List;
@@ -30,9 +29,6 @@ class AuthorControllerTest {
 
     @MockBean
     private AuthorService authorService;
-
-    @MockBean
-    private AclPermissionService permissionService;
 
     @WithMockUser
     @DisplayName("Страница всех авторов должна вернуть статус 200")

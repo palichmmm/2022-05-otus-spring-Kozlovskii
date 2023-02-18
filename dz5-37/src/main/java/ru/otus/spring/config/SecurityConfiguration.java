@@ -43,7 +43,7 @@ public class SecurityConfiguration {
                         .antMatchers("/comment/delete/*").hasAuthority("DELETE")
                         .antMatchers("/comment/create/*", "/comment/edit/*").hasAnyAuthority("ADMIN", "USER", "MANAGER")
                         // Batch
-                        .antMatchers("/job").hasAuthority("BATCH")
+                        .antMatchers("/actuator/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

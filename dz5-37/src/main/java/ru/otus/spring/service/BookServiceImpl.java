@@ -1,6 +1,5 @@
 package ru.otus.spring.service;
 
-import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
@@ -17,16 +16,13 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
-    private final AclPermissionService aclPermissionService;
 
     public BookServiceImpl(BookRepository bookRepository,
                            AuthorRepository authorRepository,
-                           GenreRepository genreRepository,
-                           AclPermissionService aclPermissionService) {
+                           GenreRepository genreRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
-        this.aclPermissionService = aclPermissionService;
     }
 
     @Transactional
@@ -42,11 +38,6 @@ public class BookServiceImpl implements BookService {
         }
         book.setAuthor(author);
         book.setGenre(genre);
-        if (book.getId() == 0) {
-            Book newBook = bookRepository.save(book);
-            aclPermissionService.savePermission(Book.class, newBook.getId(), BasePermission.WRITE);
-            return newBook;
-        }
         return bookRepository.save(book);
     }
 

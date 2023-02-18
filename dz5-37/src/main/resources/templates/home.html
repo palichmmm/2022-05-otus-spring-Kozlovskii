@@ -32,8 +32,11 @@
         </li>
     </ul>
     <h1 th:text="#{project-name}">Библиотека книг</h1>
-    <p sec:authorize="hasAuthority('BATCH')" class="center">
-        <a id="create" href="/templates/job.html" th:href="@{'/job'}">Резервное копирование базы</a>
+    <p sec:authorize="hasAuthority('ADMIN')" class="center">
+        <a style="text-align: center;font-size: 1.5em;" target="_blank" href="/actuator" th:href="@{'/actuator'}">
+            Перейти на Actuator</a><br><br>
+        <a style="text-align: center;font-size: 1.5em;" target="_blank" href="/actuator/health/modelsdb" th:href="@{'/hystrix'}">
+            Перейти на Hystrix Dashboard</a>
     </p>
     <p style="text-align: center;">
         <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="400" alt="sova">

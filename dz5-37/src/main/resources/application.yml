@@ -1,62 +1,35 @@
 management:
-  endpoints.web.exposure.include: "*"
+  endpoints.web.exposure.include: health
   endpoint.health:
     enabled: true
     show-details: always
     show-components: when_authorized
   health:
     circuitbreakers.enabled: true
-    readinessstate.enabled: true
-    ratelimiters.enabled: true
 
 resilience4j.circuitbreaker:
   configs:
     default:
-      registerHealthIndicator: true
-      slidingWindowSize: 10 # размер раздвижного окна
-      minimumNumberOfCalls: 3 # минимальное количество звонков, неудач
-      permittedNumberOfCallsInHalfOpenState: 3 # разрешенное-количество-вызовов-в-полуоткрытом-состоянии
-      automaticTransitionFromOpenToHalfOpenEnabled: true # включен автоматический переход от открытого к полуоткрытому
-      waitDurationInOpenState: 5s # продолжительность ожидания в открытом состоянии
-      failureRateThreshold: 50 # порог частоты отказов %
-      eventConsumerBufferSize: 10
-      recordExceptions:
-        - io.github.resilience4j.circuitbreaker.CallNotPermittedException
-        - java.util.concurrent.TimeoutException
-      ignoreExceptions:
+      register-health-indicator: true
+      sliding-window-size: 10 # размер раздвижного окна
+      minimum-number-of-calls: 3 # минимальное количество звонков, неудач
+      slow-call-duration-threshold: 200
+      failure-rate-threshold: 50 # порог частоты отказов %
+      ignore-exceptions:
         - java.lang.RuntimeException
-  instances:
-    AuthorFindAll:
-      baseConfig: default
-
-resilience4j.retry:
-  configs:
-    default:
-      maxAttempts: 3
-      waitDuration: 2s
-      retryExceptions:
-        - io.github.resilience4j.circuitbreaker.CallNotPermittedException
-        - java.util.concurrent.TimeoutException
-      ignoreExceptions:
-        - java.lang.RuntimeException
-  instances:
-    AuthorFindAll:
-      baseConfig: default
-  metrics:
-    legacy:
-      enabled: true
-
-resilience4j.timelimiter:
-  configs:
-    default:
-      cancelRunningFuture: true
-      timeoutDuration: 1s
   instances:
     AuthorFindAll:
       base-config: default
-  metrics:
-      enabled: true
-
+    AuthorFindOne:
+      base-config: default
+    GenreFindAll:
+      base-config: default
+    GenreFindOne:
+      base-config: default
+    BookFindAll:
+      base-config: default
+    BookFindOne:
+      base-config: default
 
 spring:
   application:

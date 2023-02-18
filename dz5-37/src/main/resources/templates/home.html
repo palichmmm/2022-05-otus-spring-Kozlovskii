@@ -35,8 +35,8 @@
     <p sec:authorize="hasAuthority('ADMIN')" class="center">
         <a style="text-align: center;font-size: 1.5em;" target="_blank" href="/actuator" th:href="@{'/actuator'}">
             Перейти на Actuator</a><br><br>
-        <a style="text-align: center;font-size: 1.5em;" target="_blank" href="/actuator/health/modelsdb" th:href="@{'/hystrix'}">
-            Перейти на Hystrix Dashboard</a>
+        <a style="text-align: center;font-size: 1.5em;" target="_blank" href="/actuator/health" th:href="@{'/actuator/health'}">
+            Перейти на Health</a><br><br>
     </p>
     <p style="text-align: center;">
         <img src="/static/images/sova.svg" th:src="@{/images/sova.svg}" width="400" alt="sova">

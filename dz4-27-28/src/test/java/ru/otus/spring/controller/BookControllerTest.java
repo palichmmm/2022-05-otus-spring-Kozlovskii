@@ -16,7 +16,6 @@ import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.service.AclPermissionService;
 import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.GenreService;
@@ -42,9 +41,6 @@ public class BookControllerTest {
 
     @MockBean
     private GenreService genreService;
-
-    @MockBean
-    private AclPermissionService permissionService;
 
     @WithMockUser
     @DisplayName("Страница всех книг должна вернуть статус 200")

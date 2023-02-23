@@ -5,7 +5,7 @@ spring:
   # Размер загружаемых файлов
   servlet.multipart:
     enabled: true
-    max-file-size: 10MB
+    max-file-size: 30MB
     max-request-size: 1GB
 
   # База данных MongoDB

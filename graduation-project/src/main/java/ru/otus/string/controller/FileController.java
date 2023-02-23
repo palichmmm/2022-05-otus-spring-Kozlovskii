@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import ru.otus.string.models.FileInfo;
 import ru.otus.string.service.FilesStorageService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +28,7 @@ public class FileController {
 
     @GetMapping("/")
     public String homepage() {
-        return "home";
-//        return "redirect:/files";
+        return "redirect:/files";
     }
 
     @GetMapping("/files/new")
@@ -37,19 +37,20 @@ public class FileController {
     }
 
     @PostMapping("/files/upload")
-    public String uploadFile(Model model, @RequestParam("file") MultipartFile file) {
+    public String uploadFile(Model model, @RequestParam("file") MultipartFile[] files) {
         String message = "";
-        try {
-            filesStorageService.save(file);
+        for (MultipartFile file : files) {
+            try {
+                filesStorageService.save(file);
 
-            message = "Загружен файл: " + file.getOriginalFilename();
-            model.addAttribute("message", message);
-        } catch (Exception e) {
-            message = "Не удалось загрузить файл: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
-            model.addAttribute("message", message);
+                message = "Загружен файл: " + file.getOriginalFilename();
+                model.addAttribute("message", message);
+            } catch (Exception e) {
+                message = "Не удалось загрузить файл: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+                model.addAttribute("message", message);
+            }
         }
-        return "home";
-//        return "upload_form";
+        return "files";
     }
 
     @GetMapping("/files")
@@ -57,20 +58,17 @@ public class FileController {
         List<FileInfo> fileInfos = filesStorageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder
-                    .fromMethodName(FileController.class, "getFile", path.getFileName().toString()).build().toString();
-
+                    .fromMethodName(FileController.class,
+                            "getFile", path.getFileName().toString()).build().toString();
             return new FileInfo(filename, url);
         }).collect(Collectors.toList());
-
         model.addAttribute("files", fileInfos);
-
         return "files";
     }
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = filesStorageService.load(filename);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }

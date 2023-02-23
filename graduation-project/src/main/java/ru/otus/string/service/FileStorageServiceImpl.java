@@ -1,5 +1,6 @@
 package ru.otus.string.service;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,13 @@ import java.util.stream.Stream;
 @Service
 public class FileStorageServiceImpl implements FilesStorageService {
 
-    private final Path root = Paths.get("./uploads");
+    public static final String TEMP_FILE_LABEL = "_temp";
+    private final Path rootLocation = Paths.get("./uploads");
 
     @Override
     public void init() {
         try {
-            Files.createDirectories(root);
+            Files.createDirectories(rootLocation);
         } catch (IOException e) {
             throw new RuntimeException("Не удалось создать папку для загрузки!");
         }
@@ -31,7 +33,12 @@ public class FileStorageServiceImpl implements FilesStorageService {
     @Override
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+            String baseName = FilenameUtils.getBaseName(file.getOriginalFilename());
+            if (extension != null && extension.equalsIgnoreCase("mp3")) {
+                Files.copy(file.getInputStream(),
+                        this.rootLocation.resolve(baseName + TEMP_FILE_LABEL + "." + extension));
+            }
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("Файл с таким именем уже существует.");
@@ -43,7 +50,7 @@ public class FileStorageServiceImpl implements FilesStorageService {
     @Override
     public Resource load(String filename) {
         try {
-            Path file = root.resolve(filename);
+            Path file = rootLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
@@ -58,15 +65,15 @@ public class FileStorageServiceImpl implements FilesStorageService {
 
     @Override
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
+        FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
     @Override
     public Stream<Path> loadAll() {
         Stream<Path> result;
-        try (Stream<Path> walk = Files.walk(this.root, 1)) {
-            result = walk.filter(path -> !path.equals(this.root))
-                    .map(this.root::relativize);
+        try (Stream<Path> walk = Files.walk(this.rootLocation, 1)) {
+            result = walk.filter(path -> !path.equals(this.rootLocation))
+                    .map(this.rootLocation::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Не удалось загрузить файлы!");
         }

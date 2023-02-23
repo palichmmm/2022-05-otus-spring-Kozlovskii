@@ -1,48 +1,45 @@
-//package ru.otus.string.integration;
-//
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.integration.channel.DirectChannel;
-//import org.springframework.integration.channel.PublishSubscribeChannel;
-//import org.springframework.integration.config.EnableIntegration;
-//import org.springframework.integration.dsl.IntegrationFlow;
-//import org.springframework.integration.dsl.IntegrationFlows;
-//import org.springframework.integration.dsl.MessageChannels;
-//import org.springframework.messaging.MessageChannel;
-//import ru.otus.spring.integration.service.LettersService;
-//import ru.otus.spring.integration.service.TabooService;
-//import ru.otus.spring.models.Author;
-//import ru.otus.spring.models.Book;
-//import ru.otus.spring.models.Genre;
-//
-//@Configuration
-//@EnableIntegration
-//public class IntegrationConfig {
-//
+package ru.otus.string.integration;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.PublishSubscribeChannel;
+import org.springframework.integration.config.EnableIntegration;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.MessageChannels;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.web.multipart.MultipartFile;
+import ru.otus.string.integration.service.UploadFileService;
+import ru.otus.string.models.File;
+
+@Configuration
+@EnableIntegration
+public class IntegrationConfig {
+
 //    private final LettersService lettersService;
 //
-//    private final TabooService tabooService;
-//
-//    public IntegrationConfig(LettersService lettersService, TabooService tabooService) {
-//        this.lettersService = lettersService;
-//        this.tabooService = tabooService;
-//    }
-//
-//    @Bean
-//    public MessageChannel authorChannel() {
-//        return new DirectChannel();
-//    }
-//
-//    @Bean
-//    public PublishSubscribeChannel aggregateAuthorChannel() {
-//        return MessageChannels.publishSubscribe().get();
-//    }
-//
-//    @Bean
-//    public PublishSubscribeChannel outputAuthorChannel() {
-//        return MessageChannels.publishSubscribe().get();
-//    }
-//
+    private final UploadFileService fileService;
+
+    public IntegrationConfig(UploadFileService fileService) {
+        this.fileService = fileService;
+    }
+
+    @Bean
+    public MessageChannel uploadChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    public PublishSubscribeChannel aggregateFileChannel() {
+        return MessageChannels.publishSubscribe().get();
+    }
+
+    @Bean
+    public PublishSubscribeChannel outputFilesChannel() {
+        return MessageChannels.publishSubscribe().get();
+    }
+
 //    @Bean
 //    public MessageChannel genreChannel() {
 //        return new DirectChannel();
@@ -72,28 +69,28 @@
 //    public PublishSubscribeChannel outputBookChannel() {
 //        return MessageChannels.publishSubscribe().get();
 //    }
-//
+
 //    @Bean
-//    public IntegrationFlow authorFlow() {
-//        return flow -> flow.channel(authorChannel())
+//    public IntegrationFlow uploadFlow() {
+//        return flow -> flow.channel(uploadChannel())
 //                .split()
-//                .<Author, Boolean>route(tabooService::authorTaboo,
+//                .<MultipartFile, File>route(fileService::authorTaboo,
 //                        mapping -> mapping
 //                                .subFlowMapping(true, sub -> sub
 //                                        .transform(lettersService, "authorReplacementLetters")
-//                                        .channel(aggregateAuthorChannel()))
-//                                .subFlowMapping(false, sub -> sub.channel(aggregateAuthorChannel()))
+//                                        .channel(aggregateFileChannel()))
+//                                .subFlowMapping(false, sub -> sub.channel(aggregateFileChannel()))
 //                );
 //    }
 //
 //    @Bean
 //    public IntegrationFlow aggregateAuthorFlow() {
-//        return IntegrationFlows.from(aggregateAuthorChannel())
+//        return IntegrationFlows.from(aggregateFilesChannel())
 //                .aggregate()
-//                .channel(outputAuthorChannel())
+//                .channel(outputFilesChannel())
 //                .get();
 //    }
-//
+
 //    @Bean
 //    public IntegrationFlow genreFlow() {
 //        return flow -> flow.channel(genreChannel())
@@ -135,4 +132,4 @@
 //                .channel(outputBookChannel())
 //                .get();
 //    }
-//}
+}

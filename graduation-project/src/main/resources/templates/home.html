@@ -20,7 +20,7 @@
             method="post"
             th:action="@{/files/upload}"
             enctype="multipart/form-data">
-        <input id="input-file" type="file" name="file" />
+        <input id="input-file" type="file" name="file" multiple />
         <button class="btn btn-sm btn-outline-success float-right" type="submit">
             Upload
         </button>
@@ -31,7 +31,7 @@
             class="alert alert-secondary alert-dismissible fade show text-center message mt-3"
             role="alert">
         [[${message}]]
-        <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="close">
             <span aria-hidden="true">×</span>
         </button>
     </div>

@@ -3,4 +3,5 @@ target/
 *.iml
 *.mvn
 out/
+uploads/
 *.log

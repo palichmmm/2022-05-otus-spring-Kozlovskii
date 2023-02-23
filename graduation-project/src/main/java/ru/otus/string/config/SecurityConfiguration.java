@@ -23,25 +23,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers("/", "/css/**", "/images/**", "/webjars/**").permitAll()
-                        // Книги
-                        .antMatchers("/book/delete/*").hasAuthority("DELETE")
-                        .antMatchers("/book/create").hasAuthority("CREATE")
-                        .antMatchers("/book/edit/*").hasAuthority("WRITE")
-                        .antMatchers("/book/all", "/book/comments/*").hasAuthority("READ")
-                        // Авторы
-                        .antMatchers("/author/delete/*").hasAuthority("DELETE")
-                        .antMatchers("/author/create").hasAuthority("CREATE")
-                        .antMatchers("/author/edit/*").hasAuthority("WRITE")
-                        .antMatchers("/author/all").hasAuthority("READ")
-                        // Жанры
-                        .antMatchers("/genre/delete/*").hasAuthority("DELETE")
-                        .antMatchers("/genre/create").hasAuthority("CREATE")
-                        .antMatchers("/genre/edit/*").hasAuthority("WRITE")
-                        .antMatchers("/genre/all").hasAuthority("READ")
-                        // Комментарии
-                        .antMatchers("/comment/delete/*").hasAuthority("DELETE")
-                        .antMatchers("/comment/create/*", "/comment/edit/*").hasAnyAuthority("ADMIN", "USER", "MANAGER")
+                        .antMatchers("/**", "/css/**", "/images/**", "/webjars/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

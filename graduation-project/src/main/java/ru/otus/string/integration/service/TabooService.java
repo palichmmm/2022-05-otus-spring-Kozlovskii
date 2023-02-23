@@ -1,18 +1,15 @@
-//package ru.otus.string.integration.service;
-//
-//import org.springframework.stereotype.Service;
-//import ru.otus.spring.models.Author;
-//import ru.otus.spring.models.Book;
-//import ru.otus.spring.models.Genre;
-//
-//import java.util.Arrays;
-//import java.util.List;
-//
-//@Service
-//public class TabooService {
-//
-//    public static final List<String> tabooList = Arrays.asList("A", "a", "E", "e", "O", "o");
-//
+package ru.otus.string.integration.service;
+
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Service
+public class TabooService {
+
+    public static final List<String> tabooList = Arrays.asList("A", "a", "E", "e", "O", "o");
+
 //    public boolean authorTaboo(Author author) {
 //        for (String taboo : tabooList) {
 //            if (author.getAuthorName().contains(taboo)) {
@@ -39,4 +36,4 @@
 //        }
 //        return false;
 //    }
-//}
+}

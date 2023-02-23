@@ -13,5 +13,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class File {
     @Id
     private String id;
+    private String serialNumber;
     private String originalName;
+    private String customName;
+    private String extension;
+    private String type;
+    private int size;
+
 }

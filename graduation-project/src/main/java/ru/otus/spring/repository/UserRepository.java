@@ -1,7 +1,7 @@
-package ru.otus.string.repository;
+package ru.otus.spring.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.otus.string.models.User;
+import ru.otus.spring.models.User;
 
 import java.util.Optional;
 

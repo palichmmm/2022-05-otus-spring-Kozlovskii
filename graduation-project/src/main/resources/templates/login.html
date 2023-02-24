@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thymeleaf File Upload example</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
 </head>
 <body>
-
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <h1 class="text-center mb-lg-3">Форма входа</h1>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <form th:action="@{/login}" method="post" class="d-grid gap-4">
+                <div class="col">
+                    <input type="text" name="userName" placeholder="Логин" class="form-control gy-3">
+                </div>
+                <div class="col">
+                    <input type="password" name="password" placeholder="Пароль" class="form-control gy-3">
+                </div>
+                <div th:if="${param.error}" class="text-danger">
+                    Неверное имя пользователя или пароль.
+                </div>
+                <div th:if="${param.logout}" class="text-danger">
+                    Вы вышли из системы.
+                </div>
+                <div class="d-grid gap-2 col-5 mx-auto">
+                    <button type="submit" class="btn btn-success">Войти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

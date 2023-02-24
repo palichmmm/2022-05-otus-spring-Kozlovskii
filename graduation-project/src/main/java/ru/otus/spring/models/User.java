@@ -1,4 +1,4 @@
-package ru.otus.string.models;
+package ru.otus.spring.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -15,13 +16,15 @@ import java.util.Set;
 public class User {
 
     @Id
+    private String id;
+
     private String userName;
 
     private String password;
 
     private String role;
 
-    private Set<Authority> authorities;
+    private Set<String> authorities;
 
     private Boolean accountNonExpired;
 
@@ -31,9 +34,14 @@ public class User {
 
     private Boolean enabled;
 
-    public User(String userName, String password, String role) {
+    public User(String userName, String password, String role, Set<String> authorities, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {
         this.userName = userName;
         this.password = password;
         this.role = role;
+        this.authorities = authorities;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
     }
 }

@@ -1,4 +1,4 @@
-package ru.otus.string.service;
+package ru.otus.spring.service;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -6,9 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.otus.string.models.Authority;
-import ru.otus.string.models.User;
-import ru.otus.string.repository.UserRepository;
+import ru.otus.spring.models.User;
+import ru.otus.spring.repository.UserRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,9 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Unknown user: " + userName);
         }
         Set<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-                .map(Authority::getAuthority)
                 .map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
-
+        System.out.println(grantedAuthorities);
+        System.out.println(user);
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getPassword(),

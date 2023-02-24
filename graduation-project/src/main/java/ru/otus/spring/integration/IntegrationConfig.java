@@ -1,44 +1,44 @@
-package ru.otus.string.integration;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.channel.DirectChannel;
-import org.springframework.integration.channel.PublishSubscribeChannel;
-import org.springframework.integration.config.EnableIntegration;
-import org.springframework.integration.dsl.IntegrationFlow;
-import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.MessageChannels;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.web.multipart.MultipartFile;
-import ru.otus.string.integration.service.UploadFileService;
-import ru.otus.string.models.File;
-
-@Configuration
-@EnableIntegration
-public class IntegrationConfig {
-
-//    private final LettersService lettersService;
+//package ru.otus.string.integration;
 //
-    private final UploadFileService fileService;
-
-    public IntegrationConfig(UploadFileService fileService) {
-        this.fileService = fileService;
-    }
-
-    @Bean
-    public MessageChannel uploadChannel() {
-        return new DirectChannel();
-    }
-
-    @Bean
-    public PublishSubscribeChannel aggregateFileChannel() {
-        return MessageChannels.publishSubscribe().get();
-    }
-
-    @Bean
-    public PublishSubscribeChannel outputFilesChannel() {
-        return MessageChannels.publishSubscribe().get();
-    }
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.integration.channel.DirectChannel;
+//import org.springframework.integration.channel.PublishSubscribeChannel;
+//import org.springframework.integration.config.EnableIntegration;
+//import org.springframework.integration.dsl.IntegrationFlow;
+//import org.springframework.integration.dsl.IntegrationFlows;
+//import org.springframework.integration.dsl.MessageChannels;
+//import org.springframework.messaging.MessageChannel;
+//import org.springframework.web.multipart.MultipartFile;
+//import ru.otus.string.integration.service.UploadFileService;
+//import ru.otus.string.models.File;
+//
+//@Configuration
+//@EnableIntegration
+//public class IntegrationConfig {
+//
+////    private final LettersService lettersService;
+////
+//    private final UploadFileService fileService;
+//
+//    public IntegrationConfig(UploadFileService fileService) {
+//        this.fileService = fileService;
+//    }
+//
+//    @Bean
+//    public MessageChannel uploadChannel() {
+//        return new DirectChannel();
+//    }
+//
+//    @Bean
+//    public PublishSubscribeChannel aggregateFileChannel() {
+//        return MessageChannels.publishSubscribe().get();
+//    }
+//
+//    @Bean
+//    public PublishSubscribeChannel outputFilesChannel() {
+//        return MessageChannels.publishSubscribe().get();
+//    }
 
 //    @Bean
 //    public MessageChannel genreChannel() {
@@ -132,4 +132,4 @@ public class IntegrationConfig {
 //                .channel(outputBookChannel())
 //                .get();
 //    }
-}
+//}

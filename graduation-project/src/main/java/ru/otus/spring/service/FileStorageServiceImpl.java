@@ -1,4 +1,4 @@
-package ru.otus.string.service;
+package ru.otus.spring.service;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.Resource;
@@ -6,6 +6,9 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import ru.otus.spring.controller.FileController;
+import ru.otus.spring.models.File;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,6 +16,8 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -64,19 +69,32 @@ public class FileStorageServiceImpl implements FilesStorageService {
     }
 
     @Override
+    public boolean delete(String filename) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
     @Override
-    public Stream<Path> loadAll() {
-        Stream<Path> result;
+    public List<File> loadAll() {
         try (Stream<Path> walk = Files.walk(this.rootLocation, 1)) {
-            result = walk.filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize);
+            return walk.filter(path -> !path.equals(this.rootLocation)).map(this.rootLocation::relativize)
+                    .map(path -> {
+                        String filename = path.getFileName().toString();
+                        String url = MvcUriComponentsBuilder.fromMethodName(FileController.class,
+                                "getFile", path.getFileName().toString()).build().toString();
+                        return new File(filename, url);
+                    }).collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("Не удалось загрузить файлы!");
         }
-        return result;
     }
 }

@@ -1,10 +1,10 @@
-package ru.otus.string.service;
+package ru.otus.spring.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
+import ru.otus.spring.models.File;
 
-import java.nio.file.Path;
-import java.util.stream.Stream;
+import java.util.List;
 
 public interface FilesStorageService {
     void init();
@@ -13,7 +13,9 @@ public interface FilesStorageService {
 
     Resource load(String filename);
 
+    public boolean delete(String filename);
+
     void deleteAll();
 
-    Stream<Path> loadAll();
+    List<File> loadAll();
 }

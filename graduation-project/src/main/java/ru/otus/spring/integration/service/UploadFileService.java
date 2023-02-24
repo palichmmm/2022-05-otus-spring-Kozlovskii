@@ -1,13 +1,6 @@
-package ru.otus.string.integration.service;
+package ru.otus.spring.integration.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import ru.otus.string.models.File;
-
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Objects;
 
 @Service
 public class UploadFileService {

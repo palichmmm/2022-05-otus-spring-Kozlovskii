@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Thymeleaf File Upload example</title>
-  <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
-  <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
-  <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thymeleaf File Upload example</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container-fluid" style="max-width: 600px; margin: 0 auto;">
-  <h2 class="text-center">List of Files</h2>
+    <h2 class="text-center">List of Files</h2>
 
-  <div th:if="${files.size() > 0}">
-    <table class="table table-hover">
-      <thead class="thead-light">
-      <tr>
-        <th scope="col">File Name</th>
-        <th scope="col">Link</th>
-        <th scope="col">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="file : ${files}">
-        <td>[[${file.name}]]</td>
-        <td><a th:href="@{${file.url}}">Download</a></td>
-        <td>
-          <a th:href="@{'/files/delete/' + ${file.name}}" th:fileName="${file.name}" id="btnDelete"
-             title="Delete this file" class="fa-regular fa-trash-can icon-dark btn-delete"></a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    <div th:if="${files.size() > 0}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Плеер</th>
+                <th scope="col">№</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Расширение</th>
+                <th scope="col">Настройки</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="file : ${files}">
+                <td>
+                    <audio controls>
+                        <source th:src="@{${file.url}}" type="audio/mpeg">
+                    </audio>
+                </td>
+                <td th:text="${file.id}">1</td>
+                <td>[[${file.originalName}]]</td>
+                <td><a th:href="@{${file.url}}">Download</a></td>
+                <td>
+                    <a th:href="@{'/files/delete/' + ${file.originalName}}" th:fileName="${file.originalName}" id="btnDelete"
+                       title="Delete this file" class="fa-regular fa-trash-can icon-dark btn-delete"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-  <div th:unless="${files.size() > 0}">
-    <span>No files found!</span>
-  </div>
+    <div th:unless="${files.size() > 0}">
+        <span>No files found!</span>
+    </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>

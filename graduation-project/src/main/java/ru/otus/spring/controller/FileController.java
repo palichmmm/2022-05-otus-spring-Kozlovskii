@@ -1,4 +1,4 @@
-package ru.otus.string.controller;
+package ru.otus.spring.controller;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -10,13 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import ru.otus.string.models.FileInfo;
-import ru.otus.string.service.FilesStorageService;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import ru.otus.spring.service.FilesStorageService;
 
 @Controller
 public class FileController {
@@ -24,11 +18,6 @@ public class FileController {
 
     public FileController(FilesStorageService filesStorageService) {
         this.filesStorageService = filesStorageService;
-    }
-
-    @GetMapping("/")
-    public String homepage() {
-        return "redirect:/files";
     }
 
     @GetMapping("/files/new")
@@ -55,14 +44,7 @@ public class FileController {
 
     @GetMapping("/files")
     public String getListFiles(Model model) {
-        List<FileInfo> fileInfos = filesStorageService.loadAll().map(path -> {
-            String filename = path.getFileName().toString();
-            String url = MvcUriComponentsBuilder
-                    .fromMethodName(FileController.class,
-                            "getFile", path.getFileName().toString()).build().toString();
-            return new FileInfo(filename, url);
-        }).collect(Collectors.toList());
-        model.addAttribute("files", fileInfos);
+        model.addAttribute("files", filesStorageService.loadAll());
         return "files";
     }
 

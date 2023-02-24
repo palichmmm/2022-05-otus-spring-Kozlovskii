@@ -1,11 +1,11 @@
-package ru.otus.string;
+package ru.otus.spring;
 
 import com.github.cloudyrock.spring.v5.EnableMongock;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ru.otus.string.service.FilesStorageService;
+import ru.otus.spring.service.FilesStorageService;
 
 import javax.annotation.Resource;
 
@@ -23,7 +23,6 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        filesStorageService.deleteAll();
         filesStorageService.init();
     }
 }

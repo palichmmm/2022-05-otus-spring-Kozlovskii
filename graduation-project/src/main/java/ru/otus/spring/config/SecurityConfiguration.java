@@ -1,4 +1,4 @@
-package ru.otus.string.config;
+package ru.otus.spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +23,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers("/**", "/css/**", "/images/**", "/webjars/**").permitAll()
-                        .anyRequest().authenticated()
+                        .antMatchers("/", "/home", "/files", "registration", "/webjars/**").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

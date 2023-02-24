@@ -1,4 +1,4 @@
-package ru.otus.string.models;
+package ru.otus.spring.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,15 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "files")
-public class File {
+@Document(collection = "singers")
+public class SingerNameConstant {
+
     @Id
     private String id;
-    private String serialNumber;
-    private String originalName;
-    private String customName;
-    private String extension;
-    private String type;
-    private int size;
+    private String singerNameConstant;
 
+    public SingerNameConstant(String singerNameConstant) {
+        this.singerNameConstant = singerNameConstant;
+    }
 }

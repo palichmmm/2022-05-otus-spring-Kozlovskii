@@ -1,5 +1,5 @@
 <header th:fragment="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark mb-3">
+    <nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark mb-3">
         <div class="container">
             <a class="navbar-brand" th:href="@{'/'}">
                 mp3collection
@@ -10,13 +10,25 @@
             <div class="collapse navbar-collapse" id="topNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/upload'}">Загрузить mp3</a>
+                        <a class="nav-link" th:href="@{'/upload/form'}">Загрузить</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/files'}">Files</a>
+                        <a class="nav-link" th:href="@{'/temp'}">Файлы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/files'}">Нумерация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/files'}">Форматирование</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/files'}">Корзина</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{'/registration'}">Регистрация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/files'}">Скачать</a>
                     </li>
                     <li class="nav-item">
                         <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{'/login'}">Вход</a>

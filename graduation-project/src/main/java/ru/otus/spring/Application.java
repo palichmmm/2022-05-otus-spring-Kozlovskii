@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ru.otus.spring.service.FilesStorageService;
+import ru.otus.spring.service.FileStorageService;
 
 import javax.annotation.Resource;
 
@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 public class Application implements CommandLineRunner {
 
     @Resource
-    private FilesStorageService filesStorageService;
+    private FileStorageService filesStorageService;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -23,6 +23,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        filesStorageService.deleteAll();
         filesStorageService.init();
     }
 }

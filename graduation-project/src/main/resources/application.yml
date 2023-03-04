@@ -1,13 +1,14 @@
 spring:
   application.name: mp3-collection-manager
   profiles.active: dev
+  mvc.async.request-timeout: 60000
 
   # Размер загружаемых файлов
   servlet.multipart:
     enabled: true
     max-file-size: 30MB
-    max-request-size: 1GB
-
+    max-request-size: 2GB
+    location: ${java.io.tmpdir}\mp3collection\
   # База данных MongoDB
   data.mongodb:
     database: mp3collection

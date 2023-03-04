@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thymeleaf File Upload example</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container mt-5 pt-3">
+    <div th:replace="fragments/uploadForm :: uploadForm"></div>
+    <div th:replace="fragments/listFile :: listFile"></div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script type="text/javascript">
+    jQuery(function () {
+        let myAudio = new Audio();
+        let url = '';
+        $('.play').click('click', function () {
+            if (url !== $(this).data('url')) {
+                $('.play[data-url="' + url + '"]').css('display', 'block').next().css('display', 'none');
+                url = $(this).data('url');
+                myAudio.src = url;
+            }
+            myAudio.play();
+            $(this).css('display', 'none').next().css('display', 'block');
+        });
+        $('.pause').click(function () {
+            myAudio.pause();
+            $(this).css('display', 'none').prev().css('display', 'block');
+        });
+        $('#trash').click(function () {
+            let id = $(this).data('id');
+            $.ajax('/temp/' + id, {type: 'DELETE'});
+        });
+    });
+</script>
+</html>

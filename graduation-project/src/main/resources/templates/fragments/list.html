@@ -1,0 +1,43 @@
+<div th:fragment="list" class="container-fluid">
+    <h4 class="text-center">Коллекция всех загруженных файлов</h4>
+
+    <div th:if="${files.size() > 0}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Плеер</th>
+                <th scope="col">№</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Расширение</th>
+                <th scope="col">Размер</th>
+                <th scope="col">Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="file, stat : ${files}">
+                <td th:text="${stat.count}">001</td>
+                <td>
+                    <i class="bi bi-caret-right-fill play" role="button" th:attr="data-url=${file.url}"></i>
+                    <i class="bi bi-pause-fill text-danger pause" role="button" style="display: none;"></i>
+                </td>
+                <td th:text="${file.serialNumber}">001</td>
+                <td th:text="${file.outputName}">fileName</td>
+                <td th:text="${file.extension}">mp3</td>
+                <td th:text="${file.getSizeFormat()}">1Mb</td>
+                <td>
+                    <a class="ms-2 text-decoration-none" th:href="@{'/download/' + ${file.fileName}}">
+                        <i class="bi bi-download text-secondary"></i>
+                    </a>
+                    <i class="ms-3 bi bi-trash text-danger delete" role="button"
+                       th:attr="data-file-name=${file.fileName}"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${files.size() > 0}">
+        <span>No files found!</span>
+    </div>
+</div>

@@ -1,29 +1,23 @@
 package ru.otus.spring.service;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import ru.otus.spring.controller.FileController;
-import ru.otus.spring.models.File;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.nio.file.StandardCopyOption;
+
 
 @Service
-public class FileStorageServiceImpl implements FilesStorageService {
+public class FileStorageServiceImpl implements FileStorageService {
 
-    public static final String TEMP_FILE_LABEL = "_temp";
     private final Path rootLocation = Paths.get("./uploads");
 
     @Override
@@ -36,24 +30,36 @@ public class FileStorageServiceImpl implements FilesStorageService {
     }
 
     @Override
-    public void save(MultipartFile file) {
-        try {
-            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-            String baseName = FilenameUtils.getBaseName(file.getOriginalFilename());
-            if (extension != null && extension.equalsIgnoreCase("mp3")) {
-                Files.copy(file.getInputStream(),
-                        this.rootLocation.resolve(baseName + TEMP_FILE_LABEL + "." + extension));
-            }
-        } catch (Exception e) {
-            if (e instanceof FileAlreadyExistsException) {
-                throw new RuntimeException("Файл с таким именем уже существует.");
-            }
-            throw new RuntimeException(e.getMessage());
+    public Path save(MultipartFile file, String randomFileName) {
+        Path path = this.rootLocation.resolve(randomFileName);
+        try (InputStream inputStream = file.getInputStream()) {
+            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+            return path;
+        } catch (IOException e) {
+            throw new RuntimeException("Не удалось сохранить файл!");
         }
     }
 
     @Override
     public Resource load(String filename) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            Path file1 = rootLocation.resolve("mmm.mp3");
+            Files.copy(file, file1, StandardCopyOption.REPLACE_EXISTING);
+            Resource resource = new UrlResource(file1.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Не удалось прочитать файл!");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Resource loadZip(String filename) {
         try {
             Path file = rootLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
@@ -69,10 +75,10 @@ public class FileStorageServiceImpl implements FilesStorageService {
     }
 
     @Override
-    public boolean delete(String filename) {
+    public void delete(String fileName) {
         try {
-            Path file = rootLocation.resolve(filename);
-            return Files.deleteIfExists(file);
+            Path file = rootLocation.resolve(fileName);
+            Files.deleteIfExists(file);
         } catch (IOException e) {
             throw new RuntimeException("Ошибка: " + e.getMessage());
         }
@@ -81,20 +87,5 @@ public class FileStorageServiceImpl implements FilesStorageService {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
-    }
-
-    @Override
-    public List<File> loadAll() {
-        try (Stream<Path> walk = Files.walk(this.rootLocation, 1)) {
-            return walk.filter(path -> !path.equals(this.rootLocation)).map(this.rootLocation::relativize)
-                    .map(path -> {
-                        String filename = path.getFileName().toString();
-                        String url = MvcUriComponentsBuilder.fromMethodName(FileController.class,
-                                "getFile", path.getFileName().toString()).build().toString();
-                        return new File(filename, url);
-                    }).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new RuntimeException("Не удалось загрузить файлы!");
-        }
     }
 }

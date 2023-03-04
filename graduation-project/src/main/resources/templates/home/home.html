@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Thymeleaf File Upload example</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<div class="container mt-5 pt-3">
+    <h1 class="display-2 text-center">Менеджер MP3 коллекций</h1>
+    <h1 class="display-3 text-center">Что может:</h1>
+    <h1 class="display-6 text-start"><i class="bi bi-check-lg text-success me-3"></i>Нумеровать треки</h1>
+    <h1 class="display-6 text-start"><i class="bi bi-check-lg text-success me-3"></i>Распознавать нумерацию</h1>
+    <h1 class="display-6 text-start"><i class="bi bi-check-lg text-success me-3"></i>Форматировать название в едином стиле</h1>
+    <h1 class="display-6 text-start"><i class="bi bi-check-lg text-success me-3"></i>Удалять из названия ненужный текст</h1>
+    <h1 class="display-6 text-start"><i class="bi bi-check-lg text-success me-3"></i>Сохранять плейлисты</h1>
+    <h1 class="display-6 text-start"><i class="bi bi-check-lg text-success me-3"></i>Находить дубликаты</h1>
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

@@ -23,14 +23,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = repository.findByUserName(userName).orElseThrow(() -> new UsernameNotFoundException("Unknown user: " + userName));
+        User user = repository.findByUserName(userName).orElseThrow(() -> new UsernameNotFoundException("Неизвестный пользователь: " + userName));
         if (user == null) {
-            throw new UsernameNotFoundException("Unknown user: " + userName);
+            throw new UsernameNotFoundException("Неизвестный пользователь: " + userName);
         }
         Set<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                 .map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
-        System.out.println(grantedAuthorities);
-        System.out.println(user);
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getPassword(),

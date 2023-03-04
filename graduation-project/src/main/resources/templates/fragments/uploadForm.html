@@ -1,0 +1,17 @@
+<div th:fragment="uploadForm" class="d-grid gap-2">
+    <button id="select-file" class="btn btn-primary btn-lg" type="button">Выберите файлы</button>
+    <form id="upload-form" method="post" th:action="@{'/upload/form'}" enctype="multipart/form-data" class="d-none">
+        <input id="input-file" type="file" name="file" multiple/>
+        <button id="start-upload" class="btn btn-sm btn-outline-success float-right" type="submit">Загрузить</button>
+    </form>
+    <div id="loading" class="text-center d-none">
+        <img class="rounded" th:src="@{'/img/loading.svg'}" alt="Загрузка">
+    </div>
+    <div th:if="${message != null}" class="alert alert-secondary alert-dismissible fade show text-center message mt-3"
+         role="alert">
+        [[${message}]]
+        <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+</div>

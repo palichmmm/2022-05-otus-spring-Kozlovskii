@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.text.DecimalFormat;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,14 +17,36 @@ public class File {
     private String id;
     private String serialNumber;
     private String originalName;
-    private String customName;
+    private String fileName;
+    private String outputName;
     private String extension;
-    private String userId;
+    private String userName;
     private String url;
-    private int size;
+    private long size;
+    private String status;
 
-    public File(String originalName, String url) {
+    public File(String originalName, String outputName, String fileName, String extension, String userName, String url, long size) {
         this.originalName = originalName;
+        this.outputName = outputName;
+        this.fileName = fileName;
+        this.extension = extension;
+        this.userName = userName;
         this.url = url;
+        this.size = size;
+    }
+
+    public String getSizeFormat() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        float sizeKb = 1024.0F;
+        float sizeMb = sizeKb * sizeKb;
+        if(size < sizeMb)
+            return df.format(size / sizeKb)+ " Kb";
+        else {
+            return df.format(size / sizeMb) + " Mb";
+        }
+    }
+
+    public String getFullFileName() {
+        return originalName + "." + extension;
     }
 }

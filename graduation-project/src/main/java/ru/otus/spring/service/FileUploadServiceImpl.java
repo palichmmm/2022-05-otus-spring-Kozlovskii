@@ -9,7 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import ru.otus.spring.controller.UploadController;
 import ru.otus.spring.models.File;
+import ru.otus.spring.models.TagFile;
 import ru.otus.spring.repository.FileRepository;
+import ru.otus.spring.repository.TagFileRepository;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,10 +21,14 @@ import java.util.UUID;
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
     private final FileRepository fileRepository;
+    private final TagFileRepository tagFileRepository;
+    private final FileTagService tagService;
     private final FileStorageService fileStorageService;
 
-    public FileUploadServiceImpl(FileRepository fileRepository, FileStorageService fileStorageService) {
+    public FileUploadServiceImpl(FileRepository fileRepository, TagFileRepository tagFileRepository, FileTagService tagService, FileStorageService fileStorageService) {
         this.fileRepository = fileRepository;
+        this.tagFileRepository = tagFileRepository;
+        this.tagService = tagService;
         this.fileStorageService = fileStorageService;
     }
 
@@ -39,14 +45,18 @@ public class FileUploadServiceImpl implements FileUploadService {
                     String url = MvcUriComponentsBuilder.fromMethodName(UploadController.class,
                             "downloadFile", path.getFileName().toString()).build().toString();
                     long size = Files.size(path);
-                    fileRepository.save(new File(baseName, baseName, randomFileName, extension, getCurrentUsername(), url, size));
-
+                    TagFile tagFile = tagService.loadTag(path);
+                    if (tagFile != null) {
+                        tagFileRepository.save(tagFile);
+                    }
+                    fileRepository.save(
+                            new File(baseName, baseName, randomFileName, extension, getCurrentUsername(),
+                                    url, size, tagFile));
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Не удалось сохранить файл!");
             }
         }
-
     }
 
     @Override
@@ -58,6 +68,7 @@ public class FileUploadServiceImpl implements FileUploadService {
     public void deleteByFileName(String fileName) {
         fileStorageService.delete(fileName);
         fileRepository.deleteByFileName(fileName);
+        tagFileRepository.deleteByFileName(fileName);
     }
 
     @Override

@@ -92,11 +92,13 @@
         </dependency>
 
         <!-- Библиотека для работы с тегами mp3-->
+        <!-- https://mvnrepository.com/artifact/com.mpatric/mp3agic -->
         <dependency>
-            <groupId>com.groupdocs</groupId>
-            <artifactId>groupdocs-metadata</artifactId>
-            <version>17.12</version>
+            <groupId>com.mpatric</groupId>
+            <artifactId>mp3agic</artifactId>
+            <version>0.9.1</version>
         </dependency>
+
 
         <!--WebJars — это зависимости на стороне клиента, упакованные в архивные файлы JAR-->
         <dependency>
@@ -143,14 +145,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-		<repository>
-			<id>GroupDocsJavaAPI</id>
-			<name>GroupDocs Java API</name>
-			<url>http://repository.groupdocs.com/repo/</url>
-		</repository>
-    </repositories>
 
     <build>
         <plugins>

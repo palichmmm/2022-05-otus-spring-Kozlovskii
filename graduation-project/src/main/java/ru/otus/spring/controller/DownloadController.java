@@ -7,23 +7,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import ru.otus.spring.service.FileUploadService;
+import ru.otus.spring.service.DownloadService;
 
 import java.nio.charset.StandardCharsets;
 
 @Controller
 public class DownloadController {
-    private final FileUploadService uploadService;
+    private final DownloadService downloadService;
 
-    public DownloadController(FileUploadService uploadService) {
-        this.uploadService = uploadService;
+    public DownloadController(DownloadService downloadService) {
+        this.downloadService = downloadService;
     }
 
     @GetMapping("/download/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
-        Resource file = uploadService.downloadFile(filename);
+        Resource file = downloadService.downloadFile(filename);
         ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
-                .filename(uploadService.outputFileName(filename), StandardCharsets.UTF_8)
+                .filename(downloadService.outputFileName(filename), StandardCharsets.UTF_8)
                 .build();
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())

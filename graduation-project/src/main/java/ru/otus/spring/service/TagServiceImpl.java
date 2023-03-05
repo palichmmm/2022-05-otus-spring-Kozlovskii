@@ -3,19 +3,31 @@ package ru.otus.spring.service;
 import com.mpatric.mp3agic.*;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.TagFile;
+import ru.otus.spring.repository.TagRepository;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 @Service
-public class FileTagServiceImpl implements FileTagService {
-    @Override
-    public TagFile saveTag(Path path) {
-        return null;
+public class TagServiceImpl implements TagService {
+
+    private final TagRepository tagRepository;
+
+    public TagServiceImpl(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
     }
 
     @Override
-    public TagFile loadTag(Path path) {
+    public TagFile saveTagToDb(TagFile tagFile) {
+        return tagRepository.save(tagFile);
+    }
+
+    @Override
+    public void saveTagToFile(TagFile tagFile) {
+    }
+
+    @Override
+    public TagFile loadTagFromFile(Path path) {
         try {
             Mp3File mp3file = new Mp3File(path);
             TagFile tagFile = new TagFile();
@@ -49,7 +61,12 @@ public class FileTagServiceImpl implements FileTagService {
     }
 
     @Override
-    public void clearTags(String id) {
+    public void clearTagToFile(String id) {
 
+    }
+
+    @Override
+    public void deleteByFileName(String fileName) {
+        tagRepository.deleteByFileName(fileName);
     }
 }

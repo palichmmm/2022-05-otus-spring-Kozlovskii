@@ -5,13 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.otus.spring.service.FileUploadService;
+import ru.otus.spring.service.UploadService;
 
 @Controller
 public class UploadController {
-    private final FileUploadService uploadService;
+    private final UploadService uploadService;
 
-    public UploadController(FileUploadService uploadService) {
+    public UploadController(UploadService uploadService) {
         this.uploadService = uploadService;
     }
 

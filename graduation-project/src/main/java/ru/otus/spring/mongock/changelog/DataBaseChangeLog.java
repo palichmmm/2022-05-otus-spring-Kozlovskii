@@ -5,10 +5,7 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import com.mongodb.client.MongoDatabase;
 import org.springframework.context.annotation.Profile;
-import ru.otus.spring.models.SingerNameConstant;
 import ru.otus.spring.models.User;
-
-import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 
@@ -37,12 +34,5 @@ public class DataBaseChangeLog {
                 true,
                 true,
                 true));
-    }
-
-    @ChangeSet(author = "palichmmm@gmail.com", id = "saveSingerNameConstant", order = "003", runAlways = true)
-    public void insertConstantSinger(MongockTemplate template) {
-        template.save(new SingerNameConstant("Кабзон"));
-        template.save(new SingerNameConstant("Пьеха"));
-        template.save(new SingerNameConstant("Магомаев"));
     }
 }

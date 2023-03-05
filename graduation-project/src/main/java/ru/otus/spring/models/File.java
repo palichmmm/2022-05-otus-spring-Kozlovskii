@@ -27,12 +27,11 @@ public class File {
     @DBRef
     private TagFile tagFile;
 
-    public File(String originalName, String outputName, String fileName, String extension, String userName, String url, long size, TagFile tagFile) {
+    public File(String originalName, String outputName, String fileName, String extension, String url, long size, TagFile tagFile) {
         this.originalName = originalName;
         this.outputName = outputName;
         this.fileName = fileName;
         this.extension = extension;
-        this.userName = userName;
         this.url = url;
         this.size = size;
         this.tagFile = tagFile;

@@ -5,19 +5,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.otus.spring.service.FileService;
 import ru.otus.spring.service.UploadService;
 
 @Controller
 public class UploadController {
     private final UploadService uploadService;
+    private final FileService fileService;
 
-    public UploadController(UploadService uploadService) {
+    public UploadController(UploadService uploadService, FileService fileService) {
         this.uploadService = uploadService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/upload/form")
     public String uploadForm(Model model) {
-        model.addAttribute("files", uploadService.findAll());
+        model.addAttribute("files", fileService.findAllByUserName());
         return "upload/form";
     }
 
@@ -28,7 +31,7 @@ public class UploadController {
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
-        model.addAttribute("files", uploadService.findAll());
+        model.addAttribute("files", fileService.findAllByUserName());
         return "upload/form";
     }
 

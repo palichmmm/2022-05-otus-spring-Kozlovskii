@@ -2,9 +2,7 @@ package ru.otus.spring.controller;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
@@ -14,6 +12,9 @@ import ru.otus.spring.service.FileUploadService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -43,7 +44,7 @@ public class UploadController {
         return "upload/form";
     }
 
-    @DeleteMapping("/upload/form/{fileName}")
+    @DeleteMapping("/upload/form/{fileName:.+}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void deleteFile(@PathVariable String fileName) {
         uploadService.deleteByFileName(fileName);
@@ -52,8 +53,12 @@ public class UploadController {
     @GetMapping("/download/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
         Resource file = uploadService.downloadFile(filename);
+        ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+                .filename(uploadService.outputFileName(filename), StandardCharsets.UTF_8)
+                .build();
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
+                .body(file);
     }
 
 //    @GetMapping(value = "/download/zip", produces="application/zip")

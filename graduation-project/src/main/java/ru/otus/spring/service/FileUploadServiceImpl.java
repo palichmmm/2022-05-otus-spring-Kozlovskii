@@ -73,8 +73,16 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     public Resource downloadFile(String filename) {
-        Resource file = fileStorageService.load(filename);
-        return file;
+        File file = fileRepository.findByFileName(filename);
+        String newFileName = (file.getSerialNumber() != null) ? file.getSerialNumber() : "" + file.getOutputName() + "." + file.getExtension();
+        Resource fileDownload = fileStorageService.load(filename);
+        return fileDownload;
+    }
+
+    @Override
+    public String outputFileName(String fileName) {
+        File file = fileRepository.findByFileName(fileName);
+        return (file.getSerialNumber() != null) ? file.getSerialNumber() : "" + file.getOutputName() + "." + file.getExtension();
     }
 
     private String getCurrentUsername() {

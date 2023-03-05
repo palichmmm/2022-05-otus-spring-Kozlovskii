@@ -9,6 +9,8 @@ public interface FileRepository extends MongoRepository<File, String> {
 
     boolean existsByOriginalNameAndUserName(String originalName, String userName);
 
+    File findByFileName(String fileName);
+
     List<File> findAllByUserName(String userName);
 
     void deleteByFileName(String fileName);

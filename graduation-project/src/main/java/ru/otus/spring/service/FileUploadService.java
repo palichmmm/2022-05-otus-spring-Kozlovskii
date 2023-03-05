@@ -15,4 +15,6 @@ public interface FileUploadService {
     void deleteByFileName(String serverName);
 
     Resource downloadFile(String filename);
+
+    String outputFileName(String fileName);
 }

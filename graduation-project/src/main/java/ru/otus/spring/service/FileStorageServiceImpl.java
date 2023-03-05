@@ -44,9 +44,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     public Resource load(String filename) {
         try {
             Path file = rootLocation.resolve(filename);
-            Path file1 = rootLocation.resolve("mmm.mp3");
-            Files.copy(file, file1, StandardCopyOption.REPLACE_EXISTING);
-            Resource resource = new UrlResource(file1.toUri());
+            Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {

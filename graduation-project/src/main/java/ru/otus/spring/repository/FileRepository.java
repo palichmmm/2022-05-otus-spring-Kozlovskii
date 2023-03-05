@@ -9,7 +9,7 @@ public interface FileRepository extends MongoRepository<File, String> {
 
     boolean existsByOriginalNameAndUserName(String originalName, String userName);
 
-    File findByFileName(String fileName);
+    File findByFileNameAndUserName(String fileName, String userName);
 
     List<File> findAllByUserName(String userName);
 

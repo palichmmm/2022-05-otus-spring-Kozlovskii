@@ -28,10 +28,13 @@ public class SecurityConfiguration {
                                 // HomeController
                                 .antMatchers(HttpMethod.GET,"/", "/login").permitAll()
                                 // UploadController
-                                .antMatchers(HttpMethod.GET,"/upload/form", "/download/*").permitAll()
-                                .antMatchers(HttpMethod.POST, "/upload/form").permitAll()
-                                .antMatchers(HttpMethod.DELETE, "/upload/form/*").permitAll()
-                                // FileController
+                                .antMatchers(HttpMethod.GET,"/upload/form").permitAll()
+                                .antMatchers(HttpMethod.POST,"/upload/form").permitAll()
+                                .antMatchers(HttpMethod.DELETE,"/upload/form/*").permitAll()
+                                // DownloadController
+                                .antMatchers(HttpMethod.GET,"/download/*").permitAll()
+                                // NumberController
+                                .antMatchers(HttpMethod.GET,"/number/list").permitAll()
 //                        .antMatchers("/upload").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                 )

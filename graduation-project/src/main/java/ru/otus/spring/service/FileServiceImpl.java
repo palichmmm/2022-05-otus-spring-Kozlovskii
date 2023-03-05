@@ -23,6 +23,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public File findByFileNameAndUserName(String fileName) {
+        return fileRepository.findByFileNameAndUserName(fileName, getCurrentUsername());
+    }
+
+    @Override
     public List<File> findAllByUserName() {
         return fileRepository.findAllByUserName(getCurrentUsername());
     }

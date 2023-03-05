@@ -8,6 +8,8 @@ public interface FileService {
 
     File saveToDb(File file);
 
+    File findByFileNameAndUserName(String fileName);
+
     List<File> findAllByUserName();
 
     boolean existsByOriginalNameAndUserName(String originalName);

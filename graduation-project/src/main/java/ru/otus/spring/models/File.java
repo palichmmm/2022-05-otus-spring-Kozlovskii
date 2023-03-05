@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "files")
-public class File {
+public class File implements Comparable<File> {
     @Id
     private String id;
     private String serialNumber;
@@ -35,6 +35,13 @@ public class File {
         this.url = url;
         this.size = size;
         this.tagFile = tagFile;
+    }
+
+    public String getOutputNumberedFileName() {
+        if (serialNumber != null) {
+            return serialNumber + "_" + outputName + "." + extension;
+        }
+        return outputName + "." + extension;
     }
 
     public String getSizeFormat() {
@@ -66,5 +73,19 @@ public class File {
 
     public String getFullFileName() {
         return originalName + "." + extension;
+    }
+
+    @Override
+    public int compareTo(File file) {
+        if (this.getSerialNumber() != null && file.getSerialNumber() != null) {
+            return this.getSerialNumber().compareTo(file.getSerialNumber());
+        }
+        if (this.getSerialNumber() == null && file.getSerialNumber() != null) {
+            return 1;
+        }
+        if (this.getSerialNumber() != null) {
+            return -1;
+        }
+        return 0;
     }
 }

@@ -8,9 +8,11 @@
                 <th scope="col">#</th>
                 <th scope="col">Плеер</th>
                 <th scope="col">№</th>
-                <th scope="col">Имя</th>
+                <th scope="col">Название</th>
                 <th scope="col">Расширение</th>
+                <th scope="col">Длина</th>
                 <th scope="col">Размер</th>
+                <th scope="col">Битрейт</th>
                 <th scope="col">Действие</th>
             </tr>
             </thead>
@@ -24,7 +26,9 @@
                 <td th:text="${file.serialNumber}">001</td>
                 <td th:text="${file.outputName}">fileName</td>
                 <td th:text="${file.extension}">mp3</td>
+                <td th:text="${file.getPlayTime()}">1:23</td>
                 <td th:text="${file.getSizeFormat()}">1Mb</td>
+                <td th:text="${file.getBitrate()}">320 kbps</td>
                 <td>
                     <a class="ms-2 text-decoration-none" th:href="@{'/download/' + ${file.fileName}}">
                         <i class="bi bi-download text-secondary"></i>

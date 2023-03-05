@@ -49,9 +49,20 @@ public class File {
         }
     }
 
-    public String getLengthMp3Format() {
-        DecimalFormat df = new DecimalFormat("0:00");
-        return null;
+    public String getPlayTime() {
+        long seconds = tagFile.getPlayTime();
+        long sec = seconds % 60;
+        long min = (seconds % 3600) / 60;
+        long hour = seconds / 3600;
+        if (hour > 0)
+            return String.format("%2d:%02d:%02d", hour, min, sec);
+        else {
+            return String.format("%2d:%02d", min, sec);
+        }
+    }
+
+    public String getBitrate() {
+        return tagFile.getBitrate() + " kbps";
     }
 
     public String getFullFileName() {

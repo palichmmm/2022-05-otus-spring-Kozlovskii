@@ -23,6 +23,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public List<File> saveAllToDb(List<File> list) {
+        return fileRepository.saveAll(list);
+    }
+
+    @Override
     public File findByFileNameAndUserName(String fileName) {
         return fileRepository.findByFileNameAndUserName(fileName, getCurrentUsername());
     }

@@ -37,6 +37,14 @@ public class File implements Comparable<File> {
         this.tagFile = tagFile;
     }
 
+    public int getSerialNumberInt() {
+        try {
+            return Integer.parseInt(serialNumber);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     public String getOutputNumberedFileName() {
         if (serialNumber != null) {
             return serialNumber + "_" + outputName + "." + extension;

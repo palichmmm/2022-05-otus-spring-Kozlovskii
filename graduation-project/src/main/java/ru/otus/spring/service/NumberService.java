@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface NumberService {
 
-    List<File> detectAndReplaceNumberFile(List<File> fileList);
-    boolean isNumber(String str);
+    List<File> detectAndReplaceNumberFile(List<File> list);
+
+    List<File> renumbering(List<File> list);
+
 }

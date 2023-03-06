@@ -22,8 +22,10 @@ public class NumberController {
 
     @GetMapping("/number/list")
     public String uploadForm(Model model) {
-        List<File> fileList = numberService.detectAndReplaceNumberFile(fileService.findAllByUserName());
-
+        List<File> fileList = fileService.findAllByUserName();
+        numberService.detectAndReplaceNumberFile(fileList);
+        numberService.renumbering(fileList);
+        fileService.saveAllToDb(fileList);
         model.addAttribute("files", fileList);
         return "number/list";
     }

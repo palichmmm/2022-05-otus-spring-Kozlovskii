@@ -3,6 +3,8 @@ package ru.otus.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.spring.models.File;
 import ru.otus.spring.service.FileService;
 import ru.otus.spring.service.NumberService;
@@ -21,12 +23,24 @@ public class NumberController {
     }
 
     @GetMapping("/number/list")
-    public String uploadForm(Model model) {
+    public String numberListPage(Model model) {
         List<File> fileList = fileService.findAllByUserName();
         numberService.detectAndReplaceNumberFile(fileList);
         numberService.renumbering(fileList);
         fileService.saveAllToDb(fileList);
         model.addAttribute("files", fileList);
         return "number/list";
+    }
+
+    @PostMapping("/number/track")
+    public String numberTrack(@RequestParam("number") String number,
+                              @RequestParam("fileName") String fileName) {
+        File file = fileService.findByFileNameAndUserName(fileName);
+        File fileReplace = fileService.findBySerialNumberAndUserName(number);
+        fileReplace.setSerialNumber(file.getSerialNumber());
+        file.setSerialNumber(number);
+        fileService.saveToDb(fileReplace);
+        fileService.saveToDb(file);
+        return "redirect:/number/list";
     }
 }

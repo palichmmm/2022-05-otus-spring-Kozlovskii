@@ -33,6 +33,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public File findBySerialNumberAndUserName(String serialNumber) {
+        return fileRepository.findBySerialNumberAndUserName(serialNumber, getCurrentUsername());
+    }
+
+    @Override
     public List<File> findAllByUserName() {
         return fileRepository.findAllByUserName(getCurrentUsername());
     }

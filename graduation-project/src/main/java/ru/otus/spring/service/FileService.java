@@ -12,6 +12,8 @@ public interface FileService {
 
     File findByFileNameAndUserName(String fileName);
 
+    File findBySerialNumberAndUserName(String serialNumber);
+
     List<File> findAllByUserName();
 
     boolean existsByOriginalNameAndUserName(String originalName);

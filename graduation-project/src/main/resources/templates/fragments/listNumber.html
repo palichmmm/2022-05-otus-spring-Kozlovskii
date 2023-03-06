@@ -1,5 +1,5 @@
-<div th:fragment="list" class="container-fluid">
-    <h4 class="text-center">Коллекция всех загруженных файлов</h4>
+<div th:fragment="list-number" class="container-fluid">
+    <h4 class="text-center">Нумерованный лист загруженных файлов</h4>
 
     <div th:if="${files.size() > 0}">
         <table class="table table-striped">
@@ -17,20 +17,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="file, stat : ${files}">
-                <td th:text="${stat.count}">001</td>
+            <tr th:each="file, stat : ${files}" class="line" th:attr="data-line=${stat.count}">
+                <td th:text="${stat.count}">1</td>
                 <td>
                     <i class="bi bi-caret-right-fill play" role="button" th:attr="data-url=${file.url}"></i>
                     <i class="bi bi-pause-fill text-danger pause" role="button" style="display: none;"></i>
                 </td>
                 <td th:text="${file.serialNumber}">001</td>
-                <td th:text="${file.outputName}">fileName</td>
+                <td th:text="${file.outputName}" class="name" th:attr="data-serial-number=${file.serialNumber}">fileName</td>
                 <td th:text="${file.extension}">mp3</td>
                 <td th:text="${file.getPlayTime()}">1:23</td>
                 <td th:text="${file.getSizeFormat()}">1Mb</td>
                 <td th:text="${file.getBitrate()}">320 kbps</td>
                 <td>
-                    <a class="ms-2 text-decoration-none" th:href="@{'/download/' + ${file.fileName}}">
+                    <i class="ms-0 bi bi-arrow-down-up text-success goto" role="button"
+                       th:attr="data-label=${stat.count}"></i>
+                    <a class="ms-3 text-decoration-none" th:href="@{'/download/' + ${file.fileName}}">
                         <i class="bi bi-download text-secondary"></i>
                     </a>
                     <i class="ms-3 bi bi-trash text-danger delete" role="button"

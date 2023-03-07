@@ -25,16 +25,16 @@ public class File implements Comparable<File> {
     private String url;
     private long size;
     @DBRef
-    private TagFile tagFile;
+    private Tag tag;
 
-    public File(String originalName, String outputName, String fileName, String extension, String url, long size, TagFile tagFile) {
+    public File(String originalName, String outputName, String fileName, String extension, String url, long size, Tag tag) {
         this.originalName = originalName;
         this.outputName = outputName;
         this.fileName = fileName;
         this.extension = extension;
         this.url = url;
         this.size = size;
-        this.tagFile = tagFile;
+        this.tag = tag;
     }
 
     public int getSerialNumberInt() {
@@ -64,7 +64,7 @@ public class File implements Comparable<File> {
     }
 
     public String getPlayTime() {
-        long seconds = tagFile.getPlayTime();
+        long seconds = tag.getPlayTime();
         long sec = seconds % 60;
         long min = (seconds % 3600) / 60;
         long hour = seconds / 3600;
@@ -76,7 +76,7 @@ public class File implements Comparable<File> {
     }
 
     public String getBitrate() {
-        return tagFile.getBitrate() + " kbps";
+        return tag.getBitrate() + " kbps";
     }
 
     public String getFullFileName() {

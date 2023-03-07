@@ -2,6 +2,9 @@ package ru.otus.spring.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.models.File;
+
+import java.util.List;
 
 @Service
 public class DownloadServiceImpl implements DownloadService {
@@ -20,6 +23,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public Resource downloadAllFileZip() {
+        List<File> list = fileService.findAllByUserName();
         return null;
     }
 

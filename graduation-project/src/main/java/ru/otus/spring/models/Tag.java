@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "tags")
-public class TagFile {
+public class Tag {
     @Id
     private String id;
     private String fileName;

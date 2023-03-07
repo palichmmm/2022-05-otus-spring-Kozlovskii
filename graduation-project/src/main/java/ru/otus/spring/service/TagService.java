@@ -1,15 +1,15 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.models.TagFile;
+import ru.otus.spring.models.Tag;
 
 import java.nio.file.Path;
 
 public interface TagService {
-    TagFile saveTagToDb(TagFile tagFile);
+    Tag saveTagToDb(Tag tag);
 
-    void saveTagToFile(TagFile tagFile);
+    void saveTagToFile(Tag tag);
 
-    TagFile loadTagFromFile(Path path);
+    Tag loadTagFromFile(Path path);
 
     void clearTagToFile(String id);
 

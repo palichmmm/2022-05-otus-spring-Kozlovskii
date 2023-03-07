@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import ru.otus.spring.controller.DownloadController;
 import ru.otus.spring.models.File;
-import ru.otus.spring.models.TagFile;
+import ru.otus.spring.models.Tag;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,12 +37,12 @@ public class UploadServiceImpl implements UploadService {
                     String url = MvcUriComponentsBuilder.fromMethodName(DownloadController.class,
                             "downloadFile", path.getFileName().toString()).build().toString();
                     long size = Files.size(path);
-                    TagFile tagFile = tagService.loadTagFromFile(path);
-                    if (tagFile != null) {
-                        tagService.saveTagToDb(tagFile);
+                    Tag tag = tagService.loadTagFromFile(path);
+                    if (tag != null) {
+                        tagService.saveTagToDb(tag);
                     }
                     fileService.saveToDb(
-                            new File(baseName, baseName, randomFileName, extension, url, size, tagFile));
+                            new File(baseName, baseName, randomFileName, extension, url, size, tag));
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Не удалось сохранить файл!");

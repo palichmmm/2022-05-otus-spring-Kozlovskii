@@ -5,7 +5,10 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import ru.otus.spring.models.File;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -13,12 +16,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    private final Path rootLocation = Paths.get("./uploads");
+    private final Path rootLocation = Paths.get("uploads");
 
     @Override
     public void init() {
@@ -56,18 +62,24 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public Resource loadZip(String filename) {
-        try {
-            Path file = rootLocation.resolve(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("Не удалось прочитать файл!");
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
-        }
+    public StreamingResponseBody loadZip(List<File> fileList) {
+
+//            for (final File file : fileList) {
+//                Path path = this.rootLocation.resolve(file.getFileName());
+//                try (ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream()); InputStream inputStream = new FileInputStream(path.toString())) {
+//
+//                final ZipEntry zipEntry = new ZipEntry(file.getFileName());
+//                zipOut.putNextEntry(zipEntry);
+//                byte[] bytes=new byte[1024];
+//                int length;
+//                while ((length=inputStream.read(bytes)) >= 0) {
+//                    zipOut.write(bytes, 0, length);
+//                }
+//                } catch (final IOException e) {
+//                }
+//            }
+//            zipOut.close();
+return null;
     }
 
     @Override

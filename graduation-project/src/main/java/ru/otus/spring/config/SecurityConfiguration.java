@@ -30,7 +30,6 @@ public class SecurityConfiguration {
                                 // UploadController
                                 .antMatchers(HttpMethod.GET,"/upload/form").permitAll()
                                 .antMatchers(HttpMethod.POST,"/upload/form").permitAll()
-                                .antMatchers(HttpMethod.DELETE,"/upload/form/*").permitAll()
                                 // DownloadController
                                 .antMatchers(HttpMethod.GET,"/download/*").permitAll()
                                 // NumberController
@@ -38,7 +37,9 @@ public class SecurityConfiguration {
                                 .antMatchers(HttpMethod.POST,"/number/track").permitAll()
                                 // FormatController
                                 .antMatchers(HttpMethod.GET,"/format/*").permitAll()
-//                        .antMatchers("/upload").hasRole("ADMIN")
+                                // FileRestController
+                                .antMatchers(HttpMethod.GET,"/api/file").permitAll()
+                                .antMatchers(HttpMethod.DELETE,"/api/file/*").permitAll()
                                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

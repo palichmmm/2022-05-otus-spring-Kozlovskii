@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Форма загрузки файлов</title>
+    <title>Загрузка файлов</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
     <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
@@ -16,12 +16,17 @@
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container mt-5 pt-3">
+    <h1 class="text-center">Загрузка файлов</h1>
     <div class="col-auto">
         <div class="col pt-4">
+
             <div th:replace="fragments/uploadForm :: uploadForm"></div>
+
         </div>
         <div class="col pt-4">
-            <div th:replace="fragments/list :: list"></div>
+
+            <div th:replace="fragments/listUpload :: listUpload"></div>
+
         </div>
     </div>
 </div>
@@ -49,8 +54,8 @@
 
         // Удаление файла
         $('.delete').click(function () {
-            let fileName = $(this).data('file-name');
-            $.ajax('/upload/form/' + fileName, {
+            let id = $(this).data('id');
+            $.ajax('/api/file/' + id, {
                 type: 'DELETE',
                 success: function () {
                     window.location.replace("/upload/form");
@@ -63,16 +68,16 @@
         let url = '';
         $('.play').click('click', function () {
             if (url !== $(this).data('url')) {
-                $('.play[data-url="' + url + '"]').css('display', 'block').next().css('display', 'none');
+                $('.play[data-url="' + url + '"]').removeClass('d-none').next().addClass('d-none');
                 url = $(this).data('url');
                 myAudio.src = url;
             }
             myAudio.play();
-            $(this).css('display', 'none').next().css('display', 'block');
+            $(this).addClass('d-none').next().removeClass('d-none');
         });
         $('.pause').click(function () {
             myAudio.pause();
-            $(this).css('display', 'none').prev().css('display', 'block');
+            $(this).addClass('d-none').prev().removeClass('d-none');
         });
     });
 </script>

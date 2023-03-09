@@ -32,21 +32,21 @@ public class FormatController {
     @GetMapping("/format/uppercase")
     public String formatUppercase(Model model) {
         List<File> fileList = formatService.uppercaseNameFile(fileService.findAllByUserName());
-        model.addAttribute("files", fileService.saveAllToDb(fileList));
+        model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }
 
     @GetMapping("/format/camelcase")
     public String formatCamelcase(Model model) {
         List<File> fileList = formatService.camelcaseNameFile(fileService.findAllByUserName());
-        model.addAttribute("files", fileService.saveAllToDb(fileList));
+        model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }
 
     @GetMapping("/format/lowercase")
     public String formatLowercase(Model model) {
         List<File> fileList = formatService.lowercaseNameFile(fileService.findAllByUserName());
-        model.addAttribute("files", fileService.saveAllToDb(fileList));
+        model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }
 
@@ -59,7 +59,7 @@ public class FormatController {
             return "format/form";
         }
         List<File> fileList = formatService.changeTextNameFile(text, changeText, fileService.findAllByUserName());
-        model.addAttribute("files", fileService.saveAllToDb(fileList));
+        model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }
 

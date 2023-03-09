@@ -1,22 +1,25 @@
 package ru.otus.spring.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import ru.otus.spring.models.File;
 
 import java.util.List;
 
 public interface FileService {
 
-    File saveToDb(File file);
+    void uploads(MultipartFile[] files);
 
-    List<File> saveAllToDb(List<File> list);
+    List<File> findAll();
 
-    File findByFileNameAndUserName(String fileName);
+    void save(File file);
+
+    List<File> saveAll(List<File> list);
+
+    File findByFileName(String fileName);
 
     File findBySerialNumberAndUserName(String serialNumber);
 
     List<File> findAllByUserName();
 
-    boolean existsByOriginalNameAndUserName(String originalName);
-
-    void deleteByFileName(String fileName);
+    void deleteById(String id);
 }

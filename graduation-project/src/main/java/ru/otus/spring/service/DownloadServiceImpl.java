@@ -29,6 +29,6 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public String outputFileName(String realFileName) {
-        return fileService.findByFileNameAndUserName(realFileName).getOutputNumberedFileName();
+        return fileService.findByFileName(realFileName).getOutputNumberedFileName();
     }
 }

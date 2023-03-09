@@ -1,6 +1,5 @@
-<div th:fragment="list" class="container-fluid">
-    <h4 class="text-center">Коллекция всех загруженных файлов</h4>
-
+<div th:fragment="listUpload" class="container-fluid">
+    <h4 class="text-center">Список всех загруженных файлов</h4>
     <div th:if="${files.size() > 0}">
         <table class="table table-striped">
             <thead>
@@ -17,11 +16,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="file, stat : ${files}">
+            <tr th:each="file, stat : ${files}" th:id="${'tr_' + file.id}">
                 <td th:text="${stat.count}">001</td>
                 <td>
                     <i class="bi bi-caret-right-fill play" role="button" th:attr="data-url=${file.url}"></i>
-                    <i class="bi bi-pause-fill text-danger pause" role="button" style="display: none;"></i>
+                    <i class="bi bi-pause-fill text-danger pause d-none" role="button"></i>
                 </td>
                 <td th:text="${file.serialNumber}">001</td>
                 <td th:text="${file.outputName}">fileName</td>
@@ -34,13 +33,12 @@
                         <i class="bi bi-download text-secondary"></i>
                     </a>
                     <i class="ms-3 bi bi-trash text-danger delete" role="button"
-                       th:attr="data-file-name=${file.fileName}"></i>
+                       th:attr="data-id=${file.id}"></i>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-
     <div th:unless="${files.size() > 0}">
         <span>Файлов пока нет!</span>
     </div>

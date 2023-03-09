@@ -27,7 +27,7 @@ public class NumberController {
         List<File> fileList = fileService.findAllByUserName();
         numberService.detectAndReplaceNumberFile(fileList);
         numberService.renumbering(fileList);
-        fileService.saveAllToDb(fileList);
+        fileService.saveAll(fileList);
         model.addAttribute("files", fileList);
         return "number/list";
     }
@@ -35,12 +35,12 @@ public class NumberController {
     @PostMapping("/number/track")
     public String numberTrack(@RequestParam("number") String number,
                               @RequestParam("fileName") String fileName) {
-        File file = fileService.findByFileNameAndUserName(fileName);
+        File file = fileService.findByFileName(fileName);
         File fileReplace = fileService.findBySerialNumberAndUserName(number);
         fileReplace.setSerialNumber(file.getSerialNumber());
         file.setSerialNumber(number);
-        fileService.saveToDb(fileReplace);
-        fileService.saveToDb(file);
+        fileService.save(fileReplace);
+        fileService.save(file);
         return "redirect:/number/list";
     }
 }

@@ -3,29 +3,12 @@ package ru.otus.spring.service;
 import com.mpatric.mp3agic.*;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Tag;
-import ru.otus.spring.repository.TagRepository;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 @Service
 public class TagServiceImpl implements TagService {
-
-    private final TagRepository tagRepository;
-
-    public TagServiceImpl(TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
-    }
-
-    @Override
-    public Tag saveTagToDb(Tag tag) {
-        return tagRepository.save(tag);
-    }
-
-    @Override
-    public void saveTagToFile(Tag tag) {
-    }
-
     @Override
     public Tag loadTagFromFile(Path path) {
         try {
@@ -58,15 +41,5 @@ public class TagServiceImpl implements TagService {
         } catch (InvalidDataException | UnsupportedTagException | IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void clearTagToFile(String id) {
-
-    }
-
-    @Override
-    public void deleteByFileName(String fileName) {
-        tagRepository.deleteByFileName(fileName);
     }
 }

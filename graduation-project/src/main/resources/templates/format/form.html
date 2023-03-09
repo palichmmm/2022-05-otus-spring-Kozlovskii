@@ -44,27 +44,6 @@
             let label = $(this).data('label');
             let file = $(this).next().next().data('file-name');
             $(this).closest('.line').css('background-color', 'PaleGreen');
-            $('.name').hover(
-                function () {
-                    if ($(this).closest('.line').data('line') !== label) {
-                        $(this).css({'background-color': 'LightBlue', 'cursor': 'pointer'});
-                    }
-                },
-                function () {
-                    if ($(this).closest('.line').data('line') !== label) {
-                        $(this).css({'background-color': '', 'cursor': ''});
-                    }
-                }
-            ).on('click', function () {
-                let number = $(this).data('serial-number');
-                $.ajax('/number/track/', {
-                    type: 'POST',
-                    data: {'fileName': file, 'number': number},
-                    success: function () {
-                        window.location.replace("/number/list");
-                    }
-                });
-            });
         });
         // $('#input-file').change(function () {
         //   $('#loading').removeClass('d-none');

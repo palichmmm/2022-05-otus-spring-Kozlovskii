@@ -52,7 +52,7 @@ public class DownloadController {
 
     @GetMapping(value = "/download", produces="application/zip")
     public void download(final HttpServletResponse response) throws IOException {
-        List<File> list = fileService.findAllByUserName();
+        List<File> list = fileService.findAll();
         List<String> name = list.stream().map(File::getFileName).collect(Collectors.toList());
 //        Path rootLocation = Paths.get("./uploads");
 

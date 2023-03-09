@@ -83,11 +83,6 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<File> findAllByUserName() {
-        return fileRepository.findAll();
-    }
-
-    @Override
     public void deleteById(String id) {
         File file = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
         fileStorageService.delete(file.getFileName());

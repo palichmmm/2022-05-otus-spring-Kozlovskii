@@ -25,27 +25,27 @@ public class FormatController {
 
     @GetMapping("/format/form")
     public String formatPage(Model model) {
-        model.addAttribute("files", fileService.findAllByUserName());
+        model.addAttribute("files", fileService.findAll());
         return "format/form";
     }
 
     @GetMapping("/format/uppercase")
     public String formatUppercase(Model model) {
-        List<File> fileList = formatService.uppercaseNameFile(fileService.findAllByUserName());
+        List<File> fileList = formatService.uppercaseNameFile(fileService.findAll());
         model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }
 
     @GetMapping("/format/camelcase")
     public String formatCamelcase(Model model) {
-        List<File> fileList = formatService.camelcaseNameFile(fileService.findAllByUserName());
+        List<File> fileList = formatService.camelcaseNameFile(fileService.findAll());
         model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }
 
     @GetMapping("/format/lowercase")
     public String formatLowercase(Model model) {
-        List<File> fileList = formatService.lowercaseNameFile(fileService.findAllByUserName());
+        List<File> fileList = formatService.lowercaseNameFile(fileService.findAll());
         model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }
@@ -55,10 +55,10 @@ public class FormatController {
                                      @ModelAttribute("changeText") String changeText,
                                      BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("files", fileService.findAllByUserName());
+            model.addAttribute("files", fileService.findAll());
             return "format/form";
         }
-        List<File> fileList = formatService.changeTextNameFile(text, changeText, fileService.findAllByUserName());
+        List<File> fileList = formatService.changeTextNameFile(text, changeText, fileService.findAll());
         model.addAttribute("files", fileService.saveAll(fileList));
         return "format/form";
     }

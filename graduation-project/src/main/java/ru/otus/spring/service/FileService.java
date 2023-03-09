@@ -19,7 +19,5 @@ public interface FileService {
 
     File findBySerialNumberAndUserName(String serialNumber);
 
-    List<File> findAllByUserName();
-
     void deleteById(String id);
 }

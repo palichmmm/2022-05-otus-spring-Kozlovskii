@@ -23,7 +23,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public Resource downloadAllFileZip() {
-        List<File> list = fileService.findAllByUserName();
+        List<File> list = fileService.findAll();
         return null;
     }
 

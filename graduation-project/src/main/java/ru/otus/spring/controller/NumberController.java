@@ -24,7 +24,7 @@ public class NumberController {
 
     @GetMapping("/number/list")
     public String numberListPage(Model model) {
-        List<File> fileList = fileService.findAllByUserName();
+        List<File> fileList = fileService.findAll();
         numberService.detectAndReplaceNumberFile(fileList);
         numberService.renumbering(fileList);
         fileService.saveAll(fileList);

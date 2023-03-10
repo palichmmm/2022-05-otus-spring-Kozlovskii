@@ -32,15 +32,16 @@ public class NumberController {
         return "number/list";
     }
 
-    @PostMapping("/number/track")
-    public String numberTrack(@RequestParam("number") String number,
-                              @RequestParam("fileName") String fileName) {
-        File file = fileService.findByFileName(fileName);
-        File fileReplace = fileService.findBySerialNumberAndUserName(number);
-        fileReplace.setSerialNumber(file.getSerialNumber());
-        file.setSerialNumber(number);
-        fileService.save(fileReplace);
-        fileService.save(file);
-        return "redirect:/number/list";
-    }
+//    @PostMapping("/number/track")
+//    public String numberTrack(@RequestParam("id") String id,
+//                              @RequestParam("idToStart") String idToStart) {
+//        File file = fileService.findById(id);
+//        File fileReplace = fileService.findById(idToStart);
+//        String serialNumber = file.getSerialNumber();
+//        file.setSerialNumber(fileReplace.getSerialNumber());
+//        fileReplace.setSerialNumber(serialNumber);
+//        fileService.save(fileReplace);
+//        fileService.save(file);
+//        return "redirect:/number/list";
+//    }
 }

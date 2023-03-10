@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                                 .antMatchers(HttpMethod.GET,"/format/*").permitAll()
                                 // FileRestController
                                 .antMatchers(HttpMethod.GET,"/api/file").permitAll()
+                                .antMatchers(HttpMethod.PUT,"/api/file").permitAll()
                                 .antMatchers(HttpMethod.DELETE,"/api/file/*").permitAll()
                                 .anyRequest().permitAll()
                 )

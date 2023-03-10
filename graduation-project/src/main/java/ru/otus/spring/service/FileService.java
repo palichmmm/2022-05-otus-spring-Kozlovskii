@@ -9,6 +9,8 @@ public interface FileService {
 
     void uploads(MultipartFile[] files);
 
+    File findById(String id);
+
     List<File> findAll();
 
     void save(File file);
@@ -17,7 +19,7 @@ public interface FileService {
 
     File findByFileName(String fileName);
 
-    File findBySerialNumberAndUserName(String serialNumber);
+    List<File> changePositionFile(String id, String idToStart);
 
     void deleteById(String id);
 }

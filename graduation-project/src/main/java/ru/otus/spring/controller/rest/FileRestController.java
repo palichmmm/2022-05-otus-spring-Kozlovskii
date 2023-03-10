@@ -1,12 +1,10 @@
 package ru.otus.spring.controller.rest;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.File;
 import ru.otus.spring.service.FileService;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -24,5 +22,10 @@ public class FileRestController {
     @DeleteMapping("/api/file/{id}")
     public void deleteById(@PathVariable String id) {
         fileService.deleteById(id);
+    }
+
+    @PutMapping("/api/file")
+    public List<File> changePositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
+        return fileService.changePositionFile(id, idToStart);
     }
 }

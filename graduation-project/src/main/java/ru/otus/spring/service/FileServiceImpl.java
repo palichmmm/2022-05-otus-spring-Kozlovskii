@@ -14,6 +14,7 @@ import ru.otus.spring.repository.TagRepository;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,6 +58,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public File findById(String id) {
+        return fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+    }
+
+    @Override
     public List<File> findAll() {
         return fileRepository.findAll();
     }
@@ -78,8 +84,17 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File findBySerialNumberAndUserName(String serialNumber) {
-        return fileRepository.findBySerialNumberAndUserName(serialNumber, getCurrentUsername());
+    public List<File> changePositionFile(String id, String idToStart) {
+        File file = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        File fileReplace = fileRepository.findById(idToStart).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        String serialNumber = file.getSerialNumber();
+        file.setSerialNumber(fileReplace.getSerialNumber());
+        fileReplace.setSerialNumber(serialNumber);
+        fileRepository.save(fileReplace);
+        fileRepository.save(file);
+        List<File> list = fileRepository.findAll();
+        Collections.sort(list);
+        return list;
     }
 
     @Override

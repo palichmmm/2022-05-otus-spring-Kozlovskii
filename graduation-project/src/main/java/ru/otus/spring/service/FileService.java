@@ -21,5 +21,7 @@ public interface FileService {
 
     List<File> changePositionFile(String id, String idToStart);
 
+    List<File> betweenPositionFile(String id, String idToStart);
+
     void deleteById(String id);
 }

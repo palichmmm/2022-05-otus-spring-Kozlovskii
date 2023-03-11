@@ -6,7 +6,7 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Нумерация файлов</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
     <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
     <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
@@ -39,12 +39,12 @@
             xhr.setRequestHeader(header, token);
         });
 
-        // Запуск процесса перемещения
+        // Запуск процесса замены места двух треков
         $('#t_body').on('click', '.goto', function () {
             $(this).off("click");
             let id = $(this).data('id');
             $('#' + id ).css('background-color', 'PaleGreen');
-            $('.name').hover(
+            $('#t_body .name').hover(
                 function () {
                     if ($(this).data('id') !== id) {
                         $(this).css({'background-color': 'LightBlue', 'cursor': 'pointer'});
@@ -61,32 +61,35 @@
                     type: 'PUT',
                     data: {'id': id, 'idToStart': idToStart},
                     success: function (res) {
-                        if (res.length > 0) {
-                            $('#t_body').empty();
-                            let i = 1;
-                            for (let file of res) {
-                                let link = $('<a class="ms-3 text-decoration-none" href="/download/' + file['fileName'] + '"></a>')
-                                    .append('<i class="bi bi-download text-secondary"></i>');
-                                let tdPlay = $('<td></td>')
-                                    .append('<i class="bi bi-caret-right-fill play" role="button" data-url="' + file['url'] + '"></i>')
-                                    .append('<i class="bi bi-pause-fill text-danger pause d-none" role="button"></i>');
-                                let tdAction = $('<td></td>')
-                                    .append('<i class="ms-0 bi bi-arrow-down-up text-success goto" role="button" data-id="' + file['id'] + '"></i>')
-                                    .append(link)
-                                    .append('<i class="ms-3 bi bi-trash text-danger delete" role="button" data-id="' + file['id'] + '"></i>');
-                                let creatTableLine = $('<tr id="' + file['id'] + '" className="line"></tr>')
-                                    .append('<td>' + i++ + '</td>')
-                                    .append(tdPlay)
-                                    .append('<td>' + file['serialNumber'] + '</td>')
-                                    .append('<td class="name" data-id="' + file['id'] + '">' + file['outputName'] + '</td>')
-                                    .append('<td>' + file['extension'] + '</td>')
-                                    .append('<td>' + playTimeFile(file['tag']['playTime']) + '</td>')
-                                    .append('<td>' + sizeFileFormat(file['size']) + '</td>')
-                                    .append('<td>' + file['tag']['bitrate'] + ' kbps</td>')
-                                    .append(tdAction);
-                                $('#t_body').append(creatTableLine);
-                            }
-                        }
+                        createTableRow(res);
+                    }
+                });
+            });
+        });
+
+        // Запуск процесса вставки между треков
+        $('#t_body').on('click', '.between', function () {
+            $(this).off("click");
+            let id = $(this).data('id');
+            $('#' + id ).css('background-color', 'LightCyan');
+            $('#t_body .name').hover(
+                function () {
+                    if ($(this).data('id') !== id) {
+                        $(this).css({'background-color': 'LightBlue', 'cursor': 'pointer'});
+                    }
+                },
+                function () {
+                    if ($(this).data('id') !== id) {
+                        $(this).css({'background-color': '', 'cursor': ''});
+                    }
+                }
+            ).on('click', function () {
+                let idToStart = $(this).data('id');
+                $.ajax('/api/file', {
+                    type: 'PATCH',
+                    data: {'id': id, 'idToStart': idToStart},
+                    success: function (res) {
+                        createTableRow(res);
                     }
                 });
             });

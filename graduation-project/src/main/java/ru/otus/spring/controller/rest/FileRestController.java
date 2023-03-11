@@ -28,4 +28,9 @@ public class FileRestController {
     public List<File> changePositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
         return fileService.changePositionFile(id, idToStart);
     }
+
+    @PatchMapping("/api/file")
+    public List<File> betweenPositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
+        return fileService.betweenPositionFile(id, idToStart);
+    }
 }

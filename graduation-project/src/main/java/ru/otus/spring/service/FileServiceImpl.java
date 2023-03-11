@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -95,6 +96,39 @@ public class FileServiceImpl implements FileService {
         List<File> list = fileRepository.findAll();
         Collections.sort(list);
         return list;
+    }
+
+    @Override
+    public List<File> betweenPositionFile(String id, String idToStart) {
+        File positionFile = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        File newPositionFile = fileRepository.findById(idToStart).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        int fromPosition = positionFile.getSerialNumberInt();
+        int newPosition = newPositionFile.getSerialNumberInt();
+        List<File> list = fileRepository.findAll();
+        int listSize = list.size();
+        String pattern = "%0" + String.valueOf(listSize).length() + "d";
+        List<File> newList = list.stream()
+                .peek(file -> {
+                    int number = file.getSerialNumberInt();
+                    if (number < fromPosition && number < newPosition) {
+                        return;
+                    }
+                    if (number == fromPosition) {
+                        file.setSerialNumber(String.format(pattern, newPosition));
+                        return;
+                    }
+                    if (fromPosition < newPosition) {
+                        if (number <= newPosition) {
+                            file.setSerialNumber(String.format(pattern, file.getSerialNumberInt() - 1));
+                        }
+                    } else {
+                        if (number < fromPosition) {
+                            file.setSerialNumber(String.format(pattern, file.getSerialNumberInt() + 1));
+                        }
+                    }
+                }).sorted().collect(Collectors.toList());
+        fileRepository.saveAll(newList);
+        return newList;
     }
 
     @Override

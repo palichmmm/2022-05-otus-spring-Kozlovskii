@@ -29,13 +29,12 @@
                 <td th:text="${file.getSizeFormat()}">1Mb</td>
                 <td th:text="${file.getBitrate()}">320 kbps</td>
                 <td>
-                    <i class="ms-0 bi bi-arrow-down-up text-success goto" role="button"
-                       th:attr="data-id=${file.id}"></i>
+                    <i class="ms-0 bi bi-arrows-expand text-info between" role="button" th:attr="data-id=${file.id}"></i>
+                    <i class="ms-2 bi bi-arrow-down-up text-success goto" role="button" th:attr="data-id=${file.id}"></i>
                     <a class="ms-3 text-decoration-none" th:href="@{'/download/' + ${file.fileName}}">
                         <i class="bi bi-download text-secondary"></i>
                     </a>
-                    <i class="ms-3 bi bi-trash text-danger delete" role="button"
-                       th:attr="data-id=${file.id}"></i>
+                    <i class="ms-2 bi bi-trash text-danger delete" role="button" th:attr="data-id=${file.id}"></i>
                 </td>
             </tr>
             </tbody>

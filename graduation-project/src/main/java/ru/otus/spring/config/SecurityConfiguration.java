@@ -24,7 +24,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers(HttpMethod.GET,"/webjars/**", "/img/*").permitAll()
+                                .antMatchers(HttpMethod.GET,"/webjars/**", "/img/*", "/js/*").permitAll()
                                 // HomeController
                                 .antMatchers(HttpMethod.GET,"/", "/login").permitAll()
                                 // UploadController
@@ -40,8 +40,9 @@ public class SecurityConfiguration {
                                 // FileRestController
                                 .antMatchers(HttpMethod.GET,"/api/file").permitAll()
                                 .antMatchers(HttpMethod.PUT,"/api/file").permitAll()
+                                .antMatchers(HttpMethod.PATCH,"/api/file").permitAll()
                                 .antMatchers(HttpMethod.DELETE,"/api/file/*").permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

@@ -10,6 +10,7 @@ import ru.otus.spring.models.File;
 import ru.otus.spring.service.FileService;
 import ru.otus.spring.service.FormatService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,9 @@ public class FormatController {
 
     @GetMapping("/format/form")
     public String formatPage(Model model) {
-        model.addAttribute("files", fileService.findAll());
+        List<File> list = fileService.findAll();
+        Collections.sort(list);
+        model.addAttribute("files", list);
         return "format/form";
     }
 

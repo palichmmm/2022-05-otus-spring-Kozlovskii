@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                                 .antMatchers(HttpMethod.POST,"/number/track").permitAll()
                                 // FormatController
                                 .antMatchers(HttpMethod.GET,"/format/*").permitAll()
+                                .antMatchers(HttpMethod.POST,"/format/form").permitAll()
                                 // FileRestController
                                 .antMatchers(HttpMethod.GET,"/api/file").permitAll()
                                 .antMatchers(HttpMethod.PUT,"/api/file").permitAll()

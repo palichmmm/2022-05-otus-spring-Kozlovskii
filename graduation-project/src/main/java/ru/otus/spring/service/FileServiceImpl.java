@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import ru.otus.spring.controller.DownloadController;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 import ru.otus.spring.models.Tag;
 import ru.otus.spring.repository.FileRepository;
 import ru.otus.spring.repository.TagRepository;
@@ -50,7 +50,7 @@ public class FileServiceImpl implements FileService {
                     if (tag != null) {
                         tagRepository.save(tag);
                     }
-                    fileRepository.save(new File(baseName, baseName, randomFileName, extension, url, size, tag));
+                    fileRepository.save(new Mp3FileDescriptor(baseName, baseName, randomFileName, extension, url, size, tag));
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Не удалось сохранить файл!");
@@ -59,55 +59,55 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File findById(String id) {
+    public Mp3FileDescriptor findById(String id) {
         return fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
     }
 
     @Override
-    public List<File> findAll() {
+    public List<Mp3FileDescriptor> findAll() {
         return fileRepository.findAll();
     }
 
     @Override
-    public void save(File file) {
-        file.setUserName(getCurrentUsername());
-        fileRepository.save(file);
+    public void save(Mp3FileDescriptor mp3FileDescriptor) {
+        mp3FileDescriptor.setUserName(getCurrentUsername());
+        fileRepository.save(mp3FileDescriptor);
     }
 
     @Override
-    public List<File> saveAll(List<File> list) {
+    public List<Mp3FileDescriptor> saveAll(List<Mp3FileDescriptor> list) {
         return fileRepository.saveAll(list);
     }
 
     @Override
-    public File findByFileName(String fileName) {
+    public Mp3FileDescriptor findByFileName(String fileName) {
         return fileRepository.findByFileName(fileName);
     }
 
     @Override
-    public List<File> changePositionFile(String id, String idToStart) {
-        File file = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
-        File fileReplace = fileRepository.findById(idToStart).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
-        String serialNumber = file.getSerialNumber();
-        file.setSerialNumber(fileReplace.getSerialNumber());
-        fileReplace.setSerialNumber(serialNumber);
-        fileRepository.save(fileReplace);
-        fileRepository.save(file);
-        List<File> list = fileRepository.findAll();
+    public List<Mp3FileDescriptor> changePositionFile(String id, String idToStart) {
+        Mp3FileDescriptor mp3FileDescriptor = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        Mp3FileDescriptor mp3FileDescriptorReplace = fileRepository.findById(idToStart).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        String serialNumber = mp3FileDescriptor.getSerialNumber();
+        mp3FileDescriptor.setSerialNumber(mp3FileDescriptorReplace.getSerialNumber());
+        mp3FileDescriptorReplace.setSerialNumber(serialNumber);
+        fileRepository.save(mp3FileDescriptorReplace);
+        fileRepository.save(mp3FileDescriptor);
+        List<Mp3FileDescriptor> list = fileRepository.findAll();
         Collections.sort(list);
         return list;
     }
 
     @Override
-    public List<File> betweenPositionFile(String id, String idToStart) {
-        File positionFile = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
-        File newPositionFile = fileRepository.findById(idToStart).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
-        int fromPosition = positionFile.getSerialNumberInt();
-        int newPosition = newPositionFile.getSerialNumberInt();
-        List<File> list = fileRepository.findAll();
+    public List<Mp3FileDescriptor> betweenPositionFile(String id, String idToStart) {
+        Mp3FileDescriptor positionMp3FileDescriptor = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        Mp3FileDescriptor newPositionMp3FileDescriptor = fileRepository.findById(idToStart).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        int fromPosition = positionMp3FileDescriptor.getSerialNumberInt();
+        int newPosition = newPositionMp3FileDescriptor.getSerialNumberInt();
+        List<Mp3FileDescriptor> list = fileRepository.findAll();
         int listSize = list.size();
         String pattern = "%0" + String.valueOf(listSize).length() + "d";
-        List<File> newList = list.stream()
+        List<Mp3FileDescriptor> newList = list.stream()
                 .peek(file -> {
                     int number = file.getSerialNumberInt();
                     if (number < fromPosition && number < newPosition) {
@@ -133,9 +133,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void deleteById(String id) {
-        File file = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
-        fileStorageService.delete(file.getFileName());
-        tagRepository.deleteById(file.getTag().getId());
+        Mp3FileDescriptor mp3FileDescriptor = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
+        fileStorageService.delete(mp3FileDescriptor.getFileName());
+        tagRepository.deleteById(mp3FileDescriptor.getTag().getId());
         fileRepository.deleteById(id);
     }
 

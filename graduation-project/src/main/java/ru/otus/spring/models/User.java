@@ -26,13 +26,13 @@ public class User {
 
     private Set<String> authorities;
 
-    private Boolean accountNonExpired;
+    private boolean accountNonExpired;
 
-    private Boolean accountNonLocked;
+    private boolean accountNonLocked;
 
-    private Boolean credentialsNonExpired;
+    private boolean credentialsNonExpired;
 
-    private Boolean enabled;
+    private boolean enabled;
 
     public User(String userName, String password, String role, Set<String> authorities, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {
         this.userName = userName;

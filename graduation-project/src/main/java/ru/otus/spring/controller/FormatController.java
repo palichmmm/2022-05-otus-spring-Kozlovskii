@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 import ru.otus.spring.service.FileService;
 import ru.otus.spring.service.FormatService;
 
@@ -26,7 +26,7 @@ public class FormatController {
 
     @GetMapping("/format/form")
     public String formatPage(Model model) {
-        List<File> list = fileService.findAll();
+        List<Mp3FileDescriptor> list = fileService.findAll();
         Collections.sort(list);
         model.addAttribute("files", list);
         return "format/form";
@@ -34,22 +34,22 @@ public class FormatController {
 
     @GetMapping("/format/uppercase")
     public String formatUppercase(Model model) {
-        List<File> fileList = formatService.uppercaseNameFile(fileService.findAll());
-        model.addAttribute("files", fileService.saveAll(fileList));
+        List<Mp3FileDescriptor> mp3FileDescriptorList = formatService.uppercaseNameFile(fileService.findAll());
+        model.addAttribute("files", fileService.saveAll(mp3FileDescriptorList));
         return "format/form";
     }
 
     @GetMapping("/format/camelcase")
     public String formatCamelcase(Model model) {
-        List<File> fileList = formatService.camelcaseNameFile(fileService.findAll());
-        model.addAttribute("files", fileService.saveAll(fileList));
+        List<Mp3FileDescriptor> mp3FileDescriptorList = formatService.camelcaseNameFile(fileService.findAll());
+        model.addAttribute("files", fileService.saveAll(mp3FileDescriptorList));
         return "format/form";
     }
 
     @GetMapping("/format/lowercase")
     public String formatLowercase(Model model) {
-        List<File> fileList = formatService.lowercaseNameFile(fileService.findAll());
-        model.addAttribute("files", fileService.saveAll(fileList));
+        List<Mp3FileDescriptor> mp3FileDescriptorList = formatService.lowercaseNameFile(fileService.findAll());
+        model.addAttribute("files", fileService.saveAll(mp3FileDescriptorList));
         return "format/form";
     }
 
@@ -61,8 +61,8 @@ public class FormatController {
             model.addAttribute("files", fileService.findAll());
             return "format/form";
         }
-        List<File> fileList = formatService.changeTextNameFile(text, changeText, fileService.findAll());
-        model.addAttribute("files", fileService.saveAll(fileList));
+        List<Mp3FileDescriptor> mp3FileDescriptorList = formatService.changeTextNameFile(text, changeText, fileService.findAll());
+        model.addAttribute("files", fileService.saveAll(mp3FileDescriptorList));
         return "format/form";
     }
 

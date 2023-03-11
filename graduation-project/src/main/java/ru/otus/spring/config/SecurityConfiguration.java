@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                                 // FormatController
                                 .antMatchers(HttpMethod.GET,"/format/*").permitAll()
                                 .antMatchers(HttpMethod.POST,"/format/form").permitAll()
-                                // FileRestController
+                                // Mp3FileDescriptorRestController
                                 .antMatchers(HttpMethod.GET,"/api/file").permitAll()
                                 .antMatchers(HttpMethod.PUT,"/api/file").permitAll()
                                 .antMatchers(HttpMethod.PATCH,"/api/file").permitAll()

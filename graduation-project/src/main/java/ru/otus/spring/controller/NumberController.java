@@ -3,9 +3,7 @@ package ru.otus.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 import ru.otus.spring.service.FileService;
 import ru.otus.spring.service.NumberService;
 
@@ -24,19 +22,19 @@ public class NumberController {
 
     @GetMapping("/number/list")
     public String numberListPage(Model model) {
-        List<File> fileList = fileService.findAll();
-        numberService.detectAndReplaceNumberFile(fileList);
-        numberService.renumbering(fileList);
-        fileService.saveAll(fileList);
-        model.addAttribute("files", fileList);
+        List<Mp3FileDescriptor> mp3FileDescriptorList = fileService.findAll();
+        numberService.detectAndReplaceNumberFile(mp3FileDescriptorList);
+        numberService.renumbering(mp3FileDescriptorList);
+        fileService.saveAll(mp3FileDescriptorList);
+        model.addAttribute("files", mp3FileDescriptorList);
         return "number/list";
     }
 
 //    @PostMapping("/number/track")
 //    public String numberTrack(@RequestParam("id") String id,
 //                              @RequestParam("idToStart") String idToStart) {
-//        File file = fileService.findById(id);
-//        File fileReplace = fileService.findById(idToStart);
+//        Mp3FileDescriptor file = fileService.findById(id);
+//        Mp3FileDescriptor fileReplace = fileService.findById(idToStart);
 //        String serialNumber = file.getSerialNumber();
 //        file.setSerialNumber(fileReplace.getSerialNumber());
 //        fileReplace.setSerialNumber(serialNumber);

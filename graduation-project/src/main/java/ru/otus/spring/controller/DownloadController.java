@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 import ru.otus.spring.service.DownloadService;
 import ru.otus.spring.service.FileService;
 
@@ -52,8 +52,8 @@ public class DownloadController {
 
     @GetMapping(value = "/download", produces="application/zip")
     public void download(final HttpServletResponse response) throws IOException {
-        List<File> list = fileService.findAll();
-        List<String> name = list.stream().map(File::getFileName).collect(Collectors.toList());
+        List<Mp3FileDescriptor> list = fileService.findAll();
+        List<String> name = list.stream().map(Mp3FileDescriptor::getFileName).collect(Collectors.toList());
 //        Path rootLocation = Paths.get("./uploads");
 
         ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream());

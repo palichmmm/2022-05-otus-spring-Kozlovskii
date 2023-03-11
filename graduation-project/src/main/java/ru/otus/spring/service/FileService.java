@@ -1,7 +1,7 @@
 package ru.otus.spring.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 
 import java.util.List;
 
@@ -9,19 +9,19 @@ public interface FileService {
 
     void uploads(MultipartFile[] files);
 
-    File findById(String id);
+    Mp3FileDescriptor findById(String id);
 
-    List<File> findAll();
+    List<Mp3FileDescriptor> findAll();
 
-    void save(File file);
+    void save(Mp3FileDescriptor mp3FileDescriptor);
 
-    List<File> saveAll(List<File> list);
+    List<Mp3FileDescriptor> saveAll(List<Mp3FileDescriptor> list);
 
-    File findByFileName(String fileName);
+    Mp3FileDescriptor findByFileName(String fileName);
 
-    List<File> changePositionFile(String id, String idToStart);
+    List<Mp3FileDescriptor> changePositionFile(String id, String idToStart);
 
-    List<File> betweenPositionFile(String id, String idToStart);
+    List<Mp3FileDescriptor> betweenPositionFile(String id, String idToStart);
 
     void deleteById(String id);
 }

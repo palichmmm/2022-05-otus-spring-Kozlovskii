@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,9 +58,9 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public StreamingResponseBody loadZip(List<File> fileList) {
+    public StreamingResponseBody loadZip(List<Mp3FileDescriptor> mp3FileDescriptorList) {
 
-//            for (final File file : fileList) {
+//            for (final Mp3FileDescriptor file : mp3FileDescriptorList) {
 //                Path path = this.rootLocation.resolve(file.getFileName());
 //                try (ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream()); InputStream inputStream = new FileInputStream(path.toString())) {
 //

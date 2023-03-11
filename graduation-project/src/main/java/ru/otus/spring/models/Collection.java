@@ -19,5 +19,5 @@ public class Collection {
     private String name;
     private String user;
     @DBRef
-    private List<File> list;
+    private List<Mp3FileDescriptor> list;
 }

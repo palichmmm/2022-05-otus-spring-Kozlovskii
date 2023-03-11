@@ -2,7 +2,7 @@ package ru.otus.spring.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public Resource downloadAllFileZip() {
-        List<File> list = fileService.findAll();
+        List<Mp3FileDescriptor> list = fileService.findAll();
         return null;
     }
 

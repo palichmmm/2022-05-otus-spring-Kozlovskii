@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "files")
-public class File implements Comparable<File> {
+public class Mp3FileDescriptor implements Comparable<Mp3FileDescriptor> {
     @Id
     private String id;
     private String serialNumber;
@@ -27,7 +27,7 @@ public class File implements Comparable<File> {
     @DBRef
     private Tag tag;
 
-    public File(String originalName, String outputName, String fileName, String extension, String url, long size, Tag tag) {
+    public Mp3FileDescriptor(String originalName, String outputName, String fileName, String extension, String url, long size, Tag tag) {
         this.originalName = originalName;
         this.outputName = outputName;
         this.fileName = fileName;
@@ -84,11 +84,11 @@ public class File implements Comparable<File> {
     }
 
     @Override
-    public int compareTo(File file) {
-        if (this.getSerialNumber() != null && file.getSerialNumber() != null) {
-            return this.getSerialNumber().compareTo(file.getSerialNumber());
+    public int compareTo(Mp3FileDescriptor mp3FileDescriptor) {
+        if (this.getSerialNumber() != null && mp3FileDescriptor.getSerialNumber() != null) {
+            return this.getSerialNumber().compareTo(mp3FileDescriptor.getSerialNumber());
         }
-        if (this.getSerialNumber() == null && file.getSerialNumber() != null) {
+        if (this.getSerialNumber() == null && mp3FileDescriptor.getSerialNumber() != null) {
             return 1;
         }
         if (this.getSerialNumber() != null) {

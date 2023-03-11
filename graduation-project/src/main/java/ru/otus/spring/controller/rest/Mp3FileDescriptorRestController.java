@@ -1,22 +1,21 @@
 package ru.otus.spring.controller.rest;
 
 import org.springframework.web.bind.annotation.*;
-import ru.otus.spring.models.File;
+import ru.otus.spring.models.Mp3FileDescriptor;
 import ru.otus.spring.service.FileService;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
-public class FileRestController {
+public class Mp3FileDescriptorRestController {
     private final FileService fileService;
 
-    public FileRestController(FileService fileService) {
+    public Mp3FileDescriptorRestController(FileService fileService) {
         this.fileService = fileService;
     }
 
     @GetMapping("/api/file")
-    public List<File> getAllFile() {
+    public List<Mp3FileDescriptor> getAllFile() {
         return fileService.findAll();
     }
     @DeleteMapping("/api/file/{id}")
@@ -25,12 +24,12 @@ public class FileRestController {
     }
 
     @PutMapping("/api/file")
-    public List<File> changePositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
+    public List<Mp3FileDescriptor> changePositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
         return fileService.changePositionFile(id, idToStart);
     }
 
     @PatchMapping("/api/file")
-    public List<File> betweenPositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
+    public List<Mp3FileDescriptor> betweenPositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
         return fileService.betweenPositionFile(id, idToStart);
     }
 }

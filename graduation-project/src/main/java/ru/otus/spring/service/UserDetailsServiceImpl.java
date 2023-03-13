@@ -32,10 +32,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getPassword(),
-                user.getEnabled(),
-                user.getAccountNonExpired(),
-                user.getAccountNonLocked(),
-                user.getCredentialsNonExpired(),
+                user.isEnabled(),
+                user.isAccountNonExpired(),
+                user.isAccountNonLocked(),
+                user.isCredentialsNonExpired(),
                 grantedAuthorities);
     }
 }

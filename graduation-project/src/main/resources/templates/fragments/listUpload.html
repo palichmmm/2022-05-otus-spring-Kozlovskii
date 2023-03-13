@@ -22,7 +22,7 @@
                     <i class="bi bi-caret-right-fill play" role="button" th:attr="data-url=${file.url}"></i>
                     <i class="bi bi-pause-fill text-danger pause d-none" role="button"></i>
                 </td>
-                <td th:text="${file.serialNumber}">001</td>
+                <td th:text="${file.position}">001</td>
                 <td th:text="${file.outputName}">fileName</td>
                 <td th:text="${file.extension}">mp3</td>
                 <td th:text="${file.getPlayTime()}">1:23</td>

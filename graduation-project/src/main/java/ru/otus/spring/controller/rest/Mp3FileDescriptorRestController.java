@@ -22,14 +22,4 @@ public class Mp3FileDescriptorRestController {
     public void deleteById(@PathVariable String id) {
         fileService.deleteById(id);
     }
-
-    @PutMapping("/api/file")
-    public List<Mp3FileDescriptor> changePositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
-        return fileService.changePositionFile(id, idToStart);
-    }
-
-    @PatchMapping("/api/file")
-    public List<Mp3FileDescriptor> betweenPositionFile(@RequestParam("id") String id, @RequestParam("idToStart") String idToStart) {
-        return fileService.betweenPositionFile(id, idToStart);
-    }
 }

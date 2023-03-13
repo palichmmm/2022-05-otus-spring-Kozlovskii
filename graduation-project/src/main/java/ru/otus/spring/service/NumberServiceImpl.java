@@ -14,16 +14,16 @@ public class NumberServiceImpl implements NumberService {
     @Override
     public List<Mp3FileDescriptor> detectAndReplaceNumberFile(List<Mp3FileDescriptor> mp3FileDescriptorList) {
         for (Mp3FileDescriptor mp3FileDescriptor : mp3FileDescriptorList) {
-            if (mp3FileDescriptor.getSerialNumber() == null) {
+            if (mp3FileDescriptor.getPosition() == null) {
                 mp3FileDescriptor.setOutputName(mp3FileDescriptor.getOutputName().trim());
                 int index = mp3FileDescriptor.getOutputName().indexOf(NUMBER_SEPARATOR);
                 if (index > 0) {
                     String substr = mp3FileDescriptor.getOutputName().substring(0, index);
                     if (isNumber(substr)) {
-                        if (mp3FileDescriptorList.stream().anyMatch(f -> f.getSerialNumberInt() == Integer.parseInt(substr))) {
-                            mp3FileDescriptor.setSerialNumber(null);
+                        if (mp3FileDescriptorList.stream().anyMatch(f -> f.getPositionInt() == Integer.parseInt(substr))) {
+                            mp3FileDescriptor.setPosition(null);
                         } else {
-                            mp3FileDescriptor.setSerialNumber(substr);
+                            mp3FileDescriptor.setPosition(substr);
                         }
                         mp3FileDescriptor.setOutputName(mp3FileDescriptor.getOutputName().replace(substr + NUMBER_SEPARATOR, ""));
                     }
@@ -39,24 +39,24 @@ public class NumberServiceImpl implements NumberService {
         int listSize = list.size();
         String pattern = "%0" + String.valueOf(listSize).length() + "d";
         for (Mp3FileDescriptor mp3FileDescriptor : list) {
-            if (mp3FileDescriptor.getSerialNumberInt() != 0) {
-                mp3FileDescriptor.setSerialNumber(String.format(pattern, mp3FileDescriptor.getSerialNumberInt()));
+            if (mp3FileDescriptor.getPositionInt() != 0) {
+                mp3FileDescriptor.setPosition(String.format(pattern, mp3FileDescriptor.getPositionInt()));
             }
         }
         for (int i = 1; i <= listSize; i++) {
             int number = i;
-            if (list.stream().noneMatch(file -> file.getSerialNumberInt() == number)) {
-                if (list.stream().anyMatch(file -> file.getSerialNumberInt() == 0)) {
+            if (list.stream().noneMatch(file -> file.getPositionInt() == number)) {
+                if (list.stream().anyMatch(file -> file.getPositionInt() == 0)) {
                     for (Mp3FileDescriptor mp3FileDescriptor : list) {
-                        if (mp3FileDescriptor.getSerialNumberInt() == 0) {
-                            mp3FileDescriptor.setSerialNumber(String.format(pattern, i));
+                        if (mp3FileDescriptor.getPositionInt() == 0) {
+                            mp3FileDescriptor.setPosition(String.format(pattern, i));
                             break;
                         }
                     }
                 } else {
                     for (Mp3FileDescriptor mp3FileDescriptor : list) {
-                        if (mp3FileDescriptor.getSerialNumberInt() > number) {
-                            mp3FileDescriptor.setSerialNumber(String.format(pattern, i));
+                        if (mp3FileDescriptor.getPositionInt() > number) {
+                            mp3FileDescriptor.setPosition(String.format(pattern, i));
                             break;
                         }
                     }

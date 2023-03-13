@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 public class Mp3FileDescriptor implements Comparable<Mp3FileDescriptor> {
     @Id
     private String id;
-    private String serialNumber;
+    private String position;
     private String originalName;
     private String fileName;
     private String outputName;
@@ -37,17 +37,17 @@ public class Mp3FileDescriptor implements Comparable<Mp3FileDescriptor> {
         this.tag = tag;
     }
 
-    public int getSerialNumberInt() {
+    public int getPositionInt() {
         try {
-            return Integer.parseInt(serialNumber);
+            return Integer.parseInt(position);
         } catch (NumberFormatException e) {
             return 0;
         }
     }
 
     public String getOutputNumberedFileName() {
-        if (serialNumber != null) {
-            return serialNumber + "_" + outputName + "." + extension;
+        if (position != null) {
+            return position + "_" + outputName + "." + extension;
         }
         return outputName + "." + extension;
     }
@@ -85,13 +85,13 @@ public class Mp3FileDescriptor implements Comparable<Mp3FileDescriptor> {
 
     @Override
     public int compareTo(Mp3FileDescriptor mp3FileDescriptor) {
-        if (this.getSerialNumber() != null && mp3FileDescriptor.getSerialNumber() != null) {
-            return this.getSerialNumber().compareTo(mp3FileDescriptor.getSerialNumber());
+        if (this.getPosition() != null && mp3FileDescriptor.getPosition() != null) {
+            return this.getPosition().compareTo(mp3FileDescriptor.getPosition());
         }
-        if (this.getSerialNumber() == null && mp3FileDescriptor.getSerialNumber() != null) {
+        if (this.getPosition() == null && mp3FileDescriptor.getPosition() != null) {
             return 1;
         }
-        if (this.getSerialNumber() != null) {
+        if (this.getPosition() != null) {
             return -1;
         }
         return 0;

@@ -35,7 +35,7 @@ function createTableRow(data) {
             let creatTableLine = $('<tr id="' + file['id'] + '" className="line"></tr>')
                 .append('<td>' + i++ + '</td>')
                 .append(tdPlay)
-                .append('<td>' + file['serialNumber'] + '</td>')
+                .append('<td>' + file['position'] + '</td>')
                 .append('<td class="name" data-id="' + file['id'] + '">' + file['outputName'] + '</td>')
                 .append('<td>' + file['extension'] + '</td>')
                 .append('<td>' + playTimeFile(file['tag']['playTime']) + '</td>')

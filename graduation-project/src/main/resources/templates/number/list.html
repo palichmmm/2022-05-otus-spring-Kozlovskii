@@ -42,24 +42,24 @@
         // Запуск процесса замены места двух треков
         $('#t_body').on('click', '.goto', function () {
             $(this).off("click");
-            let id = $(this).data('id');
-            $('#' + id ).css('background-color', 'PaleGreen');
+            let id1 = $(this).data('id');
+            $('#' + id1 ).css('background-color', 'PaleGreen');
             $('#t_body .name').hover(
                 function () {
-                    if ($(this).data('id') !== id) {
+                    if ($(this).data('id') !== id1) {
                         $(this).css({'background-color': 'LightBlue', 'cursor': 'pointer'});
                     }
                 },
                 function () {
-                    if ($(this).data('id') !== id) {
+                    if ($(this).data('id') !== id1) {
                         $(this).css({'background-color': '', 'cursor': ''});
                     }
                 }
             ).on('click', function () {
-                let idToStart = $(this).data('id');
-                $.ajax('/api/file', {
-                    type: 'PUT',
-                    data: {'id': id, 'idToStart': idToStart},
+                let id2 = $(this).data('id');
+                $.ajax('/api/position/change', {
+                    type: 'PATCH',
+                    data: {'id1': id1, 'id2': id2},
                     success: function (res) {
                         createTableRow(res);
                     }
@@ -84,10 +84,10 @@
                     }
                 }
             ).on('click', function () {
-                let idToStart = $(this).data('id');
-                $.ajax('/api/file', {
+                let newIdPosition = $(this).data('id');
+                $.ajax('/api/position/between', {
                     type: 'PATCH',
-                    data: {'id': id, 'idToStart': idToStart},
+                    data: {'id': id, 'newIdPosition': newIdPosition},
                     success: function (res) {
                         createTableRow(res);
                     }

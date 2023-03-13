@@ -19,8 +19,6 @@ public interface FileService {
 
     Mp3FileDescriptor findByFileName(String fileName);
 
-    List<Mp3FileDescriptor> changePositionFile(String id, String idToStart);
-
     List<Mp3FileDescriptor> betweenPositionFile(String id, String idToStart);
 
     void deleteById(String id);

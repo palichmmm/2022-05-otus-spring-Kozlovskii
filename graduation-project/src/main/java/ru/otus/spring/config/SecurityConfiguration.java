@@ -22,28 +22,31 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers(HttpMethod.GET,"/webjars/**", "/img/*", "/js/*").permitAll()
-                                // HomeController
-                                .antMatchers(HttpMethod.GET,"/", "/login").permitAll()
-                                // UploadController
-                                .antMatchers(HttpMethod.GET,"/upload/form").permitAll()
-                                .antMatchers(HttpMethod.POST,"/upload/form").permitAll()
-                                // DownloadController
-                                .antMatchers(HttpMethod.GET,"/download/*").permitAll()
-                                // NumberController
-                                .antMatchers(HttpMethod.GET,"/number/list").permitAll()
-                                .antMatchers(HttpMethod.POST,"/number/track").permitAll()
-                                // FormatController
-                                .antMatchers(HttpMethod.GET,"/format/*").permitAll()
-                                .antMatchers(HttpMethod.POST,"/format/form").permitAll()
-                                // Mp3FileDescriptorRestController
-                                .antMatchers(HttpMethod.GET,"/api/file").permitAll()
-                                .antMatchers(HttpMethod.PUT,"/api/file").permitAll()
-                                .antMatchers(HttpMethod.PATCH,"/api/file").permitAll()
-                                .antMatchers(HttpMethod.DELETE,"/api/file/*").permitAll()
-                                .anyRequest().authenticated()
+        http.authorizeHttpRequests(authorize -> authorize
+                        .antMatchers(HttpMethod.GET, "/webjars/**", "/img/*", "/js/*").permitAll()
+                        // HomeController
+                        .antMatchers(HttpMethod.GET, "/", "/login").permitAll()
+                        // UploadController
+                        .antMatchers(HttpMethod.GET, "/upload/form").permitAll()
+                        .antMatchers(HttpMethod.POST, "/upload/form").permitAll()
+                        // DownloadController
+                        .antMatchers(HttpMethod.GET, "/download/*").permitAll()
+                        // NumberController
+                        .antMatchers(HttpMethod.GET, "/number/list").permitAll()
+                        .antMatchers(HttpMethod.POST, "/number/track").permitAll()
+                        // FormatController
+                        .antMatchers(HttpMethod.GET, "/format/*").permitAll()
+                        .antMatchers(HttpMethod.POST, "/format/form").permitAll()
+                        // Mp3FileDescriptorRestController
+                        .antMatchers(HttpMethod.GET, "/api/file").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/api/file/*").permitAll()
+                        // Mp3FileDescriptorPositionListRestController
+                        .antMatchers(HttpMethod.PATCH, "/api/position/change").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/api/position/between").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/api/position/up").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/api/position/down").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/api/position/random").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

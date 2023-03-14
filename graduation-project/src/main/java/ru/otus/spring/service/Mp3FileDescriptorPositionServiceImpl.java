@@ -25,7 +25,7 @@ public class Mp3FileDescriptorPositionServiceImpl implements Mp3FileDescriptorPo
         mp3FileDescriptor2.setPosition(Position);
         fileDescriptorRepository.save(mp3FileDescriptor2);
         fileDescriptorRepository.save(mp3FileDescriptor1);
-        return fileDescriptorRepository.findAll(Sort.by(Sort.Direction.ASC, "Position"));
+        return fileDescriptorRepository.findAll(Sort.by(Sort.Direction.ASC, "position"));
     }
 
     @Override

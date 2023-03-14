@@ -34,22 +34,19 @@ public class FormatController {
 
     @GetMapping("/format/uppercase")
     public String formatUppercase(Model model) {
-        List<Mp3FileDescriptor> mp3FileDescriptorList = formatService.uppercaseNameFile(fileService.findAll());
-        model.addAttribute("files", fileService.saveAll(mp3FileDescriptorList));
+        model.addAttribute("files", formatService.uppercaseNameMp3FileDescriptor());
         return "format/form";
     }
 
     @GetMapping("/format/camelcase")
     public String formatCamelcase(Model model) {
-        List<Mp3FileDescriptor> mp3FileDescriptorList = formatService.camelcaseNameFile(fileService.findAll());
-        model.addAttribute("files", fileService.saveAll(mp3FileDescriptorList));
+        model.addAttribute("files", formatService.camelcaseNameMp3FileDescriptor());
         return "format/form";
     }
 
     @GetMapping("/format/lowercase")
     public String formatLowercase(Model model) {
-        List<Mp3FileDescriptor> mp3FileDescriptorList = formatService.lowercaseNameFile(fileService.findAll());
-        model.addAttribute("files", fileService.saveAll(mp3FileDescriptorList));
+        model.addAttribute("files", formatService.lowercaseNameMp3FileDescriptor());
         return "format/form";
     }
 

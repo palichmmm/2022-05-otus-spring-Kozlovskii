@@ -9,17 +9,25 @@ import java.util.stream.Collectors;
 import static java.lang.Character.*;
 
 @Service
-public class FormatServiceImpl implements FormatService{
-    @Override
-    public List<Mp3FileDescriptor> uppercaseNameFile(List<Mp3FileDescriptor> mp3FileDescriptorList) {
-        return mp3FileDescriptorList.stream()
-                .peek(file -> file.setOutputName(file.getOutputName().toUpperCase()))
-                .collect(Collectors.toList());
+public class FormatServiceImpl implements FormatService {
+    private final FileService fileService;
+
+    public FormatServiceImpl(FileService fileService) {
+        this.fileService = fileService;
     }
 
     @Override
-    public List<Mp3FileDescriptor> camelcaseNameFile(List<Mp3FileDescriptor> mp3FileDescriptorList) {
-        return mp3FileDescriptorList.stream()
+    public List<Mp3FileDescriptor> uppercaseNameMp3FileDescriptor() {
+        List<Mp3FileDescriptor> fileDescriptors = fileService.findAll();
+        return fileService.saveAll(fileDescriptors.stream()
+                .peek(file -> file.setOutputName(file.getOutputName().toUpperCase()))
+                .sorted().collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<Mp3FileDescriptor> camelcaseNameMp3FileDescriptor() {
+        List<Mp3FileDescriptor> fileDescriptors = fileService.findAll();
+        return fileService.saveAll(fileDescriptors.stream()
                 .peek(file -> {
                     StringBuilder sb = new StringBuilder();
                     String fileName = file.getOutputName();
@@ -40,21 +48,21 @@ public class FormatServiceImpl implements FormatService{
                         }
                     }
                     file.setOutputName(sb.toString());
-                })
-                .collect(Collectors.toList());
+                }).sorted().collect(Collectors.toList()));
     }
 
     @Override
-    public List<Mp3FileDescriptor> lowercaseNameFile(List<Mp3FileDescriptor> mp3FileDescriptorList) {
-        return mp3FileDescriptorList.stream()
+    public List<Mp3FileDescriptor> lowercaseNameMp3FileDescriptor() {
+        List<Mp3FileDescriptor> fileDescriptors = fileService.findAll();
+        return fileService.saveAll(fileDescriptors.stream()
                 .peek(file -> file.setOutputName(file.getOutputName().toLowerCase()))
-                .collect(Collectors.toList());
+                .sorted().collect(Collectors.toList()));
     }
 
     @Override
     public List<Mp3FileDescriptor> changeTextNameFile(String text, String changeText, List<Mp3FileDescriptor> mp3FileDescriptorList) {
         return mp3FileDescriptorList.stream()
                 .peek(file -> file.setOutputName(file.getOutputName().replace(text, changeText)))
-                .collect(Collectors.toList());
+                .sorted().collect(Collectors.toList());
     }
 }

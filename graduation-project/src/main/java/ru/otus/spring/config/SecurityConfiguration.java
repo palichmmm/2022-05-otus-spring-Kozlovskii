@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/upload/form").permitAll()
                         // DownloadController
                         .antMatchers(HttpMethod.GET, "/download/*").permitAll()
+                        .antMatchers(HttpMethod.GET, "/download/zip").permitAll()
                         // NumberController
                         .antMatchers(HttpMethod.GET, "/number/list").permitAll()
                         .antMatchers(HttpMethod.POST, "/number/track").permitAll()

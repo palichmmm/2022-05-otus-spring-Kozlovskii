@@ -29,17 +29,4 @@ public class NumberController {
         model.addAttribute("files", mp3FileDescriptorList);
         return "number/list";
     }
-
-//    @PostMapping("/number/track")
-//    public String numberTrack(@RequestParam("id") String id,
-//                              @RequestParam("idToStart") String idToStart) {
-//        Mp3FileDescriptor file = fileService.findById(id);
-//        Mp3FileDescriptor fileReplace = fileService.findById(idToStart);
-//        String serialNumber = file.getSerialNumber();
-//        file.setSerialNumber(fileReplace.getSerialNumber());
-//        fileReplace.setSerialNumber(serialNumber);
-//        fileService.save(fileReplace);
-//        fileService.save(file);
-//        return "redirect:/number/list";
-//    }
 }

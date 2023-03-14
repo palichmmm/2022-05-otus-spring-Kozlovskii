@@ -85,39 +85,6 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<Mp3FileDescriptor> betweenPositionFile(String id, String idToStart) {
-        Mp3FileDescriptor positionMp3FileDescriptor = mp3FileDescriptorRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
-        Mp3FileDescriptor newPositionMp3FileDescriptor = mp3FileDescriptorRepository.findById(idToStart).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
-        int fromPosition = positionMp3FileDescriptor.getPositionInt();
-        int newPosition = newPositionMp3FileDescriptor.getPositionInt();
-        List<Mp3FileDescriptor> list = mp3FileDescriptorRepository.findAll(Sort.by(Sort.Direction.ASC, "Position"));
-        int listSize = list.size();
-        String pattern = "%0" + String.valueOf(listSize).length() + "d";
-        List<Mp3FileDescriptor> newList = list.stream()
-                .peek(file -> {
-                    int number = file.getPositionInt();
-                    if (number < fromPosition && number < newPosition) {
-                        return;
-                    }
-                    if (number == fromPosition) {
-                        file.setPosition(String.format(pattern, newPosition));
-                        return;
-                    }
-                    if (fromPosition < newPosition) {
-                        if (number <= newPosition) {
-                            file.setPosition(String.format(pattern, file.getPositionInt() - 1));
-                        }
-                    } else {
-                        if (number < fromPosition) {
-                            file.setPosition(String.format(pattern, file.getPositionInt() + 1));
-                        }
-                    }
-                }).collect(Collectors.toList());
-        mp3FileDescriptorRepository.saveAll(newList);
-        return newList;
-    }
-
-    @Override
     public void deleteById(String id) {
         Mp3FileDescriptor mp3FileDescriptor = mp3FileDescriptorRepository.findById(id).orElseThrow(() -> new RuntimeException("Файла С ID - " + id + " НЕ СУЩЕСТВУЕТ!"));
         fileStorageService.delete(mp3FileDescriptor.getFileName());

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Форматирование имени файлов</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mt-5 pt-3">
+    <div class="col-auto">
+        <div class="col pt-4">
+            <div th:replace="fragments/formatForm :: formatForm"></div>
+        </div>
+        <div class="col pt-4">
+            <div th:replace="fragments/listFormat :: list-format"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+<script type="text/javascript">
+    jQuery(function () {
+        // Настройки csrf для запросов
+        let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
+        // Запуск процесса перемещения
+        $('.goto').click(function () {
+            $(this).off("click");
+            let label = $(this).data('label');
+            let file = $(this).next().next().data('file-name');
+            $(this).closest('.line').css('background-color', 'PaleGreen');
+        });
+        // $('#input-file').change(function () {
+        //   $('#loading').removeClass('d-none');
+        //   $('#start-upload').click();
+        // });
+
+        // Удаление файла
+        $('.delete').click(function () {
+            let fileName = $(this).data('file-name');
+            $.ajax('/upload/form/' + fileName, {
+                type: 'DELETE',
+                success: function () {
+                    window.location.replace("/number/list");
+                }
+            });
+        });
+
+        // Проигрывание файлов на странице
+        let myAudio = new Audio();
+        let url = '';
+        $('.play').click('click', function () {
+            if (url !== $(this).data('url')) {
+                $('.play[data-url="' + url + '"]').css('display', 'block').next().css('display', 'none');
+                url = $(this).data('url');
+                myAudio.src = url;
+            }
+            myAudio.play();
+            $(this).css('display', 'none').next().css('display', 'block');
+        });
+        $('.pause').click(function () {
+            myAudio.pause();
+            $(this).css('display', 'none').prev().css('display', 'block');
+        });
+    });
+</script>
+</html>

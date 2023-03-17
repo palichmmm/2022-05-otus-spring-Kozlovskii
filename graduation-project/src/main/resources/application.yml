@@ -1,0 +1,26 @@
+spring:
+  application.name: mp3-collection-manager
+  profiles.active: dev
+  mvc.async.request-timeout: 3600000
+
+  # Размер загружаемых файлов
+  servlet.multipart:
+    enabled: true
+    max-file-size: 30MB
+    max-request-size: 2GB
+    location: ${java.io.tmpdir}\mp3collection\
+  # База данных MongoDB
+  data.mongodb:
+    database: mp3collection
+    host: localhost
+    port: 27017
+
+  # На всякий случай разрешить циклические зависимости
+  main.allow-circular-references: true
+
+# Настройки Mongock
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package: ru.otus.spring.mongock.changelog
+  enabled: true
+  index-creation: true

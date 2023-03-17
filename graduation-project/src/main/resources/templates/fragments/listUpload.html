@@ -1,0 +1,45 @@
+<div th:fragment="listUpload" class="container-fluid">
+    <h4 class="text-center">Список всех загруженных файлов</h4>
+    <div th:if="${files.size() > 0}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Плеер</th>
+                <th scope="col">№</th>
+                <th scope="col">Название</th>
+                <th scope="col">Аудио</th>
+                <th scope="col">Длина</th>
+                <th scope="col">Размер</th>
+                <th scope="col">Битрейт</th>
+                <th scope="col">Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="file, stat : ${files}" th:id="${'tr_' + file.id}">
+                <td th:text="${stat.count}">001</td>
+                <td>
+                    <i class="bi bi-caret-right-fill play" role="button" th:attr="data-url=${file.url}"></i>
+                    <i class="bi bi-pause-fill text-danger pause d-none" role="button"></i>
+                </td>
+                <td th:text="${file.position}">001</td>
+                <td th:text="${file.outputName}">fileName</td>
+                <td th:text="${file.extension}">mp3</td>
+                <td th:text="${file.getPlayTime()}">1:23</td>
+                <td th:text="${file.getSizeFormat()}">1Mb</td>
+                <td th:text="${file.getBitrate()}">320 kbps</td>
+                <td>
+                    <a class="ms-2 text-decoration-none" th:href="@{'/download/' + ${file.fileName}}">
+                        <i class="bi bi-download text-secondary"></i>
+                    </a>
+                    <i class="ms-3 bi bi-trash text-danger delete" role="button"
+                       th:attr="data-id=${file.id}"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:unless="${files.size() > 0}">
+        <span>Файлов пока нет!</span>
+    </div>
+</div>

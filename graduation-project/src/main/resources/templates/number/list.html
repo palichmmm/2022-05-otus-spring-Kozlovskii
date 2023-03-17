@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Нумерация файлов</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/3.6.2/jquery.min.js"></script>
+    <script src="/js/functions.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mt-5 pt-3">
+    <h1 class="text-center">Нумерация файлов</h1>
+    <div class="btn-group">
+        <a class="btn btn-primary m-1" th:href="@{'/download/zip'}" role="button">Скачать все ZIP архивом</a>
+        <a class="btn btn-primary m-1" th:href="@{'/download/zip1'}" role="button">Скачать все ZIP1 архивом</a>
+        <a class="btn btn-primary m-1" th:href="@{'/download/zip2'}" role="button">Скачать все ZIP2 архивом</a>
+    </div>
+    <div class="col-auto">
+        <div class="col pt-4">
+
+            <div th:replace="fragments/listNumber :: list-number"></div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+<script type="text/javascript">
+    jQuery(function () {
+        // Настройки csrf для запросов
+        let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
+        // Запуск процесса замены места двух треков
+        $('#t_body').on('click', '.goto', function () {
+            $(this).off("click");
+            let id1 = $(this).data('id');
+            $('#' + id1 ).css('background-color', 'PaleGreen');
+            $('#t_body .name').hover(
+                function () {
+                    if ($(this).data('id') !== id1) {
+                        $(this).css({'background-color': 'LightBlue', 'cursor': 'pointer'});
+                    }
+                },
+                function () {
+                    if ($(this).data('id') !== id1) {
+                        $(this).css({'background-color': '', 'cursor': ''});
+                    }
+                }
+            ).on('click', function () {
+                let id2 = $(this).data('id');
+                $.ajax('/api/position/change', {
+                    type: 'PATCH',
+                    data: {'id1': id1, 'id2': id2},
+                    success: function (res) {
+                        createTableRow(res);
+                    }
+                });
+            });
+        });
+
+        // Запуск процесса вставки между треков
+        $('#t_body').on('click', '.between', function () {
+            $(this).off("click");
+            let id = $(this).data('id');
+            $('#' + id ).css('background-color', 'LightCyan');
+            $('#t_body .name').hover(
+                function () {
+                    if ($(this).data('id') !== id) {
+                        $(this).css({'background-color': 'LightBlue', 'cursor': 'pointer'});
+                    }
+                },
+                function () {
+                    if ($(this).data('id') !== id) {
+                        $(this).css({'background-color': '', 'cursor': ''});
+                    }
+                }
+            ).on('click', function () {
+                let newIdPosition = $(this).data('id');
+                $.ajax('/api/position/between', {
+                    type: 'PATCH',
+                    data: {'id': id, 'newIdPosition': newIdPosition},
+                    success: function (res) {
+                        createTableRow(res);
+                    }
+                });
+            });
+        });
+
+        // Удаление файла
+        $('#t_body').on('click', '.delete', function () {
+            let id = $(this).data('id');
+            $.ajax('/api/file/' + id, {
+                type: 'DELETE',
+                success: function () {
+                    window.location.replace("/number/list");
+                }
+            });
+        });
+
+        // Проигрывание файлов на странице
+        let myAudio = new Audio();
+        let url = '';
+        $('#t_body').on('click', '.play', function () {
+            if (url !== $(this).data('url')) {
+                $('.play[data-url="' + url + '"]').removeClass('d-none').next().addClass('d-none');
+                url = $(this).data('url');
+                myAudio.src = url;
+            }
+            myAudio.play();
+            $(this).addClass('d-none').next().removeClass('d-none');
+        });
+        $('#t_body').on('click', '.pause', function () {
+            myAudio.pause();
+            $(this).addClass('d-none').prev().removeClass('d-none');
+        });
+    });
+</script>
+</html>

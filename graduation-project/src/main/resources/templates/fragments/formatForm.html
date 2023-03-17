@@ -1,0 +1,22 @@
+<div th:fragment="formatForm" class="d-grid gap-2">
+    <div class="btn-group">
+        <a class="btn btn-primary m-1" th:href="@{'/format/uppercase'}" role="button">Шаблон &lt;АБВ - АБВ&gt;</АБВ></a>
+        <a class="btn btn-primary m-1" th:href="@{'/format/camelcase'}" role="button">Шаблон &lt;Абв - Абв&gt;</a>
+        <a class="btn btn-primary m-1" th:href="@{'/format/lowercase'}" role="button">Шаблон &lt;абв - абв&gt;</a>
+        <a class="btn btn-primary m-1" th:href="@{'/format/tag'}" role="button">На основе тегов</a>
+    </div>
+    <form class="row g-3 mt-2" method="post" th:action="@{'/format/form'}" >
+        <div class="input-group mb-3">
+            <input type="text" name="text" class="form-control" placeholder="Какой текст удалить?" >
+            <input type="text" name="changeText" class="form-control" placeholder="На что заменить?" >
+            <button class="btn btn-outline-secondary" type="submit">Заменить текст</button>
+        </div>
+    </form>
+    <div th:if="${message != null}" class="alert alert-secondary alert-dismissible fade show text-center message mt-3"
+         role="alert">
+        [[${message}]]
+        <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+</div>

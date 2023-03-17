@@ -1,12 +1,8 @@
 package ru.otus.spring.service;
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-import ru.otus.spring.models.Mp3FileDescriptor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 
 
 @Service
@@ -40,42 +35,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             throw new RuntimeException("Не удалось сохранить файл!");
         }
-    }
-
-    @Override
-    public Resource load(String filename) {
-        try {
-            Path file = rootLocation.resolve(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("Не удалось прочитать файл!");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public StreamingResponseBody loadZip(List<Mp3FileDescriptor> mp3FileDescriptorList) {
-
-//            for (final Mp3FileDescriptor file : mp3FileDescriptorList) {
-//                Path path = this.rootLocation.resolve(file.getFileName());
-//                try (ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream()); InputStream inputStream = new FileInputStream(path.toString())) {
-//
-//                final ZipEntry zipEntry = new ZipEntry(file.getFileName());
-//                zipOut.putNextEntry(zipEntry);
-//                byte[] bytes=new byte[1024];
-//                int length;
-//                while ((length=inputStream.read(bytes)) >= 0) {
-//                    zipOut.write(bytes, 0, length);
-//                }
-//                } catch (final IOException e) {
-//                }
-//            }
-//            zipOut.close();
-return null;
     }
 
     @Override

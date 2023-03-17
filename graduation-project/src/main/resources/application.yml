@@ -1,7 +1,7 @@
 spring:
   application.name: mp3-collection-manager
   profiles.active: dev
-  mvc.async.request-timeout: 60000
+  mvc.async.request-timeout: 3600000
 
   # Размер загружаемых файлов
   servlet.multipart:
